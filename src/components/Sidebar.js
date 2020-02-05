@@ -25,25 +25,30 @@ const SideNavContent = () => {
               
                         <span> Users Management</span>
                     </Link>
-                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                    <Link to="/company" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Company Management </span>
                     </Link>
-                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                    <Link to="/departments" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Departments </span>
                     </Link>
-                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                    <Link to="/channels" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Channels  </span>
                     </Link>
-                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                    <Link to="/episodes" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Episodes   </span>
+                    </Link>
+                    <Link to="/shows" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-airplay"></i>
+              
+                        <span> Shows   </span>
                     </Link>
                     
                 </li>

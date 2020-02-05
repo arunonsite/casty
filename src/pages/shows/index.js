@@ -31,32 +31,32 @@ class DefaultDashboard extends Component {
                     <Col lg={12}>
                             <Card>
                                 <CardBody>
-                        <h1>Users</h1>
+                        <h1>Shows List</h1>
                         <div style={{float: "right"}}><i class="fa fa-plus-square fa-2x"  aria-hidden="true"></i></div>
                         <Table striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone Number</th>
+      <th>Shows Name</th>
+      <th>Shows Description</th>
+      <th>Photo</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>Mark</td>
       <td>Otto</td>
       <td>@mdo</td>
-      <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+      <td>Photo</td>
+      <td><i class="far fa-edit"></i> <i class="fa fa-trash" aria-hidden="true"></i></td>
     </tr>
     <tr>
       <td>2</td>
-      <td>Jacob</td>
       <td>Thornton</td>
       <td>@fat</td>
-      <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+       <td>Photo</td>
+       <td><i class="far fa-edit"></i> <i class="fa fa-trash" aria-hidden="true"></i></td>
     </tr>
     
   </tbody>

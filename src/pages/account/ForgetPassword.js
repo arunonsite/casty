@@ -86,7 +86,7 @@ class ForgetPassword extends Component {
 
                                         <div className="text-center w-75 m-auto">
                                             <a href="/">
-                                                <span><img src={logo} alt="" height="22" /></span>
+                                            <span><h1>Casty</h1></span>
                                             </a>
                                             <p className="text-muted mb-4 mt-3">Enter your email address and we'll send you an email with instructions to reset your password.</p>
                                         </div>

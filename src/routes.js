@@ -7,6 +7,11 @@ import { isUserAuthenticated, getLoggedInUser } from './helpers/authUtils';
 // lazy load all the views
 const Dashboard = React.lazy(() => import('./pages/dashboards/'));
 const Users = React.lazy(() => import('./pages/users/'));
+const Company = React.lazy(() => import('./pages/company/'));
+const Departments = React.lazy(() => import('./pages/departments/'));
+const Channels = React.lazy(() => import('./pages/channels/'));
+const Episodes = React.lazy(() => import('./pages/episodes/'));
+const Shows = React.lazy(() => import('./pages/shows/'));
 
 // auth
 const Login = React.lazy(() => import('./pages/auth/Login'));
@@ -48,6 +53,11 @@ const routes = [
   // other pages
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin'] },
   { path: '/users', name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/company', name: 'Users', component: Company, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/departments', name: 'Departments', component: Departments, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/channels', name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/episodes', name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/shows', name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin'] },
   {
     path: "/",
     exact: true,

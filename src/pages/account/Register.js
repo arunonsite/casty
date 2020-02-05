@@ -75,7 +75,7 @@ class Register extends Component {
 
                                         <div className="text-center w-75 m-auto">
                                             <a href="/">
-                                                <span><img src={logo} alt="" height="22" /></span>
+                                                <span><h1>Casty</h1></span>
                                             </a>
                                             <p className="text-muted mb-4 mt-3">Don't have an account? Create your account, it takes less than a minute</p>
                                         </div>
@@ -113,7 +113,7 @@ class Register extends Component {
                 </div>}
 
                 <footer className="footer footer-alt">
-                    2015 - 2019 &copy; UBold theme by <Link to="https://coderthemes.com" className="text-white-50">Coderthemes</Link>
+                    2019 - 2029 &copy; Casty
                 </footer>
             </React.Fragment>
         )

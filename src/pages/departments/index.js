@@ -31,13 +31,13 @@ class DefaultDashboard extends Component {
                     <Col lg={12}>
                             <Card>
                                 <CardBody>
-                        <h1>Users</h1>
+                        <h1>Department List</h1>
                         <div style={{float: "right"}}><i class="fa fa-plus-square fa-2x"  aria-hidden="true"></i></div>
                         <Table striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
-      <th>Name</th>
+      <th>Department Name</th>
       <th>Email</th>
       <th>Phone Number</th>
       <th>Action</th>

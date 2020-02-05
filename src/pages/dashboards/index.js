@@ -53,8 +53,8 @@ class DefaultDashboard extends Component {
                                         <Col md={6}>
                                        
                                             <div class="text-right">
-                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                                <h3 class="my-1"><span data-plugin="counterup">12</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Users</p>
                                             </div>
                                             </Col>
                                         
@@ -77,8 +77,8 @@ class DefaultDashboard extends Component {
                                         <Col md={6}>
                                        
                                             <div class="text-right">
-                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                                <h3 class="my-1"><span data-plugin="counterup">145</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Channels</p>
                                             </div>
                                             </Col>
                                         
@@ -101,8 +101,8 @@ class DefaultDashboard extends Component {
                                         <Col md={6}>
                                        
                                             <div class="text-right">
-                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                                <h3 class="my-1"><span data-plugin="counterup">1245</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Shows</p>
                                             </div>
                                             </Col>
                                         
@@ -125,8 +125,8 @@ class DefaultDashboard extends Component {
                                         <Col md={6}>
                                        
                                             <div class="text-right">
-                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
-                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                                <h3 class="my-1"><span data-plugin="counterup">245</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Episodes</p>
                                             </div>
                                             </Col>
                                         
@@ -141,7 +141,7 @@ class DefaultDashboard extends Component {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    Hello this is dashboard content
+                                    Welcome to Casty Dashboard
                                 </CardBody>
                             </Card>
                         </Col>
