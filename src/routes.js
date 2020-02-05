@@ -6,6 +6,7 @@ import { isUserAuthenticated, getLoggedInUser } from './helpers/authUtils';
 
 // lazy load all the views
 const Dashboard = React.lazy(() => import('./pages/dashboards/'));
+const Users = React.lazy(() => import('./pages/users/'));
 
 // auth
 const Login = React.lazy(() => import('./pages/auth/Login'));
@@ -46,6 +47,7 @@ const routes = [
 
   // other pages
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/users', name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin'] },
   {
     path: "/",
     exact: true,

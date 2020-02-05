@@ -103,24 +103,9 @@ class Topbar extends Component {
         <div className="navbar-custom">
           <ul className="list-unstyled topnav-menu float-right mb-0">
 
-            <li className="d-none d-sm-block">
-              <form className="app-search">
-                <div className="app-search-box">
-                  <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search..." />
-                    <div className="input-group-append">
-                      <button className="btn" type="submit">
-                        <i className="fe-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </li>
+            
 
-            <li>
-              <NotificationDropdown notifications={Notifications} />
-            </li>
+         
 
             <li>
               <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={'Nik Patel'} />
@@ -137,10 +122,10 @@ class Topbar extends Component {
           <div className="logo-box">
             <Link to="/" className="logo text-center">
               <span className="logo-lg">
-                <img src={logo} alt="" height="20" />
+              <h1 style={{color: "FloralWhite"}}>Casty</h1>
               </span>
               <span className="logo-sm">
-                <img src={logoSm} alt="" height="24" />
+              <h1 style={{color: "FloralWhite"}}>Casty</h1>
               </span>
             </Link>
           </div>

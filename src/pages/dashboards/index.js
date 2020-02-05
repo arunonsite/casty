@@ -38,6 +38,105 @@ class DefaultDashboard extends Component {
                         </Col>
                     </Row>
 
+                 <Row>
+                 <Col md={6} xl={3}>
+                           
+                                <div class="card-box">
+                                    <Row>
+                                        <Col md={6}>
+                                        
+                                            <div class="avatar-sm bg-blue rounded">
+                                                <i class="fe-aperture avatar-title font-22 text-white"></i>
+                                            </div>
+                                        
+                                        </Col>
+                                        <Col md={6}>
+                                       
+                                            <div class="text-right">
+                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                            </div>
+                                            </Col>
+                                        
+                                    </Row>
+                                    
+                                </div> 
+                           
+                           </Col>
+                           <Col md={6} xl={3}>
+                           
+                                <div class="card-box">
+                                    <Row>
+                                        <Col md={6}>
+                                        
+                                            <div class="avatar-sm bg-blue rounded">
+                                                <i class="fe-aperture avatar-title font-22 text-white"></i>
+                                            </div>
+                                        
+                                        </Col>
+                                        <Col md={6}>
+                                       
+                                            <div class="text-right">
+                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                            </div>
+                                            </Col>
+                                        
+                                    </Row>
+                                    
+                                </div> 
+                           
+                           </Col>
+                           <Col md={6} xl={3}>
+                           
+                                <div class="card-box">
+                                    <Row>
+                                        <Col md={6}>
+                                        
+                                            <div class="avatar-sm bg-blue rounded">
+                                                <i class="fe-aperture avatar-title font-22 text-white"></i>
+                                            </div>
+                                        
+                                        </Col>
+                                        <Col md={6}>
+                                       
+                                            <div class="text-right">
+                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                            </div>
+                                            </Col>
+                                        
+                                    </Row>
+                                    
+                                </div> 
+                           
+                           </Col>
+                           <Col md={6} xl={3}>
+                           
+                                <div class="card-box">
+                                    <Row>
+                                        <Col md={6}>
+                                        
+                                            <div class="avatar-sm bg-blue rounded">
+                                                <i class="fe-aperture avatar-title font-22 text-white"></i>
+                                            </div>
+                                        
+                                        </Col>
+                                        <Col md={6}>
+                                       
+                                            <div class="text-right">
+                                                <h3 class="my-1">$<span data-plugin="counterup">12,145</span></h3>
+                                                <p class="text-muted mb-1 text-truncate">Income status</p>
+                                            </div>
+                                            </Col>
+                                        
+                                    </Row>
+                                    
+                                </div> 
+                           
+                           </Col>
+                           </Row>
+                           
                     <Row>
                         <Col lg={12}>
                             <Card>

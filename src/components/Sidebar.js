@@ -16,47 +16,39 @@ const SideNavContent = () => {
                 <li className="menu-title">Navigation</li>
 
                 <li>
-                    <Link to="/" className="waves-effect has-dropdown" aria-expanded="true">
+                    <Link to="/dashboard" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
-                        <span className="badge badge-success badge-pill float-right">2</span>
-                        <span> Dashboards </span>
+                        <span> Dashboard </span>
                     </Link>
-                    <ul className="nav-second-level" aria-expanded="false">
-                        <li>
-                            <Link to="/dashboard" className="side-nav-link-ref">Dashboard 1</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard2" className="side-nav-link-ref">Dashboard 2</Link>
-                        </li>
-                    </ul>
+                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-airplay"></i>
+              
+                        <span> Users Management</span>
+                    </Link>
+                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-airplay"></i>
+              
+                        <span> Company Management </span>
+                    </Link>
+                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-airplay"></i>
+              
+                        <span> Departments </span>
+                    </Link>
+                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-airplay"></i>
+              
+                        <span> Channels  </span>
+                    </Link>
+                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-airplay"></i>
+              
+                        <span> Episodes   </span>
+                    </Link>
+                    
                 </li>
 
-                <li>
-                    <Link to="/" className="waves-effect has-dropdown" aria-expanded="false">
-                        <i className="fe-folder-plus"></i>
-                        <span> Multi Level </span>
-                        <span className="menu-arrow"></span>
-                    </Link>
-
-                    <ul className="nav-second-level nav" aria-expanded="false">
-                        <li>
-                            <Link to="/" className="side-nav-link-ref">Level 1.1</Link>
-                        </li>
-                        <li>
-                            <Link to="/" className="has-dropdown">Level 1.2
-                                <span className="menu-arrow"></span>
-                            </Link>
-                            <ul className="nav-third-level nav" aria-expanded="false">
-                                <li>
-                                    <Link to="/" className="side-nav-link-ref">Level 2.1</Link>
-                                </li>
-                                <li>
-                                    <Link to="/" className="side-nav-link-ref">Level 2.2</Link>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                
             </ul>
         </div>
         <div className="clearfix"></div>
