@@ -106,9 +106,8 @@ div.dt-button-info {
     }
 }
 
-
 .activate-select {
     .sorting_1 {
-        background-color: $gray-100;
+        background-color: lighten($gray-800,3%);
     }
 }

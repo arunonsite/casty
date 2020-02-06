@@ -25,10 +25,10 @@
         cursor: default;
         transition-duration: .3s;
         a {
-            color: $gray-700;
+            color: $gray-500;
         }
         &:hover {
-            background: $gray-100;
+            background: $table-hover-bg;
             transition-duration: .05s;
         }
         .col-mail {
@@ -99,7 +99,7 @@
     }
     li.active,
     li.mail-selected {
-        background: $gray-100;
+        background: $table-hover-bg;
         transition-duration: .05s;
     }
     li.active,
@@ -146,7 +146,7 @@
 
 .mail-list {
     a {
-        color: $gray-700;
+        color: $gray-400;
         padding: 7px 10px;
         display: block;
     }

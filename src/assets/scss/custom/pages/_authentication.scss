@@ -13,14 +13,13 @@
 
 // authentication pages background
 body.authentication-bg {
-    background-color: $gray-200;
     background-size: cover;
     background-position: center;
 }
 
 body.authentication-bg-pattern {
     background-image: url("../images/bg-pattern.png");
-    background-color: $primary;
+    background-color: $gray-700;
 }
 
 // Logout page

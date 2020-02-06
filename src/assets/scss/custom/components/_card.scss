@@ -48,11 +48,11 @@
     top: 0;
     bottom: 0;
     border-radius: $card-border-radius;
-    background: rgba($white, 0.8);
+    background: rgba($gray-600, 0.8);
     cursor: progress;
 
     .card-portlets-loader {
-        background-color: $dark;
+        background-color: $gray-700;
         animation: rotatebox 1.2s infinite ease-in-out;
         height: 30px;
         width: 30px;
@@ -78,7 +78,7 @@
 
 // Custom card box
 .card-box {
-    background-color: $white;
+    background-color: $gray-800;
     padding: $card-spacer-x;
     box-shadow: $shadow-sm;
     margin-bottom: $grid-gutter-width;

@@ -12,6 +12,15 @@
 
 .dropify-wrapper {
     border: 2px dashed rgba($dark, 0.3);
-    background:$white;
+    background: $gray-800;
     border-radius: 6px;
+    color: $gray-500;
+
+    &:hover {
+        background-image: linear-gradient(-45deg,$gray-700 25%,transparent 25%,transparent 50%,$gray-700 50%,$gray-700 75%,transparent 75%,transparent);
+    }
+
+    .dropify-preview {
+        background-color: lighten($gray-800,5%);
+    }
 }

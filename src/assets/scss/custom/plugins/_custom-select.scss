@@ -11,6 +11,15 @@
     height: 38px;
     border-color: $input-border-color;
     border-radius: $input-border-radius;
+    background-color: $input-bg;
+
+    &:hover {
+        border-color: $input-focus-border-color;
+    }
+
+    .list {
+        color: $gray-700;
+    }
 }
 
 .nice-select.open, .nice-select:active, .nice-select:focus {

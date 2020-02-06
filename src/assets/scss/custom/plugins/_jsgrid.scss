@@ -4,6 +4,7 @@
 
 .jsgrid-cell {
     padding: $table-cell-padding;
+    border-color: $table-border-color;
 }
 
 .jsgrid-grid-header, 
@@ -15,9 +16,10 @@
     border: none;
 }
 
-.jsgrid-alt-row {
+.jsgrid-alt-row,
+.jsgrid-row {
     > .jsgrid-cell {
-        background: $white;
+        background: $gray-800;
     }
 }
 
@@ -43,13 +45,15 @@
 
 .jsgrid-edit-row>.jsgrid-cell,
 .jsgrid-insert-row>.jsgrid-cell {
-    background: $gray-100;
+    background: lighten($table-head-bg, 5%);
 }
 
 .jsgrid input,
 .jsgrid select,
 .jsgrid textarea {
-    border: 1px solid $gray-100;
+    border: $input-border-width solid $input-border-color;
+    color: $input-color;
+    background-color: $input-bg;
     padding: .4em .6em;
     outline: none !important;
 }
@@ -69,22 +73,22 @@
 
 .jsgrid-pager-page a,
 .jsgrid-pager-current-page {
-    background-color: $gray-100;
+    background-color: $gray-700;
     border-radius: 50%;
     height: 24px;
     width: 24px;
     display: inline-block;
     text-align: center;
     line-height: 24px;
-    color: $gray-700;
+    color: $gray-500;
 }
 
 .jsgrid-pager-nav-button {
     a {
-        color: $gray-700;
+        color: $gray-500;
         font-weight: 600;
         &:hover {
-            color: $primary;
+            color: $gray-300;
         }
     }
 }
@@ -95,7 +99,7 @@
         height: 24px;
         border-radius: 50%;
         background-image: url("../images/jsgrid.png");
-        background-color: $gray-200;
+        background-color: $gray-700;
         outline: none !important;
     
         &:hover {

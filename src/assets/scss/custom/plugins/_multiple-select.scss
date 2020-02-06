@@ -17,10 +17,12 @@
         }
     }
     .ms-selectable {
+        background-color: $input-bg;
         li {
             &.ms-elem-selectable {
                 border: none;
                 padding: 5px 10px;
+                color: $gray-300;
             }
             &.ms-hover {
                 background-color: $primary;
@@ -28,9 +30,12 @@
         }
     }
     .ms-selection {
+        background-color: $input-bg;
+
         li.ms-elem-selection {
             border: none;
             padding: 5px 10px;
+            color: $gray-300;
         }
         li.ms-hover {
             background-color: $primary;

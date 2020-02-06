@@ -1,7 +1,7 @@
 // Variables
 
 //
-// custom-variables
+// custom-variables.scss
 //
 
 // Shadow
@@ -39,7 +39,7 @@ $rightbar-width:           260px;
 
 //Topbar Background
 $bg-topbar-light:         #ffffff;
-$bg-topbar-dark:          #38414a;
+$bg-topbar-dark:          #36404a;
 
 // Topbar Height
 $topbar-height: 70px;
@@ -66,8 +66,8 @@ $gray-300: #dee2e6;
 $gray-400: #ced4da;
 $gray-500: #adb5bd;
 $gray-600: #98a6ad;
-$gray-700: #6c757d;
-$gray-800: #343a40;
+$gray-700: #485561;
+$gray-800: #36404a;
 $gray-900: #323a46;
 
 $grays: ();
@@ -120,7 +120,7 @@ $warning:       $yellow;
 $danger:        $red;
 $blue:          $blue;
 $light:         $gray-100;
-$dark:          $gray-900;
+$dark:          $gray-300;
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -184,8 +184,8 @@ $sizes: map-merge((
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   #f5f6f8;
-$body-color:                $gray-700;
+$body-bg:                   #303841;
+$body-color:                $gray-500;
 
 
 // Links
@@ -193,7 +193,7 @@ $body-color:                $gray-700;
 // Style anchor elements.
 
 $link-color:                $primary;
-$link-hover-color:          darken($link-color, 15%);
+$link-hover-color:          lighten($link-color, 15%);
 $link-hover-decoration:     none;
 
 
@@ -202,7 +202,6 @@ $link-hover-decoration:     none;
 $component-active-bg:         $primary;
 
 $caret-width:                 .25em;
-
 
 // Grid columns
 //
@@ -246,7 +245,7 @@ $text-muted:                  $gray-600;
 
 $blockquote-font-size:        ($font-size-base * 1.25);
 
-$hr-border-color:             $gray-200;
+$hr-border-color:             lighten($gray-700,3%);
 
 $list-inline-padding:         6px;
 
@@ -261,13 +260,13 @@ $table-cell-padding-sm:       .5rem;
 $table-color:                 $body-color;
 $table-hover-color:           $table-color;
 
-$table-accent-bg:             $gray-100;
-$table-hover-bg:              $gray-100;
+$table-accent-bg:             lighten($gray-800,4%);
+$table-hover-bg:              lighten($gray-800,3%);
 
-$table-border-color:          $gray-300;
+$table-border-color:          $gray-700;
 
-$table-head-bg:               $gray-100;
-$table-head-color:            $gray-700;
+$table-head-bg:               lighten($gray-800,4%);
+$table-head-color:            $gray-300;
 
 $table-dark-bg:               $gray-900;
 $table-dark-border-color:     lighten($gray-900, 7.5%);
@@ -340,21 +339,27 @@ $input-padding-y-lg:                    $input-btn-padding-y-lg;
 $input-padding-x-lg:                    $input-btn-padding-x-lg;
 $input-line-height-lg:                  $input-btn-line-height-lg;
 
-$input-disabled-bg:                     $white;
+$input-bg:                              lighten($gray-800,3%);
+$input-disabled-bg:                     lighten($gray-800,5%);
 
-$input-color:                           $body-color;
+$input-color:                           $gray-200;
 $input-border-width:                    1px;
-$input-border-color:                    $gray-400;
+$input-border-color:                    lighten($gray-800,7%);
 $input-border-radius:                   0.2rem;
 
 $input-focus-box-shadow:                none;
-$input-focus-border-color:              darken($input-border-color,10%);
+$input-focus-bg:                        lighten($gray-800,5%);
+$input-focus-border-color:              lighten($input-border-color,3%);
+$input-focus-color:                     $gray-200;
 
 $input-placeholder-color:               $gray-500;
+$input-plaintext-color:                 $gray-400;
 
 $input-height:                          calc(#{$input-line-height * 1em} + #{$input-padding-y * 2} + #{$input-height-border});
-
 $input-height-inner:                    calc(#{$input-line-height * 1em} + #{$input-padding-y * 2});
+
+$input-group-addon-color:               $input-color;
+$input-group-addon-bg:                  $gray-700;
 $input-group-addon-border-color:        $input-border-color;
 
 $custom-select-padding-y:           .45rem;
@@ -362,21 +367,32 @@ $custom-select-padding-x:           .90rem;
 $custom-select-font-size:           $input-font-size;
 $custom-select-height:              $input-height;
 
+$custom-control-indicator-bg:           $gray-700;
 $custom-control-indicator-checked-color:        $primary;
+$custom-control-indicator-border-color: $gray-700;
 $custom-control-indicator-checked-bg:           $primary;
 
+$custom-control-indicator-checked-color:        $component-active-color;
+$custom-control-indicator-checked-bg:           $component-active-bg;
+$custom-control-indicator-checked-disabled-bg:  rgba(theme-color("primary"), .5);
+$custom-control-indicator-checked-box-shadow:   none;
+$custom-control-indicator-checked-border-color: $custom-control-indicator-checked-bg;
+
 $custom-select-border-width:        $input-border-width;
+$custom-select-color:               $input-color;
+$custom-select-bg:                  $input-bg;
 $custom-select-border-color:        $input-border-color;
 $custom-select-border-radius:       $border-radius;
 $custom-select-focus-border-color:  $input-focus-border-color;
 $custom-select-focus-box-shadow:    none;
 $custom-control-indicator-focus-box-shadow:     0 0 0 1px $body-bg, $input-btn-focus-box-shadow;
-$custom-control-indicator-checked-border-color: $custom-control-indicator-checked-bg;
-
+$custom-select-indicator-color:     $gray-500;
+$custom-select-indicator:           str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='#{$custom-select-indicator-color}' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"), "#", "%23");
+$custom-select-background:          $custom-select-indicator no-repeat right $custom-select-padding-x center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-range-track-width:          100%;
 $custom-range-track-height:         .5rem;
 $custom-range-track-cursor:         pointer;
-$custom-range-track-bg:             $gray-300;
+$custom-range-track-bg:             $gray-700;
 $custom-range-track-border-radius:  1rem;
 $custom-range-track-box-shadow:     inset 0 .25rem .25rem rgba($black, .1);
 
@@ -397,6 +413,7 @@ $custom-file-focus-border-color:    $input-focus-border-color;
 $custom-file-focus-box-shadow:      none;
 $custom-file-height-inner:          $input-height-inner;
 
+
 $custom-file-padding-y:             $input-btn-padding-y;
 $custom-file-padding-x:             $input-btn-padding-x;
 $custom-file-line-height:           $input-btn-line-height;
@@ -414,17 +431,17 @@ $custom-file-text: (
 
 
 // Form validation
-
+ 
 $form-feedback-margin-top:          $form-text-margin-top;
 $form-feedback-font-size:           $small-font-size;
 $form-feedback-valid-color:         theme-color("success");
 $form-feedback-invalid-color:       theme-color("danger");
-
+ 
 $form-feedback-icon-valid-color:    $form-feedback-valid-color;
 $form-feedback-icon-valid:          str-replace(url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='#{$form-feedback-icon-valid-color}' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e"), "#", "%23");
 $form-feedback-icon-invalid-color:  $form-feedback-invalid-color;
 $form-feedback-icon-invalid:        str-replace(url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='#{$form-feedback-icon-invalid-color}' viewBox='-2 -2 7 7'%3e%3cpath stroke='#{$form-feedback-icon-invalid-color}' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E"), "#", "%23");
-
+ 
 $form-validation-states: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $form-validation-states: map-merge(
@@ -440,20 +457,24 @@ $form-validation-states: map-merge(
   ),
   $form-validation-states
 );
-
+ 
 
 // Dropdowns
 //
 // Dropdown menu container and contents.
 
-$dropdown-padding-y:                .25rem;
-$dropdown-border-color:             darken($light, 3%);
+$dropdown-bg:                       lighten($gray-800,5%);
 
+$dropdown-padding-y:                .25rem;
+$dropdown-border-color:             lighten($gray-800, 8%);
+
+$dropdown-color:               $body-color;
 $dropdown-link-color:               $body-color;
-$dropdown-link-hover-color:         $headings-color;
+$dropdown-link-hover-color:         $body-color;
+$dropdown-link-hover-bg:            $gray-700;
 
 $dropdown-link-active-color:        $dark;
-$dropdown-link-active-bg:           $gray-200;
+$dropdown-link-active-bg:           $gray-700;
 
 $dropdown-item-padding-y:           .375rem;
 $dropdown-item-padding-x:           1.2rem;
@@ -465,17 +486,35 @@ $dropdown-header-color:             inherit;
 $nav-pills-link-active-color:       $component-active-color;
 $nav-pills-link-active-bg:          $component-active-bg;
 
+$nav-tabs-link-active-color:        $gray-400;
+$nav-tabs-link-active-bg:           $gray-700;
+$nav-tabs-border-color:             $gray-700;
+$nav-tabs-link-active-border-color: $gray-700;
+$nav-tabs-link-hover-border-color:  $gray-700;
+$nav-divider-color:                 $gray-600;
+
 
 // Pagination
 
+$pagination-bg:                     $gray-700;
+$pagination-border-color:           lighten($gray-700,4%);
 $pagination-color:                  $dark;
 
 $pagination-focus-box-shadow:       $input-btn-focus-box-shadow;
 
 $pagination-hover-color:            $dark;
+$pagination-hover-bg:               lighten($gray-700,5%);
+$pagination-hover-border-color:     lighten($gray-700,7%);
+$pagination-disabled-color:         $gray-600;
+$pagination-disabled-bg:            lighten($gray-700,5%);
+$pagination-disabled-border-color:  lighten($gray-700,7%);
 $pagination-active-bg:              $component-active-bg;
 $pagination-active-border-color:    $pagination-active-bg;
 
+
+// Jumbotron
+
+$jumbotron-bg:                      $gray-700;
 
 // Cards
 
@@ -484,7 +523,8 @@ $card-spacer-y:                     $spacer * 2/3;
 $card-border-width:                 0;
 $card-border-color:                 $gray-200;
 $card-border-radius:                .25rem;
-$card-cap-bg:                       lighten($gray-300, 5%);
+$card-bg:                           $gray-800;
+$card-cap-bg:                       $gray-700;
 $card-columns-margin:               $grid-gutter-width;
 $card-columns-gap:                  $grid-gutter-width;
 
@@ -492,15 +532,22 @@ $card-columns-gap:                  $grid-gutter-width;
 // Tooltips
 
 $tooltip-font-size:                 $font-size-base;
+
 $tooltip-border-radius:             0.2rem;
 $tooltip-padding-y:                 .4rem;
 $tooltip-padding-x:                 .8rem;
+$tooltip-font-size:                 $font-size-sm;
+$tooltip-max-width:                 200px;
+$tooltip-color:                     $gray-900;
+$tooltip-bg:                        $gray-100;
+$tooltip-arrow-color:               $tooltip-bg;
 
 
 // Popovers
 
 $popover-border-color:              $gray-400;
 $popover-header-bg:                 $gray-100;
+$popover-header-color:              $gray-700;
 $popover-border-color:              $gray-300;
 $popover-border-radius:             $border-radius;
 $popover-header-padding-y:          .7rem;
@@ -516,18 +563,30 @@ $badge-font-weight:                 $font-weight-bold;
 $modal-content-border-width:        0;
 $modal-content-border-color:        transparent;
 $modal-content-border-radius:       0.2rem;
-$modal-backdrop-bg:                 $gray-900;
+$modal-backdrop-bg:                 $gray-600;
+$modal-content-bg:                  $gray-700;
+$modal-header-border-color:         lighten($gray-700,5%);
+$modal-footer-border-color:         lighten($gray-700,5%);
 
 
 // Progress bars
 
+$progress-bg:                       $gray-700;
 $progress-height:                   0.75rem;
 $progress-bar-bg:                   theme-color("primary");
 
 
 // List group
 
+$list-group-bg:                     $gray-800;
+$list-group-border-color:           $gray-700;
 $list-group-active-bg:              $component-active-bg;
+
+
+// Image thumbnails
+
+$thumbnail-bg:                      $gray-700;
+$thumbnail-border-color:            lighten($gray-700,3%);
 
 
 // Breadcrumbs
@@ -545,6 +604,7 @@ $breadcrumb-active-color:           $gray-500;
 // Close
 $close-font-size:                   1.4rem;
 $close-text-shadow:                 none;
+$close-color:                       $gray-400;
 
 
 // Code

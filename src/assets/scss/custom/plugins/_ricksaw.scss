@@ -3,7 +3,7 @@
 //
  
 #legend {
-    background: white;
+    background: $gray-800;
     position: absolute;
     top: 0;
     right: 15px;
@@ -38,5 +38,6 @@
 .gauge-chart {
     text {
         font-family: $font-family-base !important;
+        fill: $gray-500;
     }
 }

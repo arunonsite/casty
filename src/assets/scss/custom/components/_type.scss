@@ -6,7 +6,7 @@
   margin: 10px 0;
   font-weight: $font-weight-medium;
   font-family: $font-family-secondary;
-  color: $gray-800;
+  color: $gray-300;
 }
 
 
@@ -49,4 +49,11 @@
 
 .font-24 {
     font-size: 24px !important;
+}
+
+// 
+// Text dark
+// 
+.text-dark {
+    color: $gray-800 !important;
 }
