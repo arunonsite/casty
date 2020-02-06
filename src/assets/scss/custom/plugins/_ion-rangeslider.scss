@@ -23,11 +23,15 @@
             border-top-color: $primary;
         }
     }
+    .irs-line {
+      background-color: $gray-700;
+    }
 }
 
 .irs--modern {
     .irs-line {
         border: none;
+        background: $gray-700;
     }
     .irs-bar {
         background: $primary;
@@ -46,7 +50,7 @@
         background-color: $primary;
     }
     .irs-line {
-        background-color: $gray-300;
+        background: $gray-700;
     }
     .irs-from:before,
     .irs-to:before,
@@ -84,6 +88,9 @@
         color: $gray-700;
         background-color: $gray-300;
     }
+    .irs-line {
+      background: $gray-700;
+    }
 }
 
 .irs--square {
@@ -95,5 +102,8 @@
     }
     .irs-handle {
         border: 3px solid $gray-800;
+    }
+    .irs-line {
+      background: $gray-700;
     }
 }

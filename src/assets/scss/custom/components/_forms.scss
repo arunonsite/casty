@@ -27,13 +27,13 @@ input.form-control[type="range"] {
 // COmment box
 .comment-area-box {
     .form-control {
-        border-color: $gray-300;
+        border-color: $input-border-color;
         border-radius: $input-border-radius $input-border-radius 0 0;
     }
     .comment-area-btn {
-        background-color: $gray-100;
+        background-color: $input-border-color;
         padding: 10px;
-        border: 1px solid $gray-300;
+        border: 1px solid $input-border-color;
         border-top: none;
         border-radius: 0 0 $input-border-radius $input-border-radius;
     }

@@ -5,7 +5,7 @@
 .nav-tabs,.nav-pills {
     > li {
         > a {
-            color: $gray-700;
+            color: $gray-500;
             font-weight: $font-weight-semibold;
         }
     }
@@ -13,7 +13,7 @@
 
 .nav-pills {
     > a {
-        color: $gray-700;
+        color: $gray-500;
         font-weight: $font-weight-semibold;   
     }
 }
@@ -23,7 +23,7 @@
 .navtab-bg {
     li {
         >a {
-            background-color: $gray-200;
+            background-color: $gray-700;
             margin: 0 5px;
         }
     }

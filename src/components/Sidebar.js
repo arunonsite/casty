@@ -25,11 +25,11 @@ const SideNavContent = () => {
               
                         <span> Users Management</span>
                     </Link>
-                    <Link to="/company" className="waves-effect has-dropdown" aria-expanded="true">
+                {/*     <Link to="/company" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Company Management </span>
-                    </Link>
+                    </Link> */}
                     <Link to="/departments" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               

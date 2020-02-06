@@ -66,14 +66,14 @@
                 &.day:hover,
                 span.focused,
                 span:hover {
-                    background: $gray-200;
+                    background: $gray-700;
                 }
 
                 &.new,
                 &.old,
                 span.new,
                 span.old {
-                    color: $gray-700;
+                    color: $gray-300;
                     opacity: 0.4;
                 }
             }

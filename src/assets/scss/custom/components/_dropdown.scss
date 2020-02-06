@@ -4,17 +4,14 @@
 
 .dropdown-menu {
     padding: 0.3rem;
-    box-shadow: $shadow;
     animation-name: DropDownSlide;
     animation-duration: .3s;
     animation-fill-mode: both;
     margin: 0;
-    border: none;
     font-size: .875rem;
     position: absolute;
     z-index: 1000;
     
-
     &.show {
         top: 100%!important;
     }
@@ -74,10 +71,10 @@
         position: relative;
 
         a {
-            color: $gray-700;
+            color: $gray-500;
 
             &:hover {
-                color: $primary;
+                color: $gray-300;
             }
         }
 
@@ -88,4 +85,9 @@
             font-family:"Material Design Icons";
         }
     }
+}
+
+// Dropdown divider
+.dropdown-divider {
+    border-color: lighten($gray-700,3%);
 }

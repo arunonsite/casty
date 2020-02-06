@@ -17,12 +17,14 @@
     margin: 0;
 
     .note-statusbar {
-      background-color: lighten($gray-200,2%);
-      border-top: 1px solid $gray-200;
+      background-color: $gray-700;
+      border-top: 1px solid lighten($gray-700,3%);
     }
 
     .note-editable {
         border: none;
+        color: $gray-500 !important;
+        background-color: lighten($gray-800,3%) !important;
     }
   }
 }
@@ -50,4 +52,11 @@
 
 .note-toolbar {
    z-index: 1;
+   background: $card-cap-bg !important;
+
+   .btn-light {
+     background-color: lighten($gray-700,4%);
+     border-color: lighten($gray-700,4%);
+     color: $gray-400;
+   }
 }

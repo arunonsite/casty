@@ -30,11 +30,11 @@
     height: $topbar-height;
     width: $leftbar-width;
     float: left;
+    background-color: $bg-leftbar;
 }
 
 .navbar-custom {
     background-color: $bg-topbar-dark;
-    box-shadow: $shadow;
     padding: 0 10px 0 0;
     position: fixed;
     left: 0;
@@ -130,7 +130,7 @@
     margin-left: 0;
 
     .noti-title {
-        background-color: $white;
+        background-color: transparent;
         padding: 15px 20px;
     }
 
@@ -167,7 +167,7 @@
             margin-left: 45px;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color: $gray-800;
+            color: $gray-200;
 
             b {
                 font-weight: 500;
@@ -229,7 +229,7 @@
     }
 
     .button-menu-mobile {
-        color: $dark;
+        color: $gray-600;
     }
 
     /* Search */

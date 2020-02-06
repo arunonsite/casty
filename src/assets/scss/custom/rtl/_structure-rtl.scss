@@ -280,17 +280,6 @@
 .footer {
     left: 0;
     right: $leftbar-width;
-
-    .footer-links {
-        a {
-            margin-right: 1.5rem;
-            margin-left: 0;
-
-            &:first-of-type {
-                margin-right: 0;
-            }
-        }
-    }
 }
 
 .footer-alt {

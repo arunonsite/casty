@@ -10,7 +10,6 @@
     clear: both;
     padding: 5px 12px;
     margin-bottom: 15px;
-    box-shadow: 2px 5px 10px rgba($dark, 0.15);
     color: $white;
     font-size: 13px;
     font-weight: $font-weight-semibold;
@@ -58,6 +57,10 @@
           border-color: darken(($value),10%) transparent transparent;
         }
     }
+  }
+
+  .ribbon-dark {
+    color: $gray-800;
   }
 
 
@@ -125,6 +128,14 @@
           border-top: 3px solid darken(($value),15%);
         }
       }
+    }
+  }
+}
+
+.ribbon-two-dark {
+  &.ribbon-two {
+    span {
+      color: $gray-800;
     }
   }
 }

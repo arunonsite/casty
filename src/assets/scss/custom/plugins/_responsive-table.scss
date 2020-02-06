@@ -5,6 +5,11 @@
 .responsive-table-plugin {
     .dropdown-menu li.checkbox-row {
         padding: 7px 15px;
+
+        &:hover {
+            background-color: $dropdown-link-hover-bg;
+            color: $dropdown-link-hover-color;
+        }
     }
     .table-responsive {
         border: none;
@@ -26,10 +31,12 @@
             padding-left: 5px;
             position: relative;
             margin-bottom: 0;
+            color: $gray-500;
+
             &::before {
-                background-color: $white;
+                background-color: lighten($gray-700,5%);
                 border-radius: 3px;
-                border: 1px solid $gray-400;
+                border: 1px solid lighten($gray-700,5%);
                 content: "";
                 display: inline-block;
                 height: 17px;
@@ -43,14 +50,14 @@
             &::after {
                 color: $gray-400;
                 display: inline-block;
-                font-size: 11px;
+                font-size: 10px;
                 height: 16px;
                 left: 0;
                 margin-left: -20px;
-                padding-left: 3px;
-                padding-top: 1px;
+                padding-left: 4px;
+                padding-top: 0px;
                 position: absolute;
-                top: -1px;
+                top: -2px;
                 width: 16px;
             }
         }
@@ -71,9 +78,8 @@
         }
         input[type="checkbox"]:checked+label {
             &::after {
-                content: "\f00c";
-                font-family: 'Font Awesome 5 Free';
-                font-weight: 900;
+                content: "\F12C";
+                font-family: "Material Design Icons";
             }
         }
         input[type="checkbox"]:disabled+label {
@@ -84,11 +90,10 @@
         }
         input[type="checkbox"]:checked+label {
             &::before {
-                background-color: $white;
-                border-color: $primary;
+                background-color: lighten($gray-700,5%);
             }
             &::after {
-                color: $primary;
+                color: $white;
             }
         }
     }
@@ -96,8 +101,8 @@
     table.focus-on tbody tr.focused td,
     .sticky-table-header {
         background: $primary;
-        border-color: $primary;
         color: $white;
+        border-color: $primary;
 
         table {
             color: $white;
@@ -109,9 +114,9 @@
         }
     }
     .btn-default {
-        background-color: $white;
+        background-color: $gray-700;
         color: $dark;
-        border: 1px solid rgba($dark, 0.3);
+        border: 1px solid lighten($gray-700,3%);
         &.btn-primary {
             background-color: $primary;
             border-color: $primary;

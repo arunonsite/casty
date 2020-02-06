@@ -12,9 +12,9 @@
         &::before {
             -o-transition: 0.3s ease-in-out;
             -webkit-transition: 0.3s ease-in-out;
-            background-color: $white;
+            background-color: transparent;
             border-radius: 3px;
-            border: 2px solid $gray-600;
+            border: 2px solid lighten($gray-700,7%);
             content: "";
             display: inline-block;
             height: 18px;
@@ -64,12 +64,9 @@
             display: table;
             width: 4px;
             height: 8px;
-            border: 2px solid $gray-700;
+            border: 2px solid $gray-500;
             border-top-width: 0;
             border-left-width: 0;
-            -webkit-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
             transform: rotate(45deg);
         }
     }
@@ -124,4 +121,8 @@ $value in $theme-colors {
             }
         }
     }
+}
+
+.checkbox-dark input[type=checkbox]:checked+label::after {
+    border-color: $gray-700;
 }

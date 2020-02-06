@@ -116,7 +116,7 @@
             }
 
             > ul {
-                padding-left: 40px;
+                padding-left: 37px;
 
                 ul {
                     padding-left: 20px;
@@ -214,7 +214,6 @@
                     > a {
                         padding: 15px 20px;
                         min-height: 54px;
-                        transition: none;
             
                         &:hover,
                         &:active,
@@ -237,8 +236,9 @@
                             position: relative;
                             width: calc(190px + #{$leftbar-width-collapsed});
                             color: $menu-item-active;
-                            background-color: $gray-100;
-
+                            background-color: $bg-leftbar;
+                            transition: none;
+                            
                             span {
                                 display: inline;
                             }
@@ -439,6 +439,10 @@ body.enlarged {
         background-color: $blue;
     }
 
+    .logo-box {
+        background-color: rgba($white,0.05);
+    }
+
     .left-side-menu {
         background-color: $bg-leftbar-dark;
         box-shadow: none;
@@ -502,6 +506,10 @@ body.enlarged {
                     &:hover >a {
                         background-color: lighten($bg-leftbar-dark,5%);
                     }
+                }
+                ul {
+                    background-color: lighten($bg-leftbar-dark,5%);
+                    box-shadow: none;
                 }
             }
         }
