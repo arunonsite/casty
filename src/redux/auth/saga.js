@@ -64,7 +64,7 @@ function* login({ payload: { username, password } }) {
     };
 
     try {
-        const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/API/Users/login', options);
+        const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
         //const response = yield call(fetchJSON, '/users/authenticate', options);
         setSession(response);
         yield put(loginUserSuccess(response));
