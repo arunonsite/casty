@@ -45,12 +45,6 @@ table[data-toggle="table"] {
         td {
             border-left: none;
         }
-
-        .selected {
-            td {
-                background-color: $table-accent-bg;
-            }
-        }
     }
     thead {
         th {

@@ -9,14 +9,14 @@
         border-left: none;
         font-family: $font-family-secondary;
         >span {
-            background: $gray-700;
+            background: $dark;
         }
     }
     tr {
         border: none !important;
     }    
     th {
-        background-color: $gray-700;
+        background-color: $dark;
     }
 }
 
@@ -28,8 +28,7 @@
 .c3 {
     text {
         font-family: $font-family-base;
-        color: $gray-500;
-        fill: $gray-500;
+        color: $gray-400;
     }
 }
 .c3-legend-item {
@@ -37,8 +36,8 @@
     font-size: 14px;
 }
 .c3 line, .c3 path {
-    stroke: $gray-700;
+    stroke: $gray-400;
 }
 .c3-chart-arc.c3-target g path {
-    stroke: $gray-700;
+    stroke: $white;
 }

@@ -7,7 +7,7 @@ import profilePic from '../assets/images/users/user-1.jpg';
 // code splitting and lazy loading
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const Topbar = React.lazy(() => import("./Topbar"));
-const Sidebar = React.lazy(() => import("./Sidebar"));
+const Navbar = React.lazy(() => import("./Navbar"));
 const RightSidebar = React.lazy(() => import("./RightSidebar"));
 const Footer = React.lazy(() => import("./Footer"));
 const loading = () => <div className="text-center"></div>;
@@ -20,7 +20,7 @@ const RightSidebarContent = (props) => {
             <a href="/" className="user-edit"><i className="mdi mdi-pencil"></i></a>
         </div>
 
-        <h5>{props.user && <a href="/">{props.user.username}</a> }</h5>
+        <h5>{props.user && <a href="/">{props.user.username}</a>}</h5>
         <p className="text-muted mb-0"><small>Founder</small></p>
     </div>
 }
@@ -33,7 +33,7 @@ class AuthLayout extends Component {
         this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.state = {
-            isCondensed: false
+            isMenuOpened: false
         }
     }
 
@@ -47,7 +47,7 @@ class AuthLayout extends Component {
      */
     toggleMenu = (e) => {
         e.preventDefault();
-        this.setState({ isCondensed: !this.state.isCondensed });
+        this.setState({isMenuOpened: !this.state.isMenuOpened});
     }
 
     /**
@@ -62,24 +62,22 @@ class AuthLayout extends Component {
         const children = this.props.children || null;
         return (
             <div className="app">
-                <div id="wrapper">
+                <header id="topnav">
                     <Suspense fallback={loading()}>
-                        <Topbar rightSidebarToggle={this.toggleRightSidebar} menuToggle={this.toggleMenu} />
-                        <Sidebar isCondensed={this.state.isCondensed} {...this.props} />
+                        <Topbar rightSidebarToggle={this.toggleRightSidebar} menuToggle={this.toggleMenu} isMenuOpened={this.state.isMenuOpened} />
+                        <Navbar isMenuOpened={this.state.isMenuOpened} />
                     </Suspense>
-                    <div className="content-page">
-                        <div className="content">
+                </header>
 
-                            <Container fluid>
-                                <Suspense fallback={loading()}>
-                                    {children}
-                                </Suspense>
-                            </Container>
-                        </div>
-                    </div>
-
-                    <Footer />
+                <div className="wrapper">
+                    <Container fluid>
+                        <Suspense fallback={loading()}>
+                            {children}
+                        </Suspense>
+                    </Container>
                 </div>
+                
+                <Footer />
 
                 <RightSidebar title={"Settings"}>
                     <RightSidebarContent user={this.props.user} />

@@ -27,8 +27,9 @@
 
 // Gallary Thumb
 .gal-box {
-    background-color: $gray-800;
+    background-color: $white;
     border-radius: 3px;
+    box-shadow: $shadow;
     margin-bottom: $grid-gutter-width;
 
     .image-popup {
@@ -42,7 +43,7 @@
 
     .gall-info {
         padding: 15px;
-        border-top: 1px solid lighten($gray-800,5%);
+        border-top: 1px solid $gray-200;
         position: relative;
 
         h4 {

@@ -20,12 +20,15 @@
 }
 
 .footable-odd {
-    background-color: $gray-800;
+    background-color: $white;
 }
 
-.footable-row-detail,
 .footable-detail-show {
-    background-color: lighten($gray-800,3%);
+    background-color: $gray-100;
+}
+
+.footable-row-detail {
+    background-color: #F0F4F7;
 }
 
 .footable-pagination {
@@ -39,8 +42,8 @@
             margin-left: -1px;
             line-height: 1.25;
             color: $dark;
-            background-color: $pagination-bg;
-            border: $pagination-border-width solid $pagination-border-color;
+            background-color: $white;
+            border: 1px solid $gray-100;
             border-radius: 2px;
         }
     }
@@ -55,9 +58,4 @@
 
 .footable>thead>tr>th>span.footable-sort-indicator {
     float: right;
-}
-
-.footable-toggle {
-    color: $gray-500 !important;
-    margin-right: 5px;
 }
