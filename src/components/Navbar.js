@@ -1,80 +1,61 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import 'react-perfect-scrollbar/dist/css/styles.css';
-import MetisMenu from 'metismenujs/dist/metismenujs';
+import { Collapse } from 'reactstrap';
 
 
-const SideNavContent = () => {
+const NavMenuContent = (props) => {
+    const onMenuClickCallback = props.onMenuClickCallback;
+
     return <React.Fragment>
-        <div id="sidebar-menu">
+        <ul className="navigation-menu">
 
-            <ul className="metismenu" id="side-menu">
 
-                <li className="menu-title">Navigation</li>
-
-                <li>
-                    <Link to="/dashboard" className="waves-effect has-dropdown" aria-expanded="true">
+            <li>  <Link to="/dashboard" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
                         <span> Dashboard </span>
-                    </Link>
-                    <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
+                    </Link></li>
+            <li> <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Users Management</span>
-                    </Link>
-                {/*     <Link to="/company" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
-              
-                        <span> Company Management </span>
-                    </Link> */}
+                    </Link></li>
+            <li>
                     <Link to="/departments" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Departments </span>
-                    </Link>
+                    </Link></li>
+            <li>
                     <Link to="/channels" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Channels  </span>
-                    </Link>
+                    </Link></li>
+            <li>
                     <Link to="/episodes" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Episodes   </span>
-                    </Link>
+                    </Link></li>
+            <li>
                     <Link to="/shows" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-airplay"></i>
               
                         <span> Shows   </span>
-                    </Link>
-                    
-                </li>
-
-                
-            </ul>
-        </div>
-        <div className="clearfix"></div>
+                    </Link></li>
+           
+        </ul>
     </React.Fragment>
 }
 
 
-class Sidebar extends Component {
+class Navbar extends Component {
     constructor(props) {
         super(props);
-        this.handleOtherClick = this.handleOtherClick.bind(this);
+
         this.initMenu = this.initMenu.bind(this);
     }
-
-    /**
-     * Bind event
-     */
-    componentWillMount = () => {
-        document.addEventListener('mousedown', this.handleOtherClick, false);
-    }
-    
 
     /**
      * 
@@ -84,48 +65,9 @@ class Sidebar extends Component {
     }
 
     /**
-     * Component did update
-     */
-    componentDidUpdate = (prevProps) => {
-        if (this.props.isCondensed !== prevProps.isCondensed) {
-            if (prevProps.isCondensed) {
-                document.body.classList.remove("sidebar-enable");
-                document.body.classList.remove("enlarged");
-            } else {
-                document.body.classList.add("sidebar-enable");
-                const isSmallScreen = window.innerWidth < 768;
-                if (!isSmallScreen) {
-                    document.body.classList.add("enlarged");
-                }
-            }            
-            
-            this.initMenu();
-        }
-    }
-
-    /**
-     * Bind event
-     */
-    componentWillUnmount = () => {
-        document.removeEventListener('mousedown', this.handleOtherClick, false);
-    }
-
-    /**
-     * Handle the click anywhere in doc
-     */
-    handleOtherClick = (e) => {
-        if (this.menuNodeRef.contains(e.target))
-            return;
-        // else hide the menubar
-        document.body.classList.remove('sidebar-enable');
-    }
-
-    /**
      * Init the menu
      */
     initMenu = () => {
-        // render menu
-        new MetisMenu("#side-menu");
         var links = document.getElementsByClassName('side-nav-link-ref');
         var matchingMenuItem = null;
         for (var i = 0; i < links.length; i++) {
@@ -166,18 +108,38 @@ class Sidebar extends Component {
         }
     }
 
-    render() {
-        const isCondensed = this.props.isCondensed || false;
+    /**
+     * On menu clicked event
+     * @param {*} event 
+     */
+    onMenuClick(event) {
+        event.preventDefault();
+        const nextEl = event.target.nextSibling;
+        if (nextEl && !nextEl.classList.contains('open')) {
+            const parentEl = event.target.parentNode;
+            if (parentEl) { parentEl.classList.remove('open'); }
 
+            nextEl.classList.add('open');
+        } else if (nextEl) { nextEl.classList.remove('open'); }
+        return false;
+    }
+
+
+
+    render() {
         return (
             <React.Fragment>
-                <div className='left-side-menu' ref={node => this.menuNodeRef = node}>
-                    {!isCondensed && <PerfectScrollbar><SideNavContent /></PerfectScrollbar>}
-                    {isCondensed && <SideNavContent />}
+                <div className="topbar-menu">
+                    <div className="container-fluid">
+                        <Collapse isOpen={this.props.isMenuOpened} id="navigation">
+                            <NavMenuContent onMenuClickCallback={this.onMenuClick} />
+                            <div className="clearfix"></div>
+                        </Collapse>
+                    </div>
                 </div>
             </React.Fragment>
         );
     }
 }
 
-export default connect()(Sidebar);
+export default withRouter(connect()(Navbar));

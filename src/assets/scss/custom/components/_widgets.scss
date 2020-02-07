@@ -14,7 +14,7 @@
 // Inbox-widget(Used Profile)
 .inbox-widget {
     .inbox-item {
-        border-bottom: 1px solid lighten($gray-800, 3%);
+        border-bottom: 1px solid lighten($light, 5%);
         overflow: hidden;
         padding: 0.625rem 0;
         position: relative;
@@ -75,7 +75,9 @@
         }
     }
     .ctext-wrap {
-        background: $gray-700;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        background: $gray-200;
         border-radius: 3px;
         display: inline-block;
         padding: 12px;
@@ -100,10 +102,10 @@
             width: 0;
             position: absolute;
             pointer-events: none;
-            border-top-color: $gray-700;
+            border-top-color: $gray-200;
             border-width: 8px;
             margin-left: -1px;
-            border-right-color: $gray-700;
+            border-right-color: $gray-200;
         }
     }
     .conversation-text {
@@ -123,11 +125,11 @@
             width: 70% !important;
         }
         .ctext-wrap {
-            background-color: $primary;
+            background-color: #fef5e4;
             &:after {
                 border-color: transparent;
-                border-left-color: $primary;
-                border-top-color: $primary;
+                border-left-color: #fef5e4;
+                border-top-color: #fef5e4;
                 left: 99% !important;
             }
         }

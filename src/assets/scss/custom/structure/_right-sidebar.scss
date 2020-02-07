@@ -3,7 +3,7 @@
 //
 
 .right-bar {
-    background-color: $gray-800;
+    background-color: $white;
     box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
     display: block;
     position: fixed;
@@ -15,17 +15,21 @@
     top: 0;
     bottom: 0;
 
+    .rightbar-content {
+        padding-bottom: 70px;
+    }
+
     .rightbar-title {
         background-color: $primary;
         padding: 27px 25px;
         color: $white;
     }
     .right-bar-toggle {
-        background-color: $gray-200;
+        background-color: lighten($dark, 7%);
         height: 24px;
         width: 24px;
         line-height: 27px;
-        color: $gray-900;
+        color: $white;
         text-align: center;
         border-radius: 50%;
         margin-top: -4px;
@@ -65,7 +69,7 @@
 
 // Rightbar overlay
 .rightbar-overlay {
-    background-color: rgba($gray-500, 0.55);
+    background-color: rgba($dark, 0.55);
     position: absolute;
     left: 0;
     right: 0;

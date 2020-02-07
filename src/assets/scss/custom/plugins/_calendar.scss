@@ -33,7 +33,7 @@
 }
 
 .fc-day {
-    background: lighten($gray-800,3%);
+    background: $white;
 }
 
 .fc-toolbar {
@@ -48,7 +48,7 @@
 
 .fc {
     th.fc-widget-header {
-        background: $gray-700;
+        background: $gray-100;
         font-size: 13px;
         line-height: 20px;
         padding: 10px 0;
@@ -64,10 +64,7 @@
     .fc-divider,
     .fc-row,
     .fc-popover {
-        border-color: $gray-700;
-    }
-    .fc-divider {
-        background-color: $gray-700;
+        border-color: $gray-300;
     }
 }
 
@@ -80,7 +77,7 @@
                 width: 20px;
                 text-align: center;
                 line-height: 20px;
-                background-color: $gray-700;
+                background-color: $gray-100;
                 border-radius: 50%;
                 margin: 5px;
                 font-family: $font-family-secondary;
@@ -91,9 +88,9 @@
 }
 
 .fc-button {
-    background: $gray-700;
+    background: $gray-100;
     border: none;
-    color: $gray-500;
+    color: $gray-700;
     text-transform: capitalize;
     box-shadow: none;
     border-radius: 3px;
@@ -108,7 +105,7 @@
 }
 
 .fc-state-hover {
-    background: lighten($gray-700,3%);
+    background: $gray-100;
 }
 
 .fc-state-highlight {
@@ -128,8 +125,8 @@
 }
 
 .fc-unthemed {
-    td.fc-today {
-        background: lighten($gray-800,5%);
+    .fc-today {
+        background: $white;
     }
 }
 

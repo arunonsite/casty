@@ -21,14 +21,14 @@
 
         a {
             text-decoration: none;
-            color: $gray-500;
+            color: $gray-700;
             display: block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
 
             &:hover {
-                color: $gray-300;
+                color: $primary;
             }
         }   
     }
@@ -49,8 +49,8 @@
                 display: inline-block;
                 width: 2rem;
                 height: 2rem;
-                border-bottom: 1px solid $gray-700;
-                border-left: 1px solid $gray-700;
+                border-bottom: 1px #ccc solid;
+                border-left: 1px solid rgba(152, 166, 173, 0.5);
                 position: absolute;
                 top: -1rem;
             }
