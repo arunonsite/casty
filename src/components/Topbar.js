@@ -149,10 +149,10 @@ class Topbar extends Component {
             <div className="logo-box">
               <Link to="/" className="logo text-center">
                 <span className="logo-lg">
-                  <img src={logo} alt="" height="18" />
+                 <h1>Casty</h1>
                 </span>
                 <span className="logo-sm">
-                  <img src={logoSm} alt="" height="24" />
+                <h1>Casty</h1>
                 </span>
               </Link>
             </div>

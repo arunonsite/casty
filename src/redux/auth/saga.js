@@ -57,13 +57,15 @@ const setSession = (user) => {
  */
 function* login({ payload: { username, password } }) {
     const options = {
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ Email:username, Password:password }),
+        //body: JSON.stringify({ username, password }),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     };
 
     try {
-        const response = yield call(fetchJSON, '/users/authenticate', options);
+        const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/API/Users/login', options);
+        //const response = yield call(fetchJSON, '/users/authenticate', options);
         setSession(response);
         yield put(loginUserSuccess(response));
     } catch (error) {
