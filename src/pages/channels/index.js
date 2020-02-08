@@ -42,7 +42,7 @@ class DefaultDashboard extends Component {
              <td>{cname}</td>
              <td>{cdesc}</td>
              <td>{cphoto}</td>
-             <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+             <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
           </tr>
        )
     })
@@ -89,7 +89,7 @@ toggleAdd = (event) =>{
               </Row>
               { this.state.addNewForm ?
               <Row>
-                <Col xl={8}>
+                <Col xl={12}>
                   <div class="card">
                     <div class="card-body">
 
@@ -120,7 +120,8 @@ toggleAdd = (event) =>{
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="password3"> Channel Description</label>
                                       <div class="col-md-9">
-                                        <input type="text" value={cdesc} onChange={this.handleChange} id="password3" name="email" class="form-control" required />
+                                        
+                                        <textarea onChange={this.handleChange} id="channel_desc" name="channel_desc" class="form-control" required ></textarea>
                                       </div>
                                     </div>
 
@@ -159,7 +160,7 @@ toggleAdd = (event) =>{
               <Card>
                 <CardBody>
                   <h1>Channels List</h1>
-
+                  <div style={{float: "right"}}><button type="button" class="btn btn-primary btn-sm">Add</button> </div>
                   <Table striped bordered hover>
                     <thead>
                     <tr>

@@ -43,7 +43,7 @@ class DefaultDashboard extends Component {
              <td>{name}</td>
              <td>{email}</td>
              <td>{number}</td>
-             <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+             <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
           </tr>
        )
     })
@@ -85,13 +85,13 @@ toggleAdd = (event) =>{
             <Row>
             <Col xl={12}>
               <div style={{ float: "right" }} onClick={this.toggleAdd(this.event)} >
-               Add New
+               
                </div>
             </Col>
               </Row>
               { this.state.addNewForm ?
               <Row>
-                <Col xl={8}>
+                <Col xl={12}>
                   <div class="card">
                     <div class="card-body">
 
@@ -160,7 +160,7 @@ toggleAdd = (event) =>{
               <Card>
                 <CardBody>
                   <h1>Department List</h1>
-
+                  <div style={{float: "right"}}><button type="button" class="btn btn-primary btn-sm">Add</button></div>
                   <Table striped bordered hover>
                     <thead>
                       <tr>
