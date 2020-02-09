@@ -114,7 +114,7 @@ toggleAdd = (event) =>{
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Show Name</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={sname} onChange={this.handleChange} class="form-control" id="userName3" name="name" required />
+                                        <input type="text"  value={sname} onChange={this.handleChange} class="form-control" id="sname" name="sname" required />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
@@ -127,7 +127,7 @@ toggleAdd = (event) =>{
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="confirm3">Show Photo/Video</label>
                                       <div class="col-md-9">
-                                        <input type="file" value={sphoto} onChange={this.handleChange} id="confirm3" name="number" class="form-control" required />
+                                        <input type="file" value={sphoto} onChange={this.handleChange} id="show_photo" name="show_photo" class="form-control" required />
                                       </div>
                                     </div>
                                   </div>

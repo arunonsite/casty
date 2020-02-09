@@ -118,13 +118,13 @@ toggleAdd = (event) =>{
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Episodes Number</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={enumber} onChange={this.handleChange} class="form-control" id="userName3" name="name" required />
+                                        <input type="text"  value={enumber} onChange={this.handleChange} class="form-control" id="episode_number" name="episode_number" required />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Episodes Name</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={ename} onChange={this.handleChange} class="form-control" id="userName3" name="name" required />
+                                        <input type="text"  value={ename} onChange={this.handleChange} class="form-control" id="episode_name" name="episode_name" required />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
@@ -138,7 +138,7 @@ toggleAdd = (event) =>{
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="confirm3">Episodes Photo</label>
                                       <div class="col-md-9">
-                                        <input type="file" value={ephoto} onChange={this.handleChange} id="confirm3" name="number" class="form-control" required />
+                                        <input type="file" value={ephoto} onChange={this.handleChange} id="episode_photo" name="episode_photo" class="form-control" required />
                                       </div>
                                     </div>
                                   </div>

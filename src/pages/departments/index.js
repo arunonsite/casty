@@ -115,20 +115,20 @@ toggleAdd = (event) =>{
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Departemnt Name</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={name} onChange={this.handleChange} class="form-control" id="userName3" name="name" required />
+                                        <input type="text"  value={name} onChange={this.handleChange} class="form-control" id="department_name" name="epartment_name" required />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="password3"> Email</label>
                                       <div class="col-md-9">
-                                        <input type="text" value={email} onChange={this.handleChange} id="password3" name="email" class="form-control" required />
+                                        <input type="text" value={email} onChange={this.handleChange} id="epartment_email" name="epartment_email" class="form-control" required />
                                       </div>
                                     </div>
 
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="confirm3">Contact No</label>
                                       <div class="col-md-9">
-                                        <input type="text" value={number} onChange={this.handleChange} id="confirm3" name="number" class="form-control" required />
+                                        <input type="text" value={number} onChange={this.handleChange} id="epartment_number" name="epartment_number" class="form-control" required />
                                       </div>
                                     </div>
                                   </div>
