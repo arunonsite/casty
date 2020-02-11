@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
+import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
 
@@ -11,7 +12,7 @@ import Loader from '../../components/Loader';
 
 
 class DefaultDashboard extends Component {
-
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +33,15 @@ class DefaultDashboard extends Component {
       addNewForm : false
     };
   }
+  componentDidMount() {
+    this._isMounted = true;
 
+}
+
+componentWillUnmount() {
+    this._isMounted = false;
+
+}
   renderTableData() {
     return this.state.shows.map((depart, index) => {
        const {  sname, sdesc, sphoto } = depart //destructuring
@@ -107,29 +116,39 @@ toggleAdd = (event) =>{
                           <div class="tab-pane active" id="first">
 
                             <div class="tab-pane" id="first">
-                            <form onSubmit={this.handleSubmit}>
+                            <AvForm>
                                 <div class="row">
                                   <div class="col-12">
                                    
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Show Name</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={sname} onChange={this.handleChange} class="form-control" id="sname" name="sname" required />
+                                      
+                                      <AvField value={sname} onChange={this.handleChange} class="form-control" id="sname" name="sname"  type="text" errorMessage="Invalid name" validate={{
+                                     required: {value: true}
+                                     }} />
+                                    
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="password3"> Show Description</label>
+                                      <label class="col-md-3 col-form-label" for="show">Show Description</label>
                                       <div class="col-md-9">
-                                      <textarea onChange={this.handleChange} id="show_desc" name="show_desc" class="form-control" required ></textarea>
+                                     <AvField value={sdesc} onChange={this.handleChange} class="form-control" id="sdesc" name="sdesc"  type="text" errorMessage="Invalid Description" validate={{
+                                     required: {value: true}
+                                     }} />
                                       </div>
                                     </div>
-
                                     <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="confirm3">Show Photo/Video</label>
-                                      <div class="col-md-9">
-                                        <input type="file" value={sphoto} onChange={this.handleChange} id="show_photo" name="show_photo" class="form-control" required />
+                                      <label class="col-md-3 col-form-label" for="show">Photo</label>
+                                      <div class="col-md-9 ">
+                                     <AvField type="file" value={sphoto} onChange={this.handleChange} class="custom-file-input" id="sphoto" name="sphoto"  errorMessage="Invalid Description" validate={{
+                                     required: {value: true}
+                                     }} />
+                                     <label class="custom-file-label" style={{top: "-6px",right: "10px",left: "10px"}} for="customFile">Choose file</label>
                                       </div>
+                                      
                                     </div>
+     
                                   </div>
                                 </div>
                                 <ul class="list-inline wizard mb-0">
@@ -140,7 +159,7 @@ toggleAdd = (event) =>{
 
                         
                           </ul>
-                              </form>
+                          </AvForm>
                             </div>
                           </div>
                           

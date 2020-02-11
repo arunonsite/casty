@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
+import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
 
@@ -11,7 +12,7 @@ import Loader from '../../components/Loader';
 
 
 class DefaultDashboard extends Component {
-
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +36,13 @@ class DefaultDashboard extends Component {
       addNewForm : false
     };
   }
+  componentDidMount() {
+    this._isMounted = true;
+}
 
+componentWillUnmount() {
+    this._isMounted = false;
+}
   renderTableData() {
     return this.state.episodes.map((depart, index) => {
        const {  enumber,ename, edesc, ephoto } = depart //destructuring
@@ -112,35 +119,47 @@ toggleAdd = (event) =>{
                           <div class="tab-pane active" id="first">
 
                             <div class="tab-pane" id="first">
-                            <form onSubmit={this.handleSubmit}>
+                            <AvForm>
                                 <div class="row">
                                   <div class="col-12">
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Episodes Number</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={enumber} onChange={this.handleChange} class="form-control" id="episode_number" name="episode_number" required />
+                                      <AvField type="text"  value={enumber} onChange={this.handleChange} class="form-control" id="episode_number" name="episode_number" errorMessage="Invalid number" validate={{
+                                     required: {value: true},
+                                     pattern: {value: '^[0-9]'}
+                                     }} />
+
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Episodes Name</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={ename} onChange={this.handleChange} class="form-control" id="episode_name" name="episode_name" required />
+                                      <AvField type="text"  value={ename} onChange={this.handleChange} class="form-control" id="episode_name" name="episode_name" errorMessage="Invalid name" validate={{
+                                     required: {value: true}
+                                 
+                                     }} />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="password3"> Episodes Description</label>
                                       <div class="col-md-9">
-                                      <input type="text" value={edesc} onChange={this.handleChange} id="epi_description" name="epi_description" class="form-control" required />
+                                      <AvField type="text" value={edesc} onChange={this.handleChange} id="epi_description" name="epi_description" class="form-control"  />
                                        
                                       </div>
                                     </div>
 
                                     <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="confirm3">Episodes Photo</label>
-                                      <div class="col-md-9">
-                                        <input type="file" value={ephoto} onChange={this.handleChange} id="episode_photo" name="episode_photo" class="form-control" required />
+                                      <label class="col-md-3 col-form-label" for="show">Episodes Photo</label>
+                                      <div class="col-md-9 ">
+                                     <AvField type="file" value={ephoto} onChange={this.handleChange} class="custom-file-input" id="episode_photo" name="episode_photo"  errorMessage="Invalid Image" validate={{
+                                     required: {value: true}
+                                     }} />
+                                     <label class="custom-file-label" style={{top: "-6px",right: "10px",left: "10px"}} for="customFile">Choose file</label>
                                       </div>
+                                      
                                     </div>
+
                                   </div>
                                 </div>
                                 <ul class="list-inline wizard mb-0">
@@ -151,7 +170,7 @@ toggleAdd = (event) =>{
 
                         
                           </ul>
-                              </form>
+                          </AvForm> 
                             </div>
                           </div>
                           
