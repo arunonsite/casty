@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
-
+import  * as channelAction from '../../redux/channel/actions';
+import { bindActionCreators } from 'redux'
 
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 
 
-class DefaultDashboard extends Component {
+class DefaultUserChannel extends Component {
 
   constructor(props) {
     super(props);
@@ -32,14 +33,17 @@ class DefaultDashboard extends Component {
       addNewForm : false
     };
   }
+  componentDidMount(){
+    this.props.actions.loadChannel();
+   }
 
   renderTableData() {
-    return this.state.channels.map((depart, index) => {
-       const {  cname, cdesc, cphoto } = depart //destructuring
+    return this.props.channels.map((channel, index) => {
+       const {  companyName, cdesc, cphoto } = channel //destructuring
        return (
-          <tr key={cname}>          
+          <tr key={companyName}>          
              <td>{Math.random(1)}</td>
-             <td>{cname}</td>
+             <td>{companyName}</td>
              <td>{cdesc}</td>
              <td>{cphoto}</td>
              <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
@@ -72,6 +76,7 @@ toggleAdd = (event) =>{
 }
   render() {
     const {newDepartment:{cname='', cdesc='', cphoto=''}} = this.state;
+    const {channels=[]} = this.props;
     return (
       <React.Fragment>
         <div className="">
@@ -133,9 +138,7 @@ toggleAdd = (event) =>{
                                     </div>
                                   </div>
                                 </div>
-                                <ul class="list-inline wizard mb-0">
-
-                         
+                                <ul class="list-inline wizard mb-0">                        
 
                           <input type="submit" value="Save New" class="btn btn-secondary button-next float-right"/>
 
@@ -189,4 +192,15 @@ toggleAdd = (event) =>{
 }
 
 
-export default connect()(DefaultDashboard);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(channelAction, dispatch),
+  };
+}
+const mapStateToProps = (state) => {
+  const { channels } = state.ChannelReducer;
+  return { channels };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultUserChannel);
