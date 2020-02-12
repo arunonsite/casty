@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
-import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
+import { Row, Col, Card, CardBody } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
 
@@ -12,7 +11,7 @@ import Loader from '../../components/Loader';
 
 
 class DefaultDashboard extends Component {
-  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -33,14 +32,6 @@ class DefaultDashboard extends Component {
       addNewForm : false
     };
   }
-
-  componentDidMount() {
-    this._isMounted = true;
-}
-
-componentWillUnmount() {
-    this._isMounted = false;
-}
 
   renderTableData() {
     return this.state.channels.map((depart, index) => {
@@ -116,41 +107,29 @@ toggleAdd = (event) =>{
                           <div class="tab-pane active" id="first">
 
                             <div class="tab-pane" id="first">
-                            <AvForm>
+                            <form onSubmit={this.handleSubmit}>
                                 <div class="row">
                                   <div class="col-12">
                                    
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Channel Name</label>
                                       <div class="col-md-9">
-                                      
-
-                                        <AvField type="text"  value={cname} onChange={this.handleChange} class="form-control" id="channel_name" name="channel_name" errorMessage="Invalid channel name" validate={{
-                                     required: {value: true}
-                                 
-                                     }} />
+                                        <input type="text"  value={cname} onChange={this.handleChange} class="form-control" id="channel_name" name="channel_name" required />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="password3"> Channel Description</label>
                                       <div class="col-md-9">
-                                      <AvField type="text"  value={cdesc} onChange={this.handleChange} class="form-control" id="channel_desc" name="channel_desc" errorMessage="Invalid channel Description" validate={{
-                                     required: {value: true}
-                                 
-                                     }} />
-                                       
+                                        
+                                        <textarea onChange={this.handleChange} id="channel_desc" name="channel_desc" class="form-control" required ></textarea>
                                       </div>
                                     </div>
 
                                     <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="show">Photo</label>
-                                      <div class="col-md-9 ">
-                                     <AvField type="file" value={cphoto} onChange={this.handleChange} class="custom-file-input" id="cphoto" name="cphoto"  errorMessage="Invalid Photo" validate={{
-                                     required: {value: true}
-                                     }} />
-                                     
+                                      <label class="col-md-3 col-form-label" for="confirm3">Channel Photo/Video</label>
+                                      <div class="col-md-9">
+                                        <input type="file" value={cphoto} onChange={this.handleChange} id="channel_photo" name="channel_photo" class="form-control" required />
                                       </div>
-                                      
                                     </div>
                                   </div>
                                 </div>
@@ -162,7 +141,7 @@ toggleAdd = (event) =>{
 
                         
                           </ul>
-                          </AvForm>
+                              </form>
                             </div>
                           </div>
                           
