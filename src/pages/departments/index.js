@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
+import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
 
@@ -11,7 +12,7 @@ import Loader from '../../components/Loader';
 
 
 class DefaultDashboard extends Component {
-
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +34,14 @@ class DefaultDashboard extends Component {
       addNewForm : false
     };
   }
+  
+  componentDidMount() {
+    this._isMounted = true;
+}
+
+componentWillUnmount() {
+    this._isMounted = false;
+}
 
   renderTableData() {
     return this.state.departments.map((depart, index) => {
@@ -109,26 +118,38 @@ toggleAdd = (event) =>{
                           <div class="tab-pane active" id="first">
 
                             <div class="tab-pane" id="first">
-                            <form onSubmit={this.handleSubmit}>
+                            <AvForm>
                                 <div class="row">
                                   <div class="col-12">
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="userName3">Departemnt Name</label>
                                       <div class="col-md-9">
-                                        <input type="text"  value={name} onChange={this.handleChange} class="form-control" id="department_name" name="epartment_name" required />
+                                        
+                                        <AvField type="text"  value={name} onChange={this.handleChange} class="form-control" id="department_name" name="department_name" errorMessage="Invalid Department name" validate={{
+                                     required: {value: true}
+                                 
+                                     }} />
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="password3"> Email</label>
                                       <div class="col-md-9">
-                                        <input type="text" value={email} onChange={this.handleChange} id="epartment_email" name="epartment_email" class="form-control" required />
+                                       
+                                        <AvField type="text"  value={email} onChange={this.handleChange} class="form-control" id="department_email" name="department_email" errorMessage="Invalid Email" validate={{
+                                     required: {value: true}
+                                 
+                                     }} />
                                       </div>
                                     </div>
 
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="confirm3">Contact No</label>
                                       <div class="col-md-9">
-                                        <input type="text" value={number} onChange={this.handleChange} id="epartment_number" name="epartment_number" class="form-control" required />
+                                        
+                                        <AvField type="text"  value={number} onChange={this.handleChange} class="form-control" id="department_number" name="department_number" errorMessage="Invalid Number" validate={{
+                                     required: {value: true}
+                                 
+                                     }} />
                                       </div>
                                     </div>
                                   </div>
@@ -141,7 +162,7 @@ toggleAdd = (event) =>{
 
                         
                           </ul>
-                              </form>
+                          </AvForm>
                             </div>
                           </div>
                           
