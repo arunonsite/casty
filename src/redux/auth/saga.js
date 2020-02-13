@@ -9,6 +9,7 @@ import {
     FORGET_PASSWORD
 } from '../../constants/actionTypes';
 
+import appSettings from '../../App.Settings';
 
 import {
     loginUserSuccess,
@@ -57,17 +58,25 @@ const setSession = (user) => {
  */
 function* login({ payload: { username, password } }) {
     const options = {
-        //body: JSON.stringify({ Email:username, Password:password }),
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ Email:username, Password:password }),
+       // body: JSON.stringify({ username, password }),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     };
 
     try {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
-        const response = yield call(fetchJSON, '/users/authenticate', options);
-        setSession(response);
-        yield put(loginUserSuccess(response));
+        //const response = yield call(fetchJSON, '/users/authenticate', options);
+        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.LOGIN_ROUTE, options);
+        let  user = Object.assign ({ "id": 1, 
+        "username": "test", 
+        "password": "test",
+         "firstName": "Test", 
+         "lastName": "User",
+         "token": 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDb2RlcnRoZW1lIiwiaWF0IjoxNTU1NjgyNTc1LCJleHAiOjE1ODcyMTg1NzUsImF1ZCI6ImNvZGVydGhlbWVzLmNvbSIsInN1YiI6InRlc3QiLCJmaXJzdG5hbWUiOiJIeXBlciIsImxhc3RuYW1lIjoiVGVzdCIsIkVtYWlsIjoidGVzdEBoeXBlci5jb2RlcnRoZW1lcy5jb20iLCJSb2xlIjoiQWRtaW4ifQ.8qHJDbs5nw4FBTr3F8Xc1NJYOMSJmGnRma7pji0YwB4'
+         ,"role": "Admin" }, {...response});
+        setSession(user);
+        yield put(loginUserSuccess(user));
     } catch (error) {
         let message;
         switch (error.status) {
