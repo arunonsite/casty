@@ -51,9 +51,7 @@ class UserPage extends Component {
           <td>{companyName}</td>
           <td>{email}</td>
           <td>
-            <button type="button"    class="btn btn-primary btn-sm">View</button>
-           <button type="button" onClick={() => { this.toggleEditUserModal(user) }} class="btn btn-warning btn-sm">Edit</button> 
-            <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
+            <button type="button"    class="btn btn-primary btn-sm">View</button> <button type="button" onClick={() => { this.toggleEditUserModal(user) }} class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
         </tr>
       )
     })

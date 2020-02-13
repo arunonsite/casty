@@ -9,9 +9,9 @@ import { Table } from 'react-bootstrap';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
+import Modal from './popup/Modal';
 
-
-class DefaultDashboard extends Component {
+class EpisodePage extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -22,18 +22,29 @@ class DefaultDashboard extends Component {
       edesc : '',
       ephoto : ''},
       episodes :[{
-        enumber: '123',
-        ename: 'mark',
-        edesc : 'Test edesc',
+        enumber: '1234',
+        ename: 'Sun',
+        edesc : 'Test channel',
         ephoto : 'test.mp4'
       },
       {
-        enumber: '123',
-        ename: 'John',
-        edesc : 'Test description',
-        ephoto : 'sample.mp4'
+        enumber: '1234',
+        ename: 'Sun',
+        edesc : 'Test channel',
+        ephoto : 'test.mp4'
       }],
-      addNewForm : false
+
+        userModal :{
+        show: false,
+        title: 'New Episode',
+        mode : 'Add',
+        data:   {
+          enumber: '',
+        ename: '',
+        edesc : '',
+        ephoto : ''
+        },
+      }
     };
   }
   componentDidMount() {
@@ -53,7 +64,7 @@ componentWillUnmount() {
              <td>{ename}</td>
              <td>{edesc}</td>
              <td>{ephoto}</td>
-             <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
+             <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" onClick={() => { this.toggleEditUserModal(depart) }}  class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
           </tr>
        )
     })
@@ -75,121 +86,64 @@ return false;
   edesc : '',
   ephoto : ''} });
 }
-toggleAdd = (event) =>{
-  console.log('this is:', this);
-  if(!this.state.addNewForm){
-    this.setState ({addNewForm: true});
+toggleNewUserModal = () => {
+  const {userModal : {show = false}} = this.state;   
+  this.setState({ userModal: {
+    show: !show,
+    title: 'New Episode',
+    mode : 'add',
+    data:   {
+      enumber: '',
+      ename: '',
+      edesc: '',
+      ephoto: ''
+    },
+  }}
+  );
+}
+toggleEditUserModal = (user) => {
+  const {userModal : {show = false}} = this.state;   
+  this.setState({ 
+    userModal: {      show: !show,      title: 'Edit Episode',      mode : 'edit' ,
+    data:   {...user},   
+  },
+    
   }
+  );
 }
   render() {
-    const {newDepartment:{enumber='', ename='', edesc='', ephoto=''}} = this.state;
+    //const {newDepartment:{enumber='', ename='', edesc='', ephoto=''}} = this.state;
+    const { newDepartment = {}, addNewUser = false, modalTitle,userModal={} } = this.state;
     return (
       <React.Fragment>
+      <Modal
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}          
+        handlehide={this.toggleNewUserModal}         
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        {...userModal}
+      />
         <div className="">
           { /* preloader */}
           {this.props.loading && <Loader />}
           <Row></Row>
           <Row class='hidden'>
-
             <Col lg={12}>
-            <Row>
-            <Col xl={12}>
-              <div style={{ float: "right" }} onClick={this.toggleAdd(this.event)} >
-            
-               </div>
-            </Col>
-              </Row>
-              { this.state.addNewForm ?
               <Row>
                 <Col xl={12}>
-                  <div class="card">
-                    <div class="card-body">
-
-                      <div id="rootwizard">
-                        <ul class="nav nav-pills bg-secondary nav-justified form-wizard-header mb-3">
-                          <li class="nav-item" data-target-form="#accountForm">
-                            <a href="#first" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                              <i class="mdi mdi-account-circle mr-1"></i>
-                              <span class="d-none d-sm-inline" style={{color:'#FFF'}}>New Episodes</span>
-                            </a>
-                          </li>
-
-                        </ul>
-                        <div class="tab-content mb-0 b-0">
-                          <div class="tab-pane active" id="first">
-
-                            <div class="tab-pane" id="first">
-                            <AvForm>
-                                <div class="row">
-                                  <div class="col-12">
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="userName3">Episodes Number</label>
-                                      <div class="col-md-9">
-                                      <AvField type="text"  value={enumber} onChange={this.handleChange} class="form-control" id="episode_number" name="episode_number" errorMessage="Invalid number" validate={{
-                                     required: {value: true},
-                                     pattern: {value: '^[0-9]'}
-                                     }} />
-
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="userName3">Episodes Name</label>
-                                      <div class="col-md-9">
-                                      <AvField type="text"  value={ename} onChange={this.handleChange} class="form-control" id="episode_name" name="episode_name" errorMessage="Invalid name" validate={{
-                                     required: {value: true}
-                                 
-                                     }} />
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="password3"> Episodes Description</label>
-                                      <div class="col-md-9">
-                                      <AvField type="text" value={edesc} onChange={this.handleChange} id="epi_description" name="epi_description" class="form-control"  />
-                                       
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="show">Episodes Photo</label>
-                                      <div class="col-md-9 ">
-                                     <AvField type="file" value={ephoto} onChange={this.handleChange} class="custom-file-input" id="episode_photo" name="episode_photo"  errorMessage="Invalid Image" validate={{
-                                     required: {value: true}
-                                     }} />
-                                     <label class="custom-file-label" style={{top: "-6px",right: "10px",left: "10px"}} for="customFile">Choose file</label>
-                                      </div>
-                                      
-                                    </div>
-
-                                  </div>
-                                </div>
-                                <ul class="list-inline wizard mb-0">
-
-                         
-
-                          <input type="submit" value="Save New" class="btn btn-secondary button-next float-right"/>
-
-                        
-                          </ul>
-                          </AvForm> 
-                            </div>
-                          </div>
-                          
-                        </div>
-                      </div>
-                    </div>
+                  <div style={{ float: "right" }}   >
                   </div>
                 </Col>
               </Row>
-               : null }
-
-
-
             </Col>
             <Col lg={12}>
               <Card>
                 <CardBody>
                   <h1>Episodes List</h1>
-                  <div style={{float: "right"}}><button type="button" class="btn btn-primary btn-sm">Add</button></div>
+                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewUserModal}>
+                    + New User        </Button>
                   <Table striped bordered hover>
                     <thead>
                     <tr>
@@ -219,4 +173,4 @@ toggleAdd = (event) =>{
 }
 
 
-export default connect()(DefaultDashboard);
+export default connect()(EpisodePage);
