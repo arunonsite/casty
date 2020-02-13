@@ -1,46 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Card, CardBody } from 'reactstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table, Button } from 'react-bootstrap';
+import { bindActionCreators } from 'redux'
 
-
+import  * as userActions from '../../redux/user/actions';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 
-class DefaultDashboard extends Component {
+class UserPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: getLoggedInUser(),
-     
-      users: [{
-        lname: 'Scot',
-        fname: 'mark',
-        username: 'Scot',
-        password: '12345',
-        cpassword: '12345',
-        email: 'scot@gmail.com',
-        cemail: 'scot@gmail.com',
-        phone: '563434232'
-      },
-      {
-        lname: 'Kelsey',
-        fname: 'mark',
-        username: 'kelsey',
-        password: '12345',
-        cpassword: '12345',
-        email: 'kelsey@gmail.com',
-        cemail: 'kelsey@gmail.com',
-        phone: '563434232'
-      }],
-
-
-
-
+      user: getLoggedInUser(),     
+      users: [],
       userModal :{
         show: false,
         title: 'New User',
@@ -59,19 +35,21 @@ class DefaultDashboard extends Component {
     };
   }
 
+  componentDidMount(){
+    const {user:{companyId='02790222-8153-44e0-b17b-0ff24a3f4d4d'}} = this.props;
+
+   this.props.actions.loadUsers(companyId);
+  }
+
   renderTableData() {
-    return this.state.users.map((user, index) => {
-      const { lname, fname, username, email, phone } = user //destructuring
+    return this.props.users.map((user, index) => {
+      const { lastName='', firstName='', companyName='', email='' } = user //destructuring
       return (
-        <tr key={username}>
-
-          <td>{lname}</td>
-          <td>{fname}</td>
-          <td>{username}</td>
-
+        <tr key={firstName}>
+          <td>{lastName}</td>
+          <td>{firstName}</td>
+          <td>{companyName}</td>
           <td>{email}</td>
-
-          <td>{phone}</td>
           <td>
             <button type="button"    class="btn btn-primary btn-sm">View</button>
            <button type="button" onClick={() => { this.toggleEditUserModal(user) }} class="btn btn-warning btn-sm">Edit</button> 
@@ -170,7 +148,7 @@ class DefaultDashboard extends Component {
                         <th>Last Name</th>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Phone</th>
+                      
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -189,4 +167,15 @@ class DefaultDashboard extends Component {
 }
 
 
-export default connect()(DefaultDashboard);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(userActions, dispatch),
+  };
+}
+const mapStateToProps = (state) => {
+   const {UserPageReducer: {users=[]}, Auth:{user={}} }= state;
+  return { users , user};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

@@ -11,8 +11,8 @@ class Footer extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6">
-                            2016 - 2019 &copy; Ubold theme by <a href="https://coderthemes.com">Coderthemes</a>
-                        </div>
+                        2015 - 2020 &copy; Casty
+                                                </div>
                         <div className="col-md-6">
                             <div className="text-md-right footer-links d-none d-sm-block">
                                 <a href="https://coderthemes.com">About Us</a>

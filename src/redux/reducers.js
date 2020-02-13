@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import Auth from './auth/reducers';
-import ChannelReducer from './channel/reducers';
+import ChannelPageReducer from './channel/reducers';
+import UserPageReducer from './user/reducers';
 
 export default combineReducers({
     Auth,
-    ChannelReducer
+    ChannelPageReducer,
+    UserPageReducer
 });

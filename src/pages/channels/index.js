@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
-import  * as channelAction from '../../redux/channel/actions';
-import { bindActionCreators } from 'redux'
+import  * as channelActions from '../../redux/channel/actions';
+import { bindActionCreators } from 'redux';
 
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 
 
-class DefaultUserChannel extends Component {
+class ChannelPage extends Component {
 
   constructor(props) {
     super(props);
@@ -20,32 +20,25 @@ class DefaultUserChannel extends Component {
       newDepartment : {   cname: '',
       cdesc : '',
       cphoto : ''},
-      channels :[{
-        cname: 'Sun',
-        cdesc : 'Test channel',
-        cphoto : 'test.mp4'
-      },
-      {
-        cname: 'Vijay',
-        cdesc : 'Test channel',
-        cphoto : 'test.mp4'
-      }],
+      channels :[],
       addNewForm : false
     };
   }
   componentDidMount(){
-    this.props.actions.loadChannel();
+     const {user:{id=''}} = this.props;
+
+    this.props.actions.loadChannel(id);
    }
 
   renderTableData() {
     return this.props.channels.map((channel, index) => {
-       const {  companyName, cdesc, cphoto } = channel //destructuring
+       const {  name='', description='', imageFullURL='',id='' } = channel //destructuring
        return (
-          <tr key={companyName}>          
-             <td>{Math.random(1)}</td>
-             <td>{companyName}</td>
-             <td>{cdesc}</td>
-             <td>{cphoto}</td>
+          <tr key={name}>          
+             <td>{id}</td>
+             <td>{name}</td>
+             <td>{description}</td>
+             <td align='center'><img src={imageFullURL} alt='channel' width="65" height="65" /> </td>
              <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
           </tr>
        )
@@ -195,12 +188,13 @@ toggleAdd = (event) =>{
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(channelAction, dispatch),
+    actions: bindActionCreators(channelActions, dispatch),
   };
 }
 const mapStateToProps = (state) => {
-  const { channels } = state.ChannelReducer;
-  return { channels };
+   const {ChannelPageReducer: {channels=[]}, Auth:{user={}} }= state;
+
+  return { channels , user};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultUserChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage);

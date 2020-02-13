@@ -9,8 +9,9 @@ type ChannelAction = { type: string, payload: {} | string };
 
 
 
-export const loadChannel = () => ({
-    type: LOAD_CHANNEL
+export const loadChannel = (userId) => ({
+    type: LOAD_CHANNEL,
+    payload: userId
 });
 
 export const loadChannelSuccess = (channels: {}) => ({

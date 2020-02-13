@@ -99,6 +99,8 @@ class Topbar extends Component {
 
 
   render() {
+
+    const {user:{firstName='', lastName=''}} = this.props;
     return (
       <React.Fragment>
         <div className="navbar-custom">
@@ -135,7 +137,7 @@ class Topbar extends Component {
               </li>
 
               <li>
-                <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={'Nik Patel'} />
+                <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={firstName+', '+lastName} />
               </li>
 
 
@@ -199,7 +201,13 @@ class Topbar extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+   console.log("state----", state);
+  const {Auth:{user={}} }= state;
 
+ return { user };
+};
 
-export default connect()(Topbar);
+export default connect(mapStateToProps )(Topbar);
+//export default connect()(Topbar);
 

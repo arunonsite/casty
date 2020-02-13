@@ -41,7 +41,7 @@ const fetchJSON = (url, options = {}) => {
  * Load the CHannnel lsit
  * @param {*} payload - username and password 
  */
-function* loadChannelList() {
+function* loadChannelList(userId) {
     const options = {
         body: JSON.stringify(),
         method: 'GET',
@@ -49,7 +49,7 @@ function* loadChannelList() {
     };
     try {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
-        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.GET_COMPANIES_LIST, options);
+        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.GET_COMPANIES_LIST+'/'+userId, options);
          console.log("response==", response);
  
         yield put(loadChannelSuccess(processSuccessResponse(response)));

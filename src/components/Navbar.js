@@ -16,31 +16,31 @@ const NavMenuContent = (props) => {
                         <span> Dashboard </span>
                     </Link></li>
             <li> <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
+                        <i className="fe-users"></i>
               
-                        <span> Users Management</span>
+                        <span> Employees/Users</span>
                     </Link></li>
             <li>
                     <Link to="/departments" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
+                        <i className="fe-server"></i>
               
                         <span> Departments </span>
                     </Link></li>
             <li>
                     <Link to="/channels" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
+                        <i className="fe-play-circle "></i>
               
                         <span> Channels  </span>
                     </Link></li>
             <li>
                     <Link to="/episodes" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
+                        <i className="fe-grid"></i>
               
                         <span> Episodes   </span>
                     </Link></li>
             <li>
                     <Link to="/shows" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
+                        <i className="fe-film"></i>
               
                         <span> Shows   </span>
                     </Link></li>

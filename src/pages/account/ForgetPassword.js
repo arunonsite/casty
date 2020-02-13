@@ -116,8 +116,8 @@ class ForgetPassword extends Component {
                 </div>}
 
                 <footer className="footer footer-alt">
-                    2015 - 2019 &copy; UBold theme by <Link to="https://coderthemes.com" className="text-white-50">Coderthemes</Link>
-                </footer>
+                2015 - 2020 &copy; Casty
+                                </footer>
             </React.Fragment>
         )
     }
