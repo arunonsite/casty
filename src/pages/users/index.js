@@ -136,7 +136,7 @@ class UserPage extends Component {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Episodes List</h1>
+                  <h1>Employees/Users List</h1>
                   <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewUserModal}>
                     + New User        </Button>
                   <Table striped bordered hover>

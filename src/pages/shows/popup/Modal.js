@@ -66,7 +66,7 @@ function UserFormModal(props) {
                                     <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="show">Photo</label>
                                       <div class="col-md-9 ">
-                                     <AvField type="file" value={sphoto}  class="form-control" id="sphoto" name="sphoto"  errorMessage="Invalid Description" validate={{
+                                     <AvField type="file" value={sphoto}  class="form-control" id="sphoto" name="sphoto"  errorMessage="Invalid Image" validate={{
                                      required: {value: true}
                                      }} />
                                     
