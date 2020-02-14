@@ -4,8 +4,7 @@ import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } 
 import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 function UserFormModal(props) {
   const {
-    data:{sname='', sdesc='', sphoto=''},
-
+    data:{name='', email='', number=''},
     handleSubmit,handleChange, title, ...others} = props;
     return (
       <Modal
@@ -31,48 +30,35 @@ function UserFormModal(props) {
                             <AvForm>
                                 <div class="row">
                                   <div class="col-12">
-
                                   <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="Show">Channels Name</label>
+                                      <label class="col-md-3 col-form-label" for="Show">Department Name</label>
                                       <div class="col-md-9">
                                       
-                                      <AvField type="select" id="channels" class="form-control" name="channels" errorMessage="Please select channel" validate={{  required: {value: true} }} > 
-                                      <option>Select Channels</option> 
-                                      <option value="1">Ingredients</option> 
-                                      <option value="2">Marketing</option> 
-                                      <option value="3">Marketing II</option> 
-                                      </AvField>
-                                      </div>
-                                    </div>
-                                   
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="Show">Show Name</label>
-                                      <div class="col-md-9">
-                                      
-                                      <AvField value={sname}  class="form-control" id="sname" name="sname"  type="text" errorMessage="Invalid name" validate={{
+                                      <AvField value={name}  class="form-control" id="dept_name" name="dept_name"  type="text" errorMessage="Invalid name" validate={{
                                      required: {value: true}
                                      }} />
                                     
                                       </div>
                                     </div>
                                     <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="show">Show Description</label>
+                                      <label class="col-md-3 col-form-label" for="Show">Department Email</label>
                                       <div class="col-md-9">
-                                     <AvField value={sdesc}  class="form-control" id="sdesc" name="sdesc"  type="text" errorMessage="Invalid Description" validate={{
-                                     required: {value: true}
-                                     }} />
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="show">Photo</label>
-                                      <div class="col-md-9 ">
-                                     <AvField type="file" value={sphoto}  class="form-control" id="sphoto" name="sphoto"  errorMessage="Invalid Description" validate={{
+                                      
+                                      <AvField value={email}  class="form-control" id="email" name="email"  type="text" errorMessage="Invalid name" validate={{
                                      required: {value: true}
                                      }} />
                                     
                                       </div>
-                                      
                                     </div>
+                                    <div class="form-group row mb-3">
+                                      <label class="col-md-3 col-form-label" for="show">Conact Number</label>
+                                      <div class="col-md-9">
+                                     <AvField value={number}  class="form-control" id="number" name="number"  type="text" errorMessage="Invalid Description" validate={{
+                                     required: {value: true}
+                                     }} />
+                                      </div>
+                                    </div>
+                                    
      
                                   </div>
                                 </div>

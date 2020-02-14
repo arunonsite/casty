@@ -31,6 +31,19 @@ function UserFormModal(props) {
                                 <div class="row">
                                   <div class="col-12">
                                   <div class="form-group row mb-3">
+                                      <label class="col-md-3 col-form-label" for="Show">Shows Name</label>
+                                      <div class="col-md-9">
+                                      
+                                      <AvField type="select" id="shows" class="form-control" name="shows" errorMessage="Please select shows" validate={{  required: {value: true} }} > 
+                                      <option>Select Shows</option> 
+                                      <option value="1">Ingredients</option> 
+                                      <option value="2">Marketing</option> 
+                                      <option value="3">Marketing II</option> 
+                                      </AvField>
+                                      </div>
+                                    </div>
+
+                                  <div class="form-group row mb-3">
                                       <label class="col-md-3 col-form-label" for="Show">Episode Number</label>
                                       <div class="col-md-9">
                                       

@@ -9,7 +9,7 @@ import { Table } from 'react-bootstrap';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
-
+import Modal from './popup/Modal';
 
 class DefaultDashboard extends Component {
   _isMounted = false;
@@ -31,7 +31,17 @@ class DefaultDashboard extends Component {
         email : 'Jacob@gmail.com',
         number : '654321987'
       }],
-      addNewForm : false
+      
+      userModal :{
+        show: false,
+        title: 'New Department',
+        mode : 'Add',
+        data:   {
+          name: '',
+          email: '',
+          number : ''
+        },
+      }
     };
   }
   
@@ -74,114 +84,64 @@ return false;
   email : '',
   number : ''} });
 }
-toggleAdd = (event) =>{
-  console.log('this is:', this);
-  if(!this.state.addNewForm){
-    this.setState ({addNewForm: true});
+toggleNewUserModal = () => {
+  const {userModal : {show = false}} = this.state;   
+  this.setState({ userModal: {
+    show: !show,
+    title: 'New Department',
+    mode : 'add',
+    data:   {
+      name: '',
+      email: '',
+      number: ''
+    },
+  }}
+  );
+}
+toggleEditUserModal = (user) => {
+  const {userModal : {show = false}} = this.state;   
+  this.setState({ 
+    userModal: {      show: !show,      title: 'Edit Department',      mode : 'edit' ,
+    data:   {...user},   
+  },
+    
   }
+  );
 }
   render() {
-    const {newDepartment:{name='', email='', number=''}} = this.state;
+    //const {newDepartment:{name='', email='', number=''}} = this.state;
+    const { newDepartment = {}, addNewUser = false, modalTitle,userModal={} } = this.state;
     return (
       <React.Fragment>
+        <Modal
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}          
+        handlehide={this.toggleNewUserModal}         
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        {...userModal}
+      />
         <div className="">
           { /* preloader */}
           {this.props.loading && <Loader />}
           <Row></Row>
           <Row class='hidden'>
-
             <Col lg={12}>
-            <Row>
-            <Col xl={12}>
-              <div style={{ float: "right" }} onClick={this.toggleAdd(this.event)} >
-               
-               </div>
-            </Col>
-              </Row>
-              { this.state.addNewForm ?
               <Row>
                 <Col xl={12}>
-                  <div class="card">
-                    <div class="card-body">
-
-                      <div id="rootwizard">
-                        <ul class="nav nav-pills bg-secondary nav-justified form-wizard-header mb-3">
-                          <li class="nav-item" data-target-form="#accountForm">
-                            <a href="#first" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                              <i class="mdi mdi-account-circle mr-1"></i>
-                              <span class="d-none d-sm-inline">New Department</span>
-                            </a>
-                          </li>
-
-                        </ul>
-                        <div class="tab-content mb-0 b-0">
-                          <div class="tab-pane active" id="first">
-
-                            <div class="tab-pane" id="first">
-                            <AvForm>
-                                <div class="row">
-                                  <div class="col-12">
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="userName3">Departemnt Name</label>
-                                      <div class="col-md-9">
-                                        
-                                        <AvField type="text"  value={name} onChange={this.handleChange} class="form-control" id="department_name" name="department_name" errorMessage="Invalid Department name" validate={{
-                                     required: {value: true}
-                                 
-                                     }} />
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="password3"> Email</label>
-                                      <div class="col-md-9">
-                                       
-                                        <AvField type="text"  value={email} onChange={this.handleChange} class="form-control" id="department_email" name="department_email" errorMessage="Invalid Email" validate={{
-                                     required: {value: true}
-                                 
-                                     }} />
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="confirm3">Contact No</label>
-                                      <div class="col-md-9">
-                                        
-                                        <AvField type="text"  value={number} onChange={this.handleChange} class="form-control" id="department_number" name="department_number" errorMessage="Invalid Number" validate={{
-                                     required: {value: true}
-                                 
-                                     }} />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <ul class="list-inline wizard mb-0">
-
-                         
-
-                          <input type="submit" value="Save New" class="btn btn-secondary button-next float-right"/>
-
-                        
-                          </ul>
-                          </AvForm>
-                            </div>
-                          </div>
-                          
-                        </div>
-                      </div>
-                    </div>
+                  <div style={{ float: "right" }}   >
                   </div>
                 </Col>
               </Row>
-               : null }
-
-
-
             </Col>
+
             <Col lg={12}>
               <Card>
                 <CardBody>
                   <h1>Department List</h1>
-                  <div style={{float: "right"}}><button type="button" class="btn btn-primary btn-sm">Add</button></div>
+                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewUserModal}>
+                    + New User        </Button>
                   <Table striped bordered hover>
                     <thead>
                       <tr>

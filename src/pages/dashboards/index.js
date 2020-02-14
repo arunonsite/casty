@@ -111,49 +111,6 @@ class DefaultDashboard extends Component {
                         </div>  
                     </div>  
                     </Row>
-
-                    <Row>
-                    <div class="col-xl-4">
-                        <div class="card-box">
-                            <h4 class="header-title mb-3">Total Revenue</h4>
-
-                            <div class="widget-chart text-center" dir="ltr">
-                                <input data-plugin="knob" data-width="160" data-height="160" data-linecap="round" 
-                                data-fgColor="#f1556c" value="60" data-skin="tron" data-angleOffset="180" 
-                                data-readOnly="true" data-thickness=".12"/>
-                                <h5 class="text-muted mt-3">Total sales made today</h5>
-                                <h2>$178</h2>
-
-                                <p class="text-muted w-75 mx-auto sp-line-2">Traditional heading elements are designed to work best in the meat of your page content.</p>
-
-                                <div class="row mt-3">
-                                    <div class="col-4">
-                                        <p class="text-muted font-15 mb-1 text-truncate">Target</p>
-                                        <h4><i class="fe-arrow-down text-danger mr-1"></i>$7.8k</h4>
-                                    </div>
-                                    <div class="col-4">
-                                        <p class="text-muted font-15 mb-1 text-truncate">Last week</p>
-                                        <h4><i class="fe-arrow-up text-success mr-1"></i>$1.4k</h4>
-                                    </div>
-                                    <div class="col-4">
-                                        <p class="text-muted font-15 mb-1 text-truncate">Last Month</p>
-                                        <h4><i class="fe-arrow-down text-danger mr-1"></i>$15k</h4>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div> 
-                    </div> 
-
-                    <div class="col-xl-8">
-                        <div class="card-box">
-                            <h4 class="header-title mb-3">Sales Analytics</h4>
-
-                            <div id="sales-analytics" class="flot-chart mt-4 pt-1"  ></div>
-                        </div> 
-                    </div> 
-                    </Row>
-                       
                     <Row>
                         <Col lg={12}>
                             <Card>
