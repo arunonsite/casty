@@ -36,9 +36,9 @@ class UserPage extends Component {
   }
 
   componentDidMount(){
-    const {user:{companyId='02790222-8153-44e0-b17b-0ff24a3f4d4d'}} = this.props;
+    const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d'}} = this.props;
 
-   this.props.actions.loadUsers(companyId);
+   this.props.actions.loadUsers(CompanyID);
   }
 
   renderTableData() {
