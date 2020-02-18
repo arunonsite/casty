@@ -1,6 +1,6 @@
 export default{
     'API_ROUTE' : {
-    "MAIN_SITE" : 'http://casty.azurewebsites.net/'
+    "MAIN_SITE" : 'https://casty.azurewebsites.net/'
     },
     'API_PATH' : {
         "GET_COMPANIES_LIST" : 'api/Channels/CreatedByUserId/',
