@@ -1,24 +1,24 @@
 // @flow
 import {
-LOAD_CHANNEL_SUCCESS,
-LOAD_CHANNEL_FAILED,
-LOAD_CHANNEL,
+LOAD_EPISODE_SUCCESS,
+LOAD_EPISODE_FAILED,
+LOAD_EPISODE,
 ONCLICK_MODAL,
-TOGGLE_CHANNEL_MODAL,
-SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL
+TOGGLE_EPISODE_MODAL,
+SAVE_EPISODE_SUCCESS, SAVE_EPISODE_FAILED,SAVE_EPISODE
 } from '../../constants/actionTypes';
 
 type ChannelAction = { type: string, payload: {} | string };
 
 
 
-export const loadChannel = (userId) => ({
-    type: LOAD_CHANNEL,
+export const loadEpisodes = (userId) => ({
+    type: LOAD_EPISODE,
     payload: userId
 });
 
-export const loadChannelSuccess = (channels: {}) => ({
-    type: LOAD_CHANNEL_SUCCESS,
+export const loadEpisodesSuccess = (channels: {}) => ({
+    type: LOAD_EPISODE_SUCCESS,
     payload: channels
 });
 
@@ -29,16 +29,16 @@ export const onclickModal = (payload) => ({
 });
 
 export const toggleChannelModal = (payload) => ({
-    type: TOGGLE_CHANNEL_MODAL,
+    type: TOGGLE_EPISODE_MODAL,
     payload: payload
 });
 export const newChannel  = (newChannel) => ({
-    type: SAVE_CHANNEL,
+    type: SAVE_EPISODE,
     payload: newChannel
 });
 
 export const saveChannelSuccess  = (successUpdate) => ({
-    type: SAVE_CHANNEL_SUCCESS,
+    type: SAVE_EPISODE_SUCCESS,
     payload: successUpdate
 });
 

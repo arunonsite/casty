@@ -1,130 +1,127 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
-import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
-
-
+import  * as episodeActions from '../../redux/episode/actions';
+import { bindActionCreators } from 'redux';
+import { toast } from 'react-toastify';
+import MaterialTable from "material-table";
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 class EpisodePage extends Component {
-  _isMounted = false;
+
   constructor(props) {
     super(props);
     this.state = {
-      user: getLoggedInUser(),
-      newDepartment : {   enumber: '',
-      ename : '',
-      edesc : '',
-      ephoto : ''},
-      episodes :[{
-        enumber: '1234',
-        ename: 'Sun',
-        edesc : 'Test channel',
-        ephoto : 'test.mp4'
-      },
-      {
-        enumber: '1234',
-        ename: 'Sun',
-        edesc : 'Test channel',
-        ephoto : 'test.mp4'
-      }],
-
-        userModal :{
-        show: false,
-        title: 'New Episode',
-        mode : 'Add',
-        data:   {
-          enumber: '',
-        ename: '',
-        edesc : '',
-        ephoto : ''
+      user: getLoggedInUser(),  
+      newEpisodeModalData :{
+        formData : 
+         { name: '',
+           description: '',
+          cphoto : ''}
         },
-      }
+       
     };
   }
-  componentDidMount() {
-    this._isMounted = true;
-}
+  componentDidMount(){
+    this.loadPageData();
+  }
+  componentDidUpdate(){
+    const {episodeNotification : {notify = false, message='Success'}} = this.props; 
+    if(notify){
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+        });
+        this.loadPageData();
+    }
+  }
 
-componentWillUnmount() {
-    this._isMounted = false;
-}
-  renderTableData() {
-    return this.state.episodes.map((depart, index) => {
-       const {  enumber,ename, edesc, ephoto } = depart //destructuring
-       return (
-          <tr key={enumber}>          
-             <td>{Math.random(1)}</td>
-             <td>{enumber}</td>
-             <td>{ename}</td>
-             <td>{edesc}</td>
-             <td>{ephoto}</td>
-             <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" onClick={() => { this.toggleEditUserModal(depart) }}  class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
-          </tr>
-       )
-    })
- }
- saveNew = () => {  //this.state.departments.push()
-
-return false;
+ loadPageData = () => {  //this.state.departments.push()
+  const {user:{id=''}} = this.props;
+  this.props.actions.loadEpisodes(id);
  }
  handleChange =  (event, field) => {   
-  const {newDepartment ={}} = this.state;
-  newDepartment[event.target.name] = event.target.value;  
-  this.setState({newDepartment: {...newDepartment}});
-}
- handleSubmit =(event) => {
-  event.preventDefault();
-  const {episodes =[], newDepartment={}} = this.state;
-  episodes.push(newDepartment);  
-  this.setState({episodes: episodes,newDepartment : {  enumber:'', ename: '',
-  edesc : '',
-  ephoto : ''} });
-}
-toggleNewUserModal = () => {
-  const {userModal : {show = false}} = this.state;   
-  this.setState({ userModal: {
-    show: !show,
+  const {newEpisodeModalData :{formData={}}} = this.state;
+  formData[event.target.name] = event.target.value;  
+  this.setState({newEpisodeModalData: {formData : formData}});
+ }
+ handleSubmit =() => {
+
+   
+  const {user:{id=''}} = this.props;
+  const { newEpisodeModalData:{formData={}}} = this.state; 
+  const newCHannelData= Object.assign({...formData}, {userId : id}); 
+  this.props.actions.newEpisode(newCHannelData);
+ }    
+toggleEpisodeModal = () => {
+  const {episodeModal : {episode = false}} = this.props; 
+  const togg = { episodeModal: {
+    episode: !episode,
     title: 'New Episode',
     mode : 'add',
     data:   {
-      enumber: '',
-      ename: '',
-      edesc: '',
-      ephoto: ''
+      name: '',
+      description: '',
+      cphoto: ''
     },
-  }}
-  );
-}
-toggleEditUserModal = (user) => {
-  const {userModal : {show = false}} = this.state;   
-  this.setState({ 
-    userModal: {      show: !show,      title: 'Edit Episode',      mode : 'edit' ,
-    data:   {...user},   
-  },
-    
-  }
-  );
-}
+  }};  
+  this.props.actions.onclickModal(togg);
+ }
+toggleEditEpisodeModal = () => {
+  const {episodeModal : {episode = false}} = this.props; 
+  const togg = { episodeModal: {
+    episode: !episode,
+    title: 'Edit Episode',
+    mode : 'add',
+    formData:   episode,
+  }};  
+  this.props.actions.onclickModal(togg);
+/*   const {episodeModal : {episode = false}} = this.props; 
+  const togg = { episodeModal: {
+    episode: !episode,
+    title: 'Edit Episode',
+    mode : 'edit',
+    data:   {
+      name: '',
+      description: '',
+      cphoto: ''
+    },
+  }};  
+  this.props.actions.onclickModal(togg); */
+ }
+
   render() {
-    //const {newDepartment:{enumber='', ename='', edesc='', ephoto=''}} = this.state;
-    const { newDepartment = {}, addNewUser = false, modalTitle,userModal={} } = this.state;
+ 
+    //const {newEpisode:{name='', description='', cphoto=''}} = this.state;
+    const {   addNewUser = false, modalTitle, newEpisodeModalData={} } = this.state;
+     console.log("Currect Props", this.props.loading);
+
+
+
+    const {episodes=[], episodeModal={}} = this.props;
     return (
       <React.Fragment>
-      <Modal
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}          
-        handlehide={this.toggleNewUserModal}         
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        {...userModal}
-      />
+        
+
+        <Modal
+          handleSubmit={this.handleSubmit}    
+          handleChange={this.handleChange}          
+          handlehide={this.toggleEpisodeModal}         
+          size="l"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          {...newEpisodeModalData}
+          {...episodeModal}
+        />
         <div className="">
           { /* preloader */}
           {this.props.loading && <Loader />}
@@ -141,25 +138,64 @@ toggleEditUserModal = (user) => {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Episodes List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewUserModal}>
+                <h1>Episodes List</h1>
+                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleEpisodeModal}>
                     + New User        </Button>
-                  <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Episodes Number</th>
-                    <th>Episodes Name</th>
-                    <th>Episodes Description</th>
-                    <th>Photo</th>
-                    <th>Action</th>
-                  </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderTableData()}
-
-                    </tbody>
-                  </Table>
+                    <MaterialTable
+          columns={[
+            { title: " Name", field: "name" },
+            { title: " Description", field: "description" },
+            { title: "Image", field: "birthYear", type: "imageFullURL",
+            render: rowData => <img src={rowData.imageFullURL} style={{width: 50, borderRadius: '50%'}}/> },
+           
+          ]}
+          data={episodes}
+          title="Episodes"
+          detailPanel={[
+     
+            {
+              icon: 'play_circle_outline',
+              tooltip: 'Episode Surname',
+              render: rowData => {
+                return (
+                  <div
+                    style={{
+                      fontSize: 100,
+                      textAlign: 'center',
+                      color: 'white',
+                      backgroundColor: '#E53935',
+                    }}
+                  >
+                    {rowData.name}
+                  </div>
+                )
+              },
+            }
+          ]}
+          actions={[
+            {
+              icon: 'add',
+              tooltip: 'Add User',
+              isFreeAction: true,
+              onClick: (event) => this.toggleEpisodeModal()
+            },
+            {
+              icon: 'edit',
+              tooltip: 'edit Episode',
+              onClick: (event, rowData) => this.toggleEditEpisodeModal(rowData)
+            },
+            rowData => ({
+              icon: 'delete',
+              tooltip: 'Delete Episode',
+              onClick: (event, rowData) => alert("You saved " + rowData.name),
+              disabled: rowData.birthYear < 2000
+            })
+          ]}
+          options={{
+            actionsColumnIndex: -1
+          }}
+        />
+                
                 </CardBody>
               </Card>
             </Col>
@@ -173,4 +209,15 @@ toggleEditUserModal = (user) => {
 }
 
 
-export default connect()(EpisodePage);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(episodeActions, dispatch),
+  };
+}
+const mapStateToProps = (state) => {
+  const {Auth:{user={}} }= state;
+  return {  user };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EpisodePage);

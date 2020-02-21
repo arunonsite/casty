@@ -202,7 +202,6 @@ class Topbar extends Component {
   }
 }
 const mapStateToProps = (state) => {
-   console.log("state----", state);
   const {Auth:{user={}} }= state;
 
  return { user };

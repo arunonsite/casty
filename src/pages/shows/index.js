@@ -1,135 +1,115 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
-
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
-
-
+import  * as showActions from '../../redux/show/actions';
+import { bindActionCreators } from 'redux';
+import { toast } from 'react-toastify';
+import MaterialTable from "material-table";
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
+class ShowPage extends Component {
 
-class DefaultShows extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
-      user: getLoggedInUser(),
-      newDepartment : {   sname: '',
-      sdesc : '',
-      sphoto : ''},
-      shows :[{
-        sname: 'Sun',
-        sdesc : 'Test channel',
-        sphoto : 'test.mp4'
-      },
-      {
-        sname: 'Vijay',
-        sdesc : 'Test channel',
-        sphoto : 'test.mp4'
-      }],
-
-        userModal :{
-        show: false,
-        title: 'New Shows',
-        mode : 'Add',
-        data:   {
-          sname: '',
-          sdesc: '',
-          sphoto: ''
+      user: getLoggedInUser(),  
+      newShowModalData :{
+        formData : 
+         { name: '',
+           description: '',
+          cphoto : ''}
         },
-      }
+       
     };
   }
-  componentDidMount() {
-    this._isMounted = true;
-}
+  componentDidMount(){
+    this.loadPageData();
+  }
+  componentDidUpdate(){
+   /*  const {showNotification : {notify = false, message='Success'}} = this.props; 
+    if(notify){
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+        });
+        this.loadPageData();
+    } */
+  }
 
-componentWillUnmount() {
-    this._isMounted = false;
-}
-  renderTableData() {
-    return this.state.shows.map((shows, index) => {
-       const {  sname, sdesc, sphoto } = shows //destructuring
-       return (
-          <tr key={sname}>          
-             <td>{Math.random(1)}</td>
-             <td>{sname}</td>
-             <td>{sdesc}</td>
-             <td>{sphoto}</td>
-             <td><button type="button" class="btn btn-primary btn-sm">View</button> 
-             <button type="button" onClick={() => { this.toggleEditShowModal(shows) }} class="btn btn-warning btn-sm">Edit</button>  
-             <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
-          </tr>
-       )
-    })
- }
- saveNew = () => {  //this.state.departments.push()
-
-return false;
+ loadPageData = () => {  //this.state.departments.push()
+  const {user:{id=''}} = this.props;
+  this.props.actions.loadShows(id);
  }
  handleChange =  (event, field) => {   
-  const {newDepartment ={}} = this.state;
-  newDepartment[event.target.name] = event.target.value;  
-  this.setState({newDepartment: {...newDepartment}});
-}
- handleSubmit =(event) => {
-  event.preventDefault();
-  const {shows =[], newDepartment={}} = this.state;
-  shows.push(newDepartment);  
-  this.setState({shows: shows,newDepartment : {  sname: '',
-  sdesc : '',
-  sphoto : ''} });
-}
-toggleNewShowModal = () => {
-  const {userModal : {show = false}} = this.state;   
-  this.setState({ userModal: {
+  const {newShowModalData :{formData={}}} = this.state;
+  formData[event.target.name] = event.target.value;  
+  this.setState({newShowModalData: {formData : formData}});
+ }
+ handleSubmit =() => {   
+  const {user:{id=''}} = this.props;
+  const { newShowModalData:{formData={}}} = this.state; 
+  const newCHannelData= Object.assign({...formData}, {userId : id}); 
+  this.props.actions.newShow(newCHannelData);
+ }    
+toggleShowModal = () => {
+  const {showModal : {show = false}} = this.props; 
+  const togg = { showModal: {
     show: !show,
-    title: 'New Shows',
+    title: 'New Show',
     mode : 'add',
     data:   {
-      sname: '',
-      sdesc: '',
-      sphoto: ''
+      name: '',
+      description: '',
+      cphoto: ''
     },
-  }}
-  );
-}
-toggleEditShowModal = (shows) => {
-  const {userModal : {show = false}} = this.state;   
-  this.setState({ 
-    userModal: {      show: !show,      title: 'Edit Shows',      mode : 'edit' ,
-    data:   {...shows},   
-  },
-    
-  }
-  );
-}
+  }};  
+  this.props.actions.onclickModal(togg);
+ }
+toggleEditShowModal = () => {
+  const {showModal : {show = false}} = this.props; 
+  const togg = { showModal: {
+    show: !show,
+    title: 'Edit Show',
+    mode : 'add',
+    formData:   show,
+  }};  
+  this.props.actions.onclickModal(togg);
+ }
 
   render() {
-    //const {newDepartment:{sname='', sdesc='', sphoto=''}} = this.state;
-    const { newDepartment = {}, addNewUser = false, modalTitle,userModal={} } = this.state;
+ 
+    //const {newShow:{name='', description='', cphoto=''}} = this.state;
+    const {     newShowModalData={} } = this.state;
+    const {shows=[], showModal={}} = this.props;
     return (
       <React.Fragment>
+        
+
         <Modal
-          handleSubmit={this.handleSubmit}
+          handleSubmit={this.handleSubmit}    
           handleChange={this.handleChange}          
-          handlehide={this.toggleNewShowModal}         
-          size="lg"
+          handlehide={this.toggleShowModal}         
+          size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          {...userModal}
+          {...newShowModalData}
+          {...showModal}
         />
         <div className="">
           { /* preloader */}
           {this.props.loading && <Loader />}
           <Row></Row>
           <Row class='hidden'>
-
-          <Col lg={12}>
+            <Col lg={12}>
               <Row>
                 <Col xl={12}>
                   <div style={{ float: "right" }}   >
@@ -140,24 +120,64 @@ toggleEditShowModal = (shows) => {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Shows List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewShowModal}>
+                <h1>Shows List</h1>
+                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleShowModal}>
                     + New User        </Button>
-                  <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Show Name</th>
-                    <th>Show Description</th>
-                    <th>Show Photo/Video</th>
-                    <th>Action</th>
-                  </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderTableData()}
-
-                    </tbody>
-                  </Table>
+                    <MaterialTable
+          columns={[
+            { title: " Name", field: "name" },
+            { title: " Description", field: "description" },
+            { title: "Image", field: "birthYear", type: "imageFullURL",
+            render: rowData => <img src={rowData.imageFullURL} style={{width: 50, borderRadius: '50%'}}/> },
+           
+          ]}
+          data={shows}
+          title="Shows"
+          detailPanel={[
+     
+            {
+              icon: 'local_movies',
+              tooltip: 'Show Surname',
+              render: rowData => {
+                return (
+                  <div
+                    style={{
+                      fontSize: 100,
+                      textAlign: 'center',
+                      color: 'white',
+                      backgroundColor: '#E53935',
+                    }}
+                  >
+                    {rowData.name}
+                  </div>
+                )
+              },
+            }
+          ]}
+          actions={[
+            {
+              icon: 'add',
+              tooltip: 'Add User',
+              isFreeAction: true,
+              onClick: (event) => this.toggleShowModal()
+            },
+            {
+              icon: 'edit',
+              tooltip: 'edit Show',
+              onClick: (event, rowData) => this.toggleEditShowModal(rowData)
+            },
+            rowData => ({
+              icon: 'delete',
+              tooltip: 'Delete Show',
+              onClick: (event, rowData) => alert("You saved " + rowData.name),
+              disabled: rowData.birthYear < 2000
+            })
+          ]}
+          options={{
+            actionsColumnIndex: -1
+          }}
+        />
+                
                 </CardBody>
               </Card>
             </Col>
@@ -171,4 +191,16 @@ toggleEditShowModal = (shows) => {
 }
 
 
-export default connect()(DefaultShows);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(showActions, dispatch),
+  };
+}
+const mapStateToProps = (state) => {
+   console.log("state----", state);
+  const {Auth:{user={}}, ShowPageReducer : {shows=[], loading=false} }= state;
+  return {  user , shows,loading };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowPage);

@@ -16,7 +16,10 @@ import { getLoggedInUser } from '../../helpers/authUtils';
 
 const INIT_STATE = {
     user: getLoggedInUser(),
-    loading: false
+    loading: false,
+    applicationDynamicConstants:{
+        roleSource : ["User","Contributor"]
+    }
 };
 
 type AuthAction = { type: string, payload: {} | string };

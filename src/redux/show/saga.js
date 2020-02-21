@@ -1,26 +1,26 @@
 // @flow
 import { Cookies } from "react-cookie";
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { processSuccessResponse, processPutSuccessResponse} from '../../helpers/applicationUtils';
+import { processSuccessResponse} from '../../helpers/applicationUtils';
 
 import {
-    LOAD_CHANNEL_SUCCESS,    
-    LOAD_CHANNEL_FAILED,
-    LOAD_CHANNEL,
+    LOAD_SHOW_SUCCESS,    
+    LOAD_SHOW_FAILED,
+    LOAD_SHOW,
      ONCLICK_MODAL,
-    TOGGLE_CHANNEL_MODAL,
-    SAVE_CHANNEL
+    TOGGLE_SHOW_MODAL,
+    SAVE_SHOW
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
-    loadChannelSuccess,
-    toggleChannelModal,
-    saveChannelSuccess
+    loadShowSuccess,
+    toggleShowModal,
+    saveShowSuccess
 } from './actions';
 
- const onChannelSaveSuccess = {
-    channelModal :{show: false,title: 'New Channel',mode : 'Add',data:   {name: '',description: '',cphoto : ''}},
-    channelNotification : {notify:false, message:''}
+ const onShowSaveSuccess = {
+    showModal :{show: false,title: 'New Show',mode : 'Add',data:   {name: '',description: '',cphoto : ''}},
+    showNotification : {notify:false, message:''}
  }
 
 
@@ -48,8 +48,9 @@ const fetchJSON = (url, options = {}) => {
  * Load the CHannnel lsit
  * @param {*} payload - username and password 
  */
-function* loadChannelList({payload={}}) {
-    
+function* loadShowList({payload={}}) {  
+     console.log("payload---", payload); 
+    // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
     const options = {
         body: JSON.stringify(),
         method: 'GET',
@@ -58,8 +59,10 @@ function* loadChannelList({payload={}}) {
     try {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
         const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-            .API_PATH.CHANNEL_LIST+'/'+payload+'?CreatedByUserId='+payload, options);
-        yield put(loadChannelSuccess(processSuccessResponse(response)));
+            .API_PATH.SHOW_LIST+'/'+payload+'?CreatedByUserId='+payload, options);
+             console.log("response----", response);
+
+        yield put(loadShowSuccess(processSuccessResponse(response)));
     } catch (error) {
         let message;
         switch (error.status) {
@@ -76,23 +79,23 @@ function* loadChannelList({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* onclickModal({payload={}}) {  
-    yield put(toggleChannelModal((payload)));
+    yield put(toggleShowModal((payload)));
 }
 
 /**
  * Load the CHannnel lsit
  * @param {*} payload - username and password 
  */
-function* saveNewChannel({payload={}}) {
+function* saveNewShow({payload={}}) {
     
       const {name='', description='', userId=''} = payload;
-      const newChannelData= {
+      const newShowData= {
         "Name": name,
         "Description": description,
         "createdById" : userId
       }
     const options = {
-        body: JSON.stringify(newChannelData),
+        body: JSON.stringify(newShowData),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     };
@@ -100,17 +103,14 @@ function* saveNewChannel({payload={}}) {
         const response = yield call(fetchJSON, 
             appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE,
              options);
-console.log("response---->>>>",  response);
-             const status  = processPutSuccessResponse(response, 'name');
-              console.log("Channel Save status---", status)
 
              const {name=''} = response; 
         if(name !== '' || name !== null){
-            let  nwChannel = Object.assign (
-                {...onChannelSaveSuccess}, { channelNotification : {notify:true, message:'Channel Added Successfully'}}
+            let  nwShow = Object.assign (
+                {...onShowSaveSuccess}, { showNotification : {notify:true, message:'Show Added Successfully'}}
             );
           
-            yield put(saveChannelSuccess(nwChannel));
+            yield put(saveShowSuccess(nwShow));
          }else{
              const {nonRegisteredUser = []} = response;
              let message;
@@ -123,7 +123,7 @@ console.log("response---->>>>",  response);
            
 
          }
-      //  yield put(saveChannelSuccess(processSuccessResponse(response)));
+      //  yield put(saveShowSuccess(processSuccessResponse(response)));
     } catch (error) {
         let message;
         switch (error.status) {
@@ -134,27 +134,27 @@ console.log("response---->>>>",  response);
     }
 }
 
-export function* watchLoadChannel():any {
-    yield takeEvery(LOAD_CHANNEL, loadChannelList);
+export function* watchLoadShow():any {
+    yield takeEvery(LOAD_SHOW, loadShowList);
 }
 
 export function* watchModalClick():any {
     yield takeEvery(ONCLICK_MODAL, onclickModal);
 }
 
-export function* watchSaveChannel():any {
-    yield takeEvery(SAVE_CHANNEL, saveNewChannel);
+export function* watchSaveShow():any {
+    yield takeEvery(SAVE_SHOW, saveNewShow);
 }
 
 
 
 
-function* channelSaga():any {
+function* showSaga():any {
     yield all([
-        fork(watchLoadChannel),
+        fork(watchLoadShow),
         fork(watchModalClick),
-        fork(watchSaveChannel),
+        fork(watchSaveShow),
     ]);
 }
 
-export default channelSaga;
+export default showSaga;

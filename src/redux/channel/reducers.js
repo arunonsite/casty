@@ -2,19 +2,25 @@
 import {
     LOAD_CHANNEL,
     LOAD_CHANNEL_FAILED,
-    LOAD_CHANNEL_SUCCESS
+    LOAD_CHANNEL_SUCCESS,
+    ONCLICK_MODAL,
+    TOGGLE_CHANNEL_MODAL,
+    SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL
 } from '../../constants/actionTypes';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 
-const INIT_STATE = {
-    
+const INIT_STATE = {    
     channels:[],
-    loading: false
+    loading: false,
+    newChannel : {   name: '',    description : '',    cphoto : ''},
+    channels :[],
+    channelModal :{show: false,title: 'New Channel',mode : 'Add',data:   {name: '',description: '',cphoto : ''}},
+    channelNotification : {notify:false, message:''}
 };
 
 type ChannelAction = { type: string, payload: {} | string };
-type State = { user?: {} | null, loading?: boolean, +value?: boolean };
+type State = { channels?: {} | null, loading?: boolean, +value?: boolean };
 
 const Channel = (state:State = INIT_STATE, action: AuthAction) => {
     switch (action.type) {
@@ -25,7 +31,17 @@ const Channel = (state:State = INIT_STATE, action: AuthAction) => {
             return { ...state, error: action.payload, loading: false };
         case LOAD_CHANNEL_SUCCESS:
              const {response=[]}  =action.payload;
-            return { ...state, channels: response, loading: false, error: null };
+            return { ...state, channels: response,channelNotification :INIT_STATE.channelNotification, loading: false, error: null };
+        
+        case ONCLICK_MODAL:
+            return { ...state, loading: true};
+        
+        case TOGGLE_CHANNEL_MODAL:
+            return { ...state, ...action.payload, loading: false};
+            case SAVE_CHANNEL:
+                return { ...state, loading: true};
+        case SAVE_CHANNEL_SUCCESS:
+            return { ...state, ...action.payload, loading: false, error: null };
       
         default: return { ...state };
     }

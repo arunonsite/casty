@@ -4,24 +4,22 @@ import { Row, Col, Card, CardBody } from 'reactstrap';
 import { Table, Button } from 'react-bootstrap';
 import { bindActionCreators } from 'redux'
 
+import { notifyMe } from '../../helpers/applicationUtils';
+
 import  * as userActions from '../../redux/user/actions';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
+import MaterialTable from "material-table";
 
 class UserPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: getLoggedInUser(),     
-      users: [],
-      userModal :{
-        show: false,
-        title: 'New User',
-        mode : 'Add',
-        data:   {
+      newUserModalData :{
+        formData : {
           fname: '',
           lname: '',
           username: '',
@@ -29,56 +27,40 @@ class UserPage extends Component {
           cpassword: '',
           email: '',
           cemail: '',
-           phone: ''
+           phone: '',
+           role :''
         },
       }
+    
     };
   }
-
+  componentDidUpdate(){ 
+    const {userNotification ={}, userNotification :{notify = false}} = this.props; 
+    notifyMe(userNotification);   
+  }
   componentDidMount(){
+    this.loadPageData();      
+  }
+   loadPageData = () => {  //this.state.departments.push()
     const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d'}} = this.props;
 
    this.props.actions.loadUsers(CompanyID);
-  }
-
-  renderTableData() {
-    return this.props.users.map((user, index) => {
-      const { lastName='', firstName='', companyName='', email='' } = user //destructuring
-      return (
-        <tr key={firstName}>
-          <td>{lastName}</td>
-          <td>{firstName}</td>
-          <td>{companyName}</td>
-          <td>{email}</td>
-          <td>
-            <button type="button"    class="btn btn-primary btn-sm">View</button> <button type="button" onClick={() => { this.toggleEditUserModal(user) }} class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
-        </tr>
-      )
-    })
-  }
-  saveNew = () => {  //this.state.departments.push()
-    return false;
-  }
+   }
   handleChange = (event, field) => {
-    const { newUser = {} } = this.state;
-    newUser[event.target.name] = event.target.value;
-    this.setState({ newUser: { ...newUser } });
+    const {newUserModalData :{formData={}}} = this.state;
+    formData[event.target.name] = event.target.value;
+    this.setState({newUserModalData: {formData : formData}});
   }
   handleSubmit = (event) => {
-    const { users = [], newUser = {} } = this.state;
-    users.push(newUser);
-    this.setState({
-      users: users, newUser: {
-        fname: '', lname: '',
-        username: '',
-        password: '', cpassword: '', email: '', cemail: '', phone: ''
-      }
-    });
+    const {user:{id='', companyID=''}} = this.props;
+    const { newUserModalData:{formData={}}} = this.state; 
+    const newUserData= Object.assign({...formData}, {parentId : id,companyID });
+   this.props.actions.newUser(newUserData);
   }
 
   toggleNewUserModal = () => {
-    const {userModal : {show = false}} = this.state;   
-    this.setState({ userModal: {
+    const {userModal : {show = false},roleSource={}} = this.props;   
+    const togg = { userModal: {
       show: !show,
       title: 'New User',
       mode : 'add',
@@ -90,25 +72,28 @@ class UserPage extends Component {
         cpassword: '',
         email: '',
         cemail: '',
-         phone: ''
+         phone: '',
+         role : ''
       },
-    }}
-    );
+      constants: {roleSource}
+    }};
+    this.props.actions.onclickModal(togg);   
   }
   toggleEditUserModal = (user) => {
     const {userModal : {show = false}} = this.state;   
     this.setState({ 
       userModal: {      show: !show,      title: 'Edit User',      mode : 'edit' ,
       data:   {...user},   
-    },
-      
+    },      
     }
     );
   }
   
 
   render() {
-    const { newUser = {}, addNewUser = false, modalTitle,userModal={} } = this.state;
+    const {  newUserModalData } = this.state;
+    const{users=[], userModal={}} =this.props;
+     console.log("this.props----", this.props);
     return (
       <React.Fragment>
         <Modal
@@ -118,6 +103,7 @@ class UserPage extends Component {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
+          {...newUserModalData}
           {...userModal}
         />
         <div className="">
@@ -137,23 +123,65 @@ class UserPage extends Component {
               <Card>
                 <CardBody>
                   <h1>Employees/Users List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewUserModal}>
+                  <Button style={{ float: "right" }} variant="primary" >
                     + New User        </Button>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                      
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.renderTableData()}
-                    </tbody>
-                  </Table>
+
+                    <MaterialTable
+          columns={[
+            { title: "First Name", field: "firstName" },
+            { title: "Last Name", field: "lastName" },
+           
+            { title: "Email", field: "companyName"  },
+            { title: "Phone", field: "phone", },
+           
+          ]}
+          data={users}
+          title="Users  "
+          detailPanel={[     
+            {
+              icon: 'account_circle',
+              tooltip: 'Show Surname',
+              render: rowData => {
+                 console.log("USer Row-Data--", rowData );
+
+                return (
+                  <div
+                    style={{
+                      fontSize: 100,
+                      textAlign: 'center',
+                      color: 'white',
+                      backgroundColor: '#E53935',
+                    }}
+                  >
+                   hellow !  {rowData.firstName}
+                  </div>
+                )
+              },
+            }
+          ]}
+          actions={[
+            {
+              icon: 'add',
+              tooltip: 'Add User',
+              isFreeAction: true,
+              onClick: (event) => this.toggleNewUserModal()
+            },
+            {
+              icon: 'edit',
+              tooltip: 'edit Channel',
+              onClick: (event, rowData) => this.toggleEditChannelModal()
+            },
+            rowData => ({
+              icon: 'delete',
+              tooltip: 'Delete Channel',
+              onClick: (event, rowData) => alert("You saved " + rowData.name),
+              disabled: rowData.birthYear < 2000
+            })
+          ]}
+          options={{
+            actionsColumnIndex: -1
+          }}
+        />  
                 </CardBody>
               </Card>
             </Col>
@@ -172,8 +200,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   const {UserPageReducer: {users=[]}, Auth:{user={}} }= state;
-  return { users , user};
+  console
+  .log("CompanyID---", state);
+
+   const {UserPageReducer: {users=[], userModal={},loading=false,userNotification={}}, 
+   Auth:{user={}, applicationDynamicConstants:{roleSource={}}} }= state;
+  return { users ,userModal,userNotification, loading,  user, roleSource};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
