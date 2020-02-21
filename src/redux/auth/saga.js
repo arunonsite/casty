@@ -65,8 +65,6 @@ function* login({ payload: { username, password } }) {
     };
 
     try {
-        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
-        //const response = yield call(fetchJSON, '/users/authenticate', options);
         const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.LOGIN_ROUTE, options);
 
          const {id=''} = response;
@@ -81,8 +79,6 @@ function* login({ payload: { username, password } }) {
             setSession(user);
             yield put(loginUserSuccess(user));
          }else{
-
-             console.log("response----", response);
              const {nonRegisteredUser = []} = response;
              let message;
              if(nonRegisteredUser.length > 0){               
