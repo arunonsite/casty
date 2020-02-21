@@ -3,6 +3,9 @@ import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import profilePic from '../assets/images/users/user-1.jpg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // code splitting and lazy loading
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
@@ -67,14 +70,20 @@ class AuthLayout extends Component {
                         <Topbar rightSidebarToggle={this.toggleRightSidebar} menuToggle={this.toggleMenu} isMenuOpened={this.state.isMenuOpened} />
                         <Navbar isMenuOpened={this.state.isMenuOpened} />
                     </Suspense>
+                   
+             
                 </header>
 
                 <div className="wrapper">
+                <Container fluid>
+                </Container>
                     <Container fluid>
-                        <Suspense fallback={loading()}>
+                    <ToastContainer />
+                        <Suspense fallback={loading()}>                      
                             {children}
                         </Suspense>
                     </Container>
+                 
                 </div>
                 
                 <Footer />

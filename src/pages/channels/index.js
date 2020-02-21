@@ -5,7 +5,8 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Table } from 'react-bootstrap';
 import  * as channelActions from '../../redux/channel/actions';
 import { bindActionCreators } from 'redux';
-
+import { toast } from 'react-toastify';
+import MaterialTable from "material-table";
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
@@ -16,29 +17,33 @@ class ChannelPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: getLoggedInUser(),
-      newDepartment : {   cname: '',
-      cdesc : '',
-      cphoto : ''},
-      channels :[],
-      userModal :{
-        show: false,
-        title: 'New Channel',
-        mode : 'Add',
-        data:   {
-          cname: '',
-          cdesc: '',
-          cphoto : ''
+      user: getLoggedInUser(),  
+      newChannelModalData :{
+        formData : 
+         { name: '',
+          description: '',
+          cphoto : ''}
         },
-      }
+       
     };
   }
   componentDidMount(){
-     const {user:{id=''}} = this.props;
-
-    this.props.actions.loadChannel(id);
-   }
-
+    this.loadPageData();
+  }
+  componentDidUpdate(){
+    const {channelNotification : {notify = false, message='Success'}} = this.props; 
+    if(notify){
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+        });
+        this.loadPageData();
+    }
+  }
   renderTableData() {
     return this.props.channels.map((channel, index) => {
        const {  name='', description='', imageFullURL='',id='' } = channel //destructuring
@@ -53,62 +58,75 @@ class ChannelPage extends Component {
        )
     })
  }
- saveNew = () => {  //this.state.departments.push()
-
-return false;
+ loadPageData = () => {  //this.state.departments.push()
+  const {user:{id=''}} = this.props;
+  this.props.actions.loadChannel(id);
  }
  handleChange =  (event, field) => {   
-  const {newDepartment ={}} = this.state;
-  newDepartment[event.target.name] = event.target.value;  
-  this.setState({newDepartment: {...newDepartment}});
-}
- handleSubmit =(event) => {
-  event.preventDefault();
-  const {channels =[], newDepartment={}} = this.state;
-  channels.push(newDepartment);  
-  this.setState({channels: channels,newDepartment : {  cname: '',
-  cdesc : '',
-  cphoto : ''} });
-}
-toggleNewUserModal = () => {
-  const {userModal : {show = false}} = this.state;   
-  this.setState({ userModal: {
+  const {newChannelModalData :{formData={}}} = this.state;
+  formData[event.target.name] = event.target.value;  
+  this.setState({newChannelModalData: {formData : formData}});
+ }
+ handleSubmit =() => {
+
+   
+  const {user:{id=''}} = this.props;
+  const { newChannelModalData:{formData={}}} = this.state; 
+  const newCHannelData= Object.assign({...formData}, {userId : id});
+  console.log("newCHannelData--", newCHannelData);
+  this.props.actions.newChannel(newCHannelData);
+ }    
+toggleChannelModal = () => {
+  const {channelModal : {show = false}} = this.props; 
+  const togg = { channelModal: {
     show: !show,
     title: 'New Channel',
     mode : 'add',
     data:   {
-      cname: '',
-      cdesc: '',
+      name: '',
+      description: '',
       cphoto: ''
     },
-  }}
-  );
-}
-toggleEditUserModal = (user) => {
-  const {userModal : {show = false}} = this.state;   
-  this.setState({ 
-    userModal: {      show: !show,      title: 'Edit Channel',      mode : 'edit' ,
-    data:   {...user},   
-  },
-    
-  }
-  );
-}
+  }};  
+  this.props.actions.onclickModal(togg);
+ }
+toggleEditChannelModal = (channel) => {
+   console.log("channel---", channel);
+
+
+   const {channelModal : {show = false}} = this.props; 
+  const togg = { channelModal: {
+    show: !show,
+    title: 'Edit Channel',
+    mode : 'add',
+    formData:   channel,
+  }};  
+  this.props.actions.onclickModal(togg);
+
+ }
 
   render() {
-    //const {newDepartment:{cname='', cdesc='', cphoto=''}} = this.state;
-    const { newDepartment = {}, addNewUser = false, modalTitle,userModal={} } = this.state;
-    const {channels=[]} = this.props;
+ 
+    //const {newChannel:{name='', description='', cphoto=''}} = this.state;
+    const {   addNewUser = false, modalTitle, newChannelModalData={} } = this.state;
+     console.log("Currect Props", this.props.loading);
+
+
+
+    const {channels=[], channelModal={}} = this.props;
     return (
       <React.Fragment>
+        
+
         <Modal
-          handleSubmit={this.handleSubmit}
+          handleSubmit={this.handleSubmit}    
           handleChange={this.handleChange}          
-          handlehide={this.toggleNewUserModal}         
-          size="lg"
+          handlehide={this.toggleChannelModal}         
+          size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          {...userModal}
+          {...newChannelModalData}
+          {...channelModal}
         />
         <div className="">
           { /* preloader */}
@@ -126,24 +144,64 @@ toggleEditUserModal = (user) => {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Channels List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleNewUserModal}>
+                <h1>Channels List</h1>
+                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleChannelModal}>
                     + New User        </Button>
-                  <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Channel Name</th>
-                    <th>Channel Description</th>
-                    <th>Photo/Video</th>
-                    <th>Action</th>
-                  </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderTableData()}
-
-                    </tbody>
-                  </Table>
+                    <MaterialTable
+          columns={[
+            { title: " Name", field: "name" },
+            { title: " Description", field: "description" },
+            { title: "Image", field: "birthYear", type: "imageFullURL",
+            render: rowData => <img src={rowData.imageFullURL} style={{width: 50, borderRadius: '50%'}}/> },
+           
+          ]}
+          data={channels}
+          title="Channels"
+          detailPanel={[
+     
+            {
+              icon: 'play_circle_outline',
+              tooltip: 'Show Surname',
+              render: rowData => {
+                return (
+                  <div
+                    style={{
+                      fontSize: 100,
+                      textAlign: 'center',
+                      color: 'white',
+                      backgroundColor: '#E53935',
+                    }}
+                  >
+                    {rowData.name}
+                  </div>
+                )
+              },
+            }
+          ]}
+          actions={[
+            {
+              icon: 'add',
+              tooltip: 'Add User',
+              isFreeAction: true,
+              onClick: (event) => this.toggleChannelModal()
+            },
+            {
+              icon: 'edit',
+              tooltip: 'edit Channel',
+              onClick: (event, rowData) => this.toggleEditChannelModal(rowData)
+            },
+            rowData => ({
+              icon: 'delete',
+              tooltip: 'Delete Channel',
+              onClick: (event, rowData) => alert("You saved " + rowData.name),
+              disabled: rowData.birthYear < 2000
+            })
+          ]}
+          options={{
+            actionsColumnIndex: -1
+          }}
+        />
+                
                 </CardBody>
               </Card>
             </Col>
@@ -164,9 +222,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   const {ChannelPageReducer: {channels=[]}, Auth:{user={}} }= state;
 
-  return { channels , user};
+
+  const {ChannelPageReducer: {loading=false, channels=[], channelModal={}, channelNotification={}}, Auth:{user={}} }= state;
+  return { channels , user, channelModal, channelNotification,loading};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage);

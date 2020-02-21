@@ -49,7 +49,6 @@ class Login extends Component {
      * Redirect to root
      */
     renderRedirectToRoot = () => {
-         console.log("ALPHA");
         const isAuthTokenValid = isUserAuthenticated();
         if (isAuthTokenValid) {
             return <Redirect to='/' />
@@ -124,6 +123,8 @@ class Login extends Component {
 
 
 const mapStateToProps = (state) => {
+    console
+    .log("state----", state);
     const { user, loading, error } = state.Auth;
     return { user, loading, error };
 };

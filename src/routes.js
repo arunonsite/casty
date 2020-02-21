@@ -54,7 +54,6 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin'] },
   { path: '/users', name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin'] },
   { path: '/company', name: 'Users', component: Company, route: PrivateRoute, roles: ['Admin'] },
-  { path: '/departments', name: 'Departments', component: Departments, route: PrivateRoute, roles: ['Admin'] },
   { path: '/channels', name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin'] },
   { path: '/episodes', name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin'] },
   { path: '/shows', name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin'] },

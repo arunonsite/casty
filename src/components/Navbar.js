@@ -20,17 +20,18 @@ const NavMenuContent = (props) => {
               
                         <span> Employees/Users</span>
                     </Link></li>
-            <li>
-                    <Link to="/departments" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-server"></i>
-              
-                        <span> Departments </span>
-                    </Link></li>
+            
             <li>
                     <Link to="/channels" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-play-circle "></i>
               
                         <span> Channels  </span>
+                    </Link></li>
+                    <li>
+                    <Link to="/shows" className="waves-effect has-dropdown" aria-expanded="true">
+                        <i className="fe-film"></i>
+              
+                        <span> Shows   </span>
                     </Link></li>
             <li>
                     <Link to="/episodes" className="waves-effect has-dropdown" aria-expanded="true">
@@ -38,12 +39,7 @@ const NavMenuContent = (props) => {
               
                         <span> Episodes   </span>
                     </Link></li>
-            <li>
-                    <Link to="/shows" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-film"></i>
-              
-                        <span> Shows   </span>
-                    </Link></li>
+          
            
         </ul>
     </React.Fragment>

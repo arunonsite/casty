@@ -70,6 +70,7 @@ class App extends Component {
   render() {
     return (
       // rendering the router with layout
+     
       <BrowserRouter>
         <React.Fragment>
           {routes.map((route, index) => {

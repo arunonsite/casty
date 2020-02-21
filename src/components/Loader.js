@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { ScaleLoader } from "react-spinners";
 /**
  * Renders the preloader
  */
@@ -9,7 +9,13 @@ class PreLoaderWidget extends Component {
         return (
             <div className="preloader">
                 <div className="status">
-                    <div className="spinner-border avatar-sm text-primary m-2" role="status"></div>
+                <ScaleLoader 
+          
+          size={35}
+          //size={"150px"} this also works
+          color={"#343a40"}
+          loading={true}
+        />
                 </div>
             </div>
         )
