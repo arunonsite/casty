@@ -13,6 +13,7 @@ import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 import MaterialTable from "material-table";
+import { css } from "emotion";
 
 class UserPage extends Component {
   constructor(props) {
@@ -155,7 +156,7 @@ class UserPage extends Component {
                       backgroundColor: '#E53935',
                     }}
                   >
-                   hellow !  {rowData.firstName}
+                   Hello !  {rowData.firstName}
                   </div>
                 )
               },
@@ -170,12 +171,12 @@ class UserPage extends Component {
             },
             {
               icon: 'edit',
-              tooltip: 'edit Channel',
+              tooltip: 'Edit User',
               onClick: (event, rowData) => this.toggleEditChannelModal()
             },
             rowData => ({
               icon: 'delete',
-              tooltip: 'Delete Channel',
+              tooltip: 'Delete User',
               onClick: (event, rowData) => alert("You saved " + rowData.name),
               disabled: rowData.birthYear < 2000
             })
