@@ -18,12 +18,16 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
+  
+
 function UserFormModal(props) {
   const classes = useStyles(); 
   const {
     formData: { fname = '', lname = '', username = '', password = '', 
     cpassword = '', email = '', cemail = '', phone = '', role='' },
     handleSubmit, handleChange, title, constants:{roleSource=[]}, ...others } = props;
+    
   return (
     <Modal
       {...others}
@@ -121,7 +125,6 @@ function UserFormModal(props) {
                                 onChange={handleChange}
                                 value={password}  
                                 name='password'
-
                                 type="password"
                     validators={['required']}
                     errorMessages={[ 'this field is required']}
@@ -133,10 +136,10 @@ function UserFormModal(props) {
                                 label="Confirm Password"
                                 variant="outlined"
                                 value={cpassword} onChange={handleChange}
-                                name="cpassword"
+                                name="repeatPassword"
                                 type="password"
-                    validators={['required']}
-                    errorMessages={['this field is required']}
+                                validators={['required', 'isPasswordMatch']}
+                                errorMessages={['this field is required','password mismatch']}
                               />
                             </Col>
                           </Row>
@@ -151,8 +154,8 @@ function UserFormModal(props) {
                                 value={email} onChange={handleChange}
                                 name='email'
 
-                                validators={['required']}
-                                errorMessages={['this field is required']}
+                                validators={['required', 'isEmail']}
+                                errorMessages={['this field is required', 'email is not valid']}
                               /></Col>
                             <Col sm={6}>
                               <TextValidator
@@ -162,8 +165,8 @@ function UserFormModal(props) {
                                 value={cemail}
                                 name="cemail"
                                 onChange={handleChange}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
+                                validators={['required', 'isEmail']}
+                                errorMessages={['this field is required', 'email is not valid']}
                               />
                             </Col>
                           </Row>

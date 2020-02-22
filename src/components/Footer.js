@@ -11,13 +11,13 @@ class Footer extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6">
-                        2015 - 2020 &copy; Casty
+                        2019 - 2020 &copy; Casty
                                                 </div>
                         <div className="col-md-6">
                             <div className="text-md-right footer-links d-none d-sm-block">
-                                <a href="https://coderthemes.com">About Us</a>
-                                <a href="https://coderthemes.com">Help</a>
-                                <a href="https://coderthemes.com">Contact Us</a>
+                                <a href="#">About Us</a>
+                                <a href="#">Help</a>
+                                <a href="#">Contact Us</a>
                             </div>
                         </div>
                     </div>

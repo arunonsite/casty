@@ -33,13 +33,16 @@ class UserPage extends Component {
       }
     
     };
+    
   }
   componentDidUpdate(){ 
     const {userNotification ={}, userNotification :{notify = false}} = this.props; 
     notifyMe(userNotification);   
   }
   componentDidMount(){
-    this.loadPageData();      
+    this.loadPageData();    
+    
+      
   }
    loadPageData = () => {  //this.state.departments.push()
     const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d'}} = this.props;
@@ -51,6 +54,7 @@ class UserPage extends Component {
     formData[event.target.name] = event.target.value;
     this.setState({newUserModalData: {formData : formData}});
   }
+
   handleSubmit = (event) => {
     const {user:{id='', companyID=''}} = this.props;
     const { newUserModalData:{formData={}}} = this.state; 
@@ -98,6 +102,7 @@ class UserPage extends Component {
       <React.Fragment>
         <Modal
           handleSubmit={this.handleSubmit}
+          isPasswordMatch={this.isPasswordMatch}          
           handleChange={this.handleChange}          
           handlehide={this.toggleNewUserModal}         
           size="lg"
@@ -122,7 +127,7 @@ class UserPage extends Component {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Employees/Users List</h1>
+                  <h1>User List</h1>
                   <Button style={{ float: "right" }} variant="primary" >
                     + New User        </Button>
 

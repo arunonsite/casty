@@ -18,7 +18,7 @@ const NavMenuContent = (props) => {
             <li> <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
                         <i className="fe-users"></i>
               
-                        <span> Employees/Users</span>
+                        <span> User Management</span>
                     </Link></li>
             
             <li>
