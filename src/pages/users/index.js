@@ -33,7 +33,6 @@ class UserPage extends Component {
       }
     
     };
-    
   }
   componentDidUpdate(){ 
     const {userNotification ={}, userNotification :{notify = false}} = this.props; 
@@ -41,7 +40,6 @@ class UserPage extends Component {
   }
   componentDidMount(){
     this.loadPageData();    
-    
       
   }
    loadPageData = () => {  //this.state.departments.push()
@@ -54,7 +52,7 @@ class UserPage extends Component {
     formData[event.target.name] = event.target.value;
     this.setState({newUserModalData: {formData : formData}});
   }
-
+  
   handleSubmit = (event) => {
     const {user:{id='', companyID=''}} = this.props;
     const { newUserModalData:{formData={}}} = this.state; 
@@ -102,7 +100,6 @@ class UserPage extends Component {
       <React.Fragment>
         <Modal
           handleSubmit={this.handleSubmit}
-          isPasswordMatch={this.isPasswordMatch}          
           handleChange={this.handleChange}          
           handlehide={this.toggleNewUserModal}         
           size="lg"
