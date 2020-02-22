@@ -157,23 +157,7 @@ function UserFormModal(props) {
                                 validators={['required', 'isEmail']}
                                 errorMessages={['this field is required', 'email is not valid']}
                               /></Col>
-                            <Col sm={6}>
-                              <TextValidator
-                                label="Confirm Email"
-                                label="Confirm Email"
-                                variant="outlined"
-                                value={cemail}
-                                name="cemail"
-                                onChange={handleChange}
-                                validators={['required', 'isEmail']}
-                                errorMessages={['this field is required', 'email is not valid']}
-                              />
-                            </Col>
-                          </Row>
-
-
-                          <Row style={{ "padding": "4px" }}>
-                            <Col sm={6}>
+                             <Col sm={6}>
                               <TextValidator
                                 label="Phone"
                                 label="Phone"
@@ -186,6 +170,7 @@ function UserFormModal(props) {
                                 errorMessages={['this field is required']}
                               /></Col>
                           </Row>
+
 
                           <ul class="list-inline wizard mb-0">
                             <input type="submit" value="Add" class="btn btn-secondary button-next float-right" />
