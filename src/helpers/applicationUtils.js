@@ -15,7 +15,6 @@ const processPutSuccessResponse = (response, mustRet, indc='') => {
     if(response[mustRet] !== undefined){
         return {response :response, status:true, message:'Success' }
     }else{
-         console.log("response----", response[indc]);
         return {response :response, 
         status:false, message:response[indc][0] ? response[indc][0] : 'Unable to Process your request.' }
     }

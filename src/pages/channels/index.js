@@ -67,57 +67,69 @@ class ChannelPage extends Component {
   formData[event.target.name] = event.target.value;  
   this.setState({newChannelModalData: {formData : formData}});
  }
- handleSubmit =() => {
-
-   
-  const {user:{id=''}} = this.props;
+ handleSubmit =() => {   
+  const {user:{id=''}, channelModal:{mode= "edit"}} = this.props;
   const { newChannelModalData:{formData={}}} = this.state; 
   const newCHannelData= Object.assign({...formData}, {userId : id});
-  console.log("newCHannelData--", newCHannelData);
-  this.props.actions.newChannel(newCHannelData);
+  
+  if(mode === 'edit'){
+    this.props.actions.updateChannel(newCHannelData);
+  }else{
+    this.props.actions.newChannel(newCHannelData);
+  }
+ // this.props.actions.newChannel(newCHannelData);
  }    
 toggleChannelModal = () => {
   const {channelModal : {show = false}} = this.props; 
+  const { newChannelModalData:{formData={}}} = this.state;
+  
   const togg = { channelModal: {
     show: !show,
     title: 'New Channel',
     mode : 'add',
-    data:   {
-      name: '',
-      description: '',
-      cphoto: ''
-    },
+    buttonText : 'Add Channel',
+    formData:   {
+      name :'',
+      description:'', 
+    }
   }};  
+  this.setState({newChannelModalData: {
+    formData : { 
+      name :'',
+      description:'', 
+  },}});  
   this.props.actions.onclickModal(togg);
  }
-toggleEditChannelModal = (channel) => {
-   console.log("channel---", channel);
-
-
+toggleEditChannelModal = (channel) => { 
    const {channelModal : {show = false}} = this.props; 
-  const togg = { channelModal: {
-    show: !show,
-    title: 'Edit Channel',
-    mode : 'add',
-    formData:   channel,
-  }};  
-  this.props.actions.onclickModal(togg);
-
+    const {name = "Demo1",    description= "Demo 2", id=''} = channel;
+    const togg = { channelModal: {
+      show: !show,
+      title: 'Edit Channel',
+      mode : 'edit',
+      buttonText: 'Update Channel',
+      formData:   {
+       name,
+      description, 
+      id
+      },
+    }}; 
+    /* to save in loacal State */
+    this.setState({newChannelModalData: {
+      formData : { 
+      name,
+      description,
+      id
+    },}});     
+    this.props.actions.onclickModal(togg);
  }
 
-  render() {
- 
+  render() { 
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const {   addNewUser = false, modalTitle, newChannelModalData={} } = this.state;
-     console.log("Currect Props", this.props.loading);
-
-
-
     const {channels=[], channelModal={}} = this.props;
     return (
-      <React.Fragment>
-        
-
+      <React.Fragment> 
         <Modal
           handleSubmit={this.handleSubmit}    
           handleChange={this.handleChange}          
@@ -125,8 +137,9 @@ toggleEditChannelModal = (channel) => {
           size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          {...newChannelModalData}
           {...channelModal}
+          {...newChannelModalData}
+        
         />
         <div className="">
           { /* preloader */}

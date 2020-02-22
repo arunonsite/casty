@@ -95,7 +95,6 @@ class UserPage extends Component {
   render() {
     const {  newUserModalData } = this.state;
     const{users=[], userModal={}} =this.props;
-     console.log("this.props----", this.props);
     return (
       <React.Fragment>
         <Modal

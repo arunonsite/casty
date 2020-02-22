@@ -5,7 +5,13 @@ LOAD_CHANNEL_FAILED,
 LOAD_CHANNEL,
 ONCLICK_MODAL,
 TOGGLE_CHANNEL_MODAL,
-SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL
+SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL,
+UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL,
+
+
+
+
+
 } from '../../constants/actionTypes';
 
 type ChannelAction = { type: string, payload: {} | string };
@@ -16,18 +22,14 @@ export const loadChannel = (userId) => ({
     type: LOAD_CHANNEL,
     payload: userId
 });
-
 export const loadChannelSuccess = (channels: {}) => ({
     type: LOAD_CHANNEL_SUCCESS,
     payload: channels
 });
-
-
 export const onclickModal = (payload) => ({
     type: ONCLICK_MODAL,
     payload: payload
 });
-
 export const toggleChannelModal = (payload) => ({
     type: TOGGLE_CHANNEL_MODAL,
     payload: payload
@@ -36,9 +38,17 @@ export const newChannel  = (newChannel) => ({
     type: SAVE_CHANNEL,
     payload: newChannel
 });
-
 export const saveChannelSuccess  = (successUpdate) => ({
     type: SAVE_CHANNEL_SUCCESS,
     payload: successUpdate
 });
 
+
+export const updateChannel  = (updateChannel) => ({
+    type: UPDATE_CHANNEL,
+    payload: updateChannel
+});
+export const updateChannelSuccess  = (updateChannel) => ({
+    type: UPDATE_CHANNEL_SUCCESS,
+    payload: updateChannel
+});

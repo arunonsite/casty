@@ -9,13 +9,16 @@ import {
     LOAD_SHOW,
      ONCLICK_MODAL,
     TOGGLE_SHOW_MODAL,
-    SAVE_SHOW
+    SAVE_SHOW,
+    LOAD_CHANNELS_BY_USER, LOAD_CHANNELS_BY_USER_SUCCESS, LOAD_CHANNELS_BY_USER_FAILED
+
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
     loadShowSuccess,
     toggleShowModal,
-    saveShowSuccess
+    saveShowSuccess,
+    loadChannelsByUserSuccess
 } from './actions';
 
  const onShowSaveSuccess = {
@@ -49,8 +52,6 @@ const fetchJSON = (url, options = {}) => {
  * @param {*} payload - username and password 
  */
 function* loadShowList({payload={}}) {  
-     console.log("payload---", payload); 
-    // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
     const options = {
         body: JSON.stringify(),
         method: 'GET',
@@ -73,6 +74,34 @@ function* loadShowList({payload={}}) {
     }
 }
 
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* loadChannelsByUser({payload={}}) {  
+  
+   // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
+   const options = {
+       body: JSON.stringify(),
+       method: 'GET',
+       headers: { 'Content-Type': 'application/json' }
+   };
+   try {
+       //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
+       const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+           .API_PATH.LOAD_CHANNEL_BY_USER+'/'+payload+'?CreatedByUserId='+payload, options);
+      
+
+       yield put(loadChannelsByUserSuccess(processSuccessResponse(response)));
+   } catch (error) {
+       let message;
+       switch (error.status) {
+           case 500: message = 'Internal Server Error'; break;
+           case 401: message = 'Invalid credentials'; break;
+           default: message = error;
+       }
+   }
+}
 
 /**
  * Load the CHannnel lsit
@@ -88,11 +117,13 @@ function* onclickModal({payload={}}) {
  */
 function* saveNewShow({payload={}}) {
     
-      const {name='', description='', userId=''} = payload;
+      const {name='', description='', userId='', channelId=''} = payload;
       const newShowData= {
         "Name": name,
         "Description": description,
-        "createdById" : userId
+        "createdById" : userId,
+        "ChannelId" :channelId
+
       }
     const options = {
         body: JSON.stringify(newShowData),
@@ -100,8 +131,9 @@ function* saveNewShow({payload={}}) {
         headers: { 'Content-Type': 'application/json' }
     };
     try {
+
         const response = yield call(fetchJSON, 
-            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE,
+            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_SAVE,
              options);
 
              const {name=''} = response; 
@@ -138,6 +170,10 @@ export function* watchLoadShow():any {
     yield takeEvery(LOAD_SHOW, loadShowList);
 }
 
+export function* watchLoadChannelsOfUser():any {
+    yield takeEvery(LOAD_CHANNELS_BY_USER, loadChannelsByUser);
+}
+
 export function* watchModalClick():any {
     yield takeEvery(ONCLICK_MODAL, onclickModal);
 }
@@ -149,11 +185,15 @@ export function* watchSaveShow():any {
 
 
 
+
+
+
 function* showSaga():any {
     yield all([
         fork(watchLoadShow),
         fork(watchModalClick),
         fork(watchSaveShow),
+        fork(watchLoadChannelsOfUser)
     ]);
 }
 
