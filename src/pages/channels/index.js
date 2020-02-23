@@ -179,10 +179,10 @@ toggleEditChannelModal = (channel) => {
                 return (
                   <div
                     style={{
-                      fontSize: 100,
+                      fontSize: 50,
                       textAlign: 'center',
                       color: 'white',
-                      backgroundColor: '#E53935',
+                      backgroundColor: '#6c757d',
                     }}
                   >
                     {rowData.name}
@@ -193,14 +193,14 @@ toggleEditChannelModal = (channel) => {
           ]}
           actions={[
             {
-              icon: 'add',
+              icon: 'add_circle',
               tooltip: 'Add User',
               isFreeAction: true,
               onClick: (event) => this.toggleChannelModal()
             },
             {
               icon: 'edit',
-              tooltip: 'edit Channel',
+              tooltip: 'Edit Channel',
               onClick: (event, rowData) => this.toggleEditChannelModal(rowData)
             },
             rowData => ({

@@ -50,8 +50,8 @@ class DefaultDashboard extends Component {
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
-                                        <h3 class="text-dark mt-1">$<span data-plugin="counterup">58,947</span></h3>
-                                        <p class="text-muted mb-1 text-truncate">Total Revenue</p>
+                                        <h3 class="text-dark mt-1"><span data-plugin="counterup">589</span></h3>
+                                        <p class="text-muted mb-1 text-truncate">Total Users</p>
                                     </div>
                                 </div>
                             </div>  
@@ -68,7 +68,7 @@ class DefaultDashboard extends Component {
                                 <div class="col-6">
                                     <div class="text-right">
                                         <h3 class="text-dark mt-1"><span data-plugin="counterup">127</span></h3>
-                                        <p class="text-muted mb-1 text-truncate">Today's Sales</p>
+                                        <p class="text-muted mb-1 text-truncate">Total Channels</p>
                                     </div>
                                 </div>
                             </div> 
@@ -85,8 +85,8 @@ class DefaultDashboard extends Component {
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
-                                        <h3 class="text-dark mt-1"><span data-plugin="counterup">0.58</span>%</h3>
-                                        <p class="text-muted mb-1 text-truncate">Conversion</p>
+                                        <h3 class="text-dark mt-1"><span data-plugin="counterup">58</span></h3>
+                                        <p class="text-muted mb-1 text-truncate">Total Shows</p>
                                     </div>
                                 </div>
                             </div>  
@@ -103,8 +103,8 @@ class DefaultDashboard extends Component {
                                 </div>
                                 <div class="col-6">
                                     <div class="text-right">
-                                        <h3 class="text-dark mt-1"><span data-plugin="counterup">78.41</span>k</h3>
-                                        <p class="text-muted mb-1 text-truncate">Today's Visits</p>
+                                        <h3 class="text-dark mt-1"><span data-plugin="counterup">741</span></h3>
+                                        <p class="text-muted mb-1 text-truncate">Total Episodes</p>
                                     </div>
                                 </div>
                             </div> 

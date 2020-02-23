@@ -174,10 +174,10 @@ class ShowPage extends Component {
                 return (
                   <div
                     style={{
-                      fontSize: 100,
+                      fontSize: 50,
                       textAlign: 'center',
                       color: 'white',
-                      backgroundColor: '#E53935',
+                      backgroundColor: '#6c757d',
                     }}
                   >
                     {rowData.name}
@@ -188,7 +188,7 @@ class ShowPage extends Component {
           ]}
           actions={[
             {
-              icon: 'add',
+              icon: 'add_circle',
               tooltip: 'Add User',
               isFreeAction: true,
               onClick: (event) => this.toggleShowModal()

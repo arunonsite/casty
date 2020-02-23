@@ -13,7 +13,7 @@ import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 import MaterialTable from "material-table";
-import { css } from "emotion";
+import Icon from '@material-ui/core/Icon';
 
 class UserPage extends Component {
   constructor(props) {
@@ -96,6 +96,7 @@ class UserPage extends Component {
   render() {
     const {  newUserModalData } = this.state;
     const{users=[], userModal={}} =this.props;
+    
     return (
       <React.Fragment>
         <Modal
@@ -125,10 +126,10 @@ class UserPage extends Component {
               <Card>
                 <CardBody>
                   <h1>User List</h1>
-                  <Button style={{ float: "right" }} variant="primary" >
+                  <Button style={{ float: "right" }} variant="secondary" >
                     + New User        </Button>
 
-                    <MaterialTable
+                    <MaterialTable style={{ border: "1px solid #dee2e6" }}
           columns={[
             { title: "First Name", field: "firstName" },
             { title: "Last Name", field: "lastName" },
@@ -149,13 +150,14 @@ class UserPage extends Component {
                 return (
                   <div
                     style={{
-                      fontSize: 100,
+                      fontSize: 50,
                       textAlign: 'center',
                       color: 'white',
-                      backgroundColor: '#E53935',
+                      backgroundColor: '#6c757d',
                     }}
                   >
                    Hello !  {rowData.firstName}
+                   
                   </div>
                 )
               },
@@ -163,8 +165,9 @@ class UserPage extends Component {
           ]}
           actions={[
             {
-              icon: 'add',
+              icon: 'add_circle',
               tooltip: 'Add User',
+             
               isFreeAction: true,
               onClick: (event) => this.toggleNewUserModal()
             },
@@ -175,6 +178,7 @@ class UserPage extends Component {
             },
             rowData => ({
               icon: 'delete',
+              color: 'error',
               tooltip: 'Delete User',
               onClick: (event, rowData) => alert("You saved " + rowData.name),
               disabled: rowData.birthYear < 2000
