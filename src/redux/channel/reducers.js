@@ -5,7 +5,8 @@ import {
     LOAD_CHANNEL_SUCCESS,
     ONCLICK_MODAL,
     TOGGLE_CHANNEL_MODAL,
-    SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL
+    SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL,
+    UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL
 } from '../../constants/actionTypes';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
@@ -42,6 +43,12 @@ const Channel = (state:State = INIT_STATE, action: AuthAction) => {
                 return { ...state, loading: true};
         case SAVE_CHANNEL_SUCCESS:
             return { ...state, ...action.payload, loading: false, error: null };
+
+            case UPDATE_CHANNEL:
+                return { ...state, loading: true};
+        case UPDATE_CHANNEL_SUCCESS:
+            return { ...state, ...action.payload, loading: false, error: null };
+            
       
         default: return { ...state };
     }

@@ -5,11 +5,23 @@ LOAD_SHOW_FAILED,
 LOAD_SHOW,
 ONCLICK_MODAL,
 TOGGLE_SHOW_MODAL,
-SAVE_SHOW_SUCCESS, SAVE_SHOW_FAILED,SAVE_SHOW
+SAVE_SHOW_SUCCESS, SAVE_SHOW_FAILED,SAVE_SHOW,
+LOAD_CHANNELS_BY_USER, LOAD_CHANNELS_BY_USER_SUCCESS, LOAD_CHANNELS_BY_USER_FAILED
 } from '../../constants/actionTypes';
 
 
 
+
+
+export const loadChannelsByUser = (userId) => ({
+    type: LOAD_CHANNELS_BY_USER,
+    payload: userId
+});
+
+export const loadChannelsByUserSuccess = (channels: {}) => ({
+    type: LOAD_CHANNELS_BY_USER_SUCCESS,
+    payload: channels
+});
 
 
 export const loadShows = (userId) => ({
@@ -17,10 +29,14 @@ export const loadShows = (userId) => ({
     payload: userId
 });
 
-export const loadShowSuccess = (channels: {}) => ({
+export const loadShowSuccess = (shows: {}) => ({
     type: LOAD_SHOW_SUCCESS,
-    payload: channels
+    payload: shows
 });
+
+
+
+
 
 
 export const onclickModal = (payload) => ({

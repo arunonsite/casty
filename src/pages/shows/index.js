@@ -7,7 +7,7 @@ import  * as showActions from '../../redux/show/actions';
 import { bindActionCreators } from 'redux';
 import { toast } from 'react-toastify';
 import MaterialTable from "material-table";
-
+import { notifyMe } from '../../helpers/applicationUtils';
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
@@ -22,28 +22,29 @@ class ShowPage extends Component {
         formData : 
          { name: '',
            description: '',
-          cphoto : ''}
+          cphoto : '',
+          channelId:'',
+          channelName:'',}
         },
        
     };
   }
+
+  componentDidUpdate(){ 
+    const {showNotification ={}, showNotification :{notify = false}} = this.props; 
+    
+    notifyMe(showNotification);   
+    
+    
+  }
+
+
   componentDidMount(){
-    this.loadPageData();
+    const {user:{id=''}} = this.props;
+    this.props.actions.loadChannelsByUser(id);
+    this.loadPageData();    
   }
-  componentDidUpdate(){
-   /*  const {showNotification : {notify = false, message='Success'}} = this.props; 
-    if(notify){
-      toast.success(message, {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-        });
-        this.loadPageData();
-    } */
-  }
+ 
 
  loadPageData = () => {  //this.state.departments.push()
   const {user:{id=''}} = this.props;
@@ -52,39 +53,69 @@ class ShowPage extends Component {
  handleChange =  (event, field) => {   
   const {newShowModalData :{formData={}}} = this.state;
   formData[event.target.name] = event.target.value;  
-  this.setState({newShowModalData: {formData : formData}});
+
+   this.setState({newShowModalData: {formData : formData}});
+ // this.setState({newShowModalData: {formData : formData}});
  }
  handleSubmit =() => {   
   const {user:{id=''}} = this.props;
   const { newShowModalData:{formData={}}} = this.state; 
   const newCHannelData= Object.assign({...formData}, {userId : id}); 
   this.props.actions.newShow(newCHannelData);
- }    
-toggleShowModal = () => {
-  const {showModal : {show = false}} = this.props; 
-  const togg = { showModal: {
-    show: !show,
-    title: 'New Show',
-    mode : 'add',
-    data:   {
-      name: '',
-      description: '',
-      cphoto: ''
-    },
-  }};  
-  this.props.actions.onclickModal(togg);
- }
-toggleEditShowModal = () => {
-  const {showModal : {show = false}} = this.props; 
-  const togg = { showModal: {
-    show: !show,
-    title: 'Edit Show',
-    mode : 'add',
-    formData:   show,
-  }};  
-  this.props.actions.onclickModal(togg);
- }
+ }     
+ toggleShowModal = () => {
 
+   const {showModal : {show = false}, pageDropDown:{channelsByUser=[]}} = this.props; 
+
+   const { newShowModalData:{formData={}}} = this.state;
+   
+   const togg = { showModal: {
+     show: !show,
+     title: 'New Show',
+     mode : 'add',
+     buttonText : 'Add Show',
+     formData:   {
+       name :'',
+       description:'', 
+       channelId:'',
+       channelName:'',
+
+     },
+     channelsByUser
+   }};  
+   this.setState({newShowModalData: {
+     formData : { 
+       name :'',
+       description:'', 
+       channelId:'',
+       channelName:'',
+   },
+   channelsByUser}});  
+   this.props.actions.onclickModal(togg);
+  }
+ toggleEditChannelModal = (channel) => { 
+    const {channelModal : {show = false}} = this.props; 
+     const {name = "Demo1",    description= "Demo 2", id=''} = channel;
+     const togg = { channelModal: {
+       show: !show,
+       title: 'Edit Channel',
+       mode : 'edit',
+       buttonText: 'Update Channel',
+       formData:   {
+        name,
+       description, 
+       id
+       },
+     }}; 
+     /* to save in loacal State */
+     this.setState({newShowModalData: {
+       formData : { 
+       name,
+       description,
+       id
+     },}});     
+     this.props.actions.onclickModal(togg);
+  }
   render() {
  
     //const {newShow:{name='', description='', cphoto=''}} = this.state;
@@ -101,8 +132,9 @@ toggleEditShowModal = () => {
           size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          {...newShowModalData}
+        
           {...showModal}
+          {...newShowModalData}
         />
         <div className="">
           { /* preloader */}
@@ -127,8 +159,8 @@ toggleEditShowModal = () => {
           columns={[
             { title: " Name", field: "name" },
             { title: " Description", field: "description" },
-            { title: "Image", field: "birthYear", type: "imageFullURL",
-            render: rowData => <img src={rowData.imageFullURL} style={{width: 50, borderRadius: '50%'}}/> },
+            { title: "Channel", field: "channel.name" 
+              },
            
           ]}
           data={shows}
@@ -198,9 +230,14 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   console.log("state----", state);
-  const {Auth:{user={}}, ShowPageReducer : {shows=[], loading=false} }= state;
-  return {  user , shows,loading };
+  const {Auth:{user={}}, ShowPageReducer : {showNotification,shows=[], loading=false, showModal={}, channelsByUser} }= state;
+
+  shows.map((show, ind)=>{
+   let selectChan = channelsByUser.filter((channel) =>
+    channel.id == show.channelId)
+     show[`channel`] =selectChan[0];
+  });
+  return {  user , shows,loading, showModal,showNotification, pageDropDown:{channelsByUser} };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowPage);

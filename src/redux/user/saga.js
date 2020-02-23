@@ -123,7 +123,6 @@ function* saveNewUser({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* onclickModal({payload={}}) {  
-     console.log("payload----", payload);
     yield put(toggleUserModal((payload)));
 }
 export function* watchLoadUser():any {

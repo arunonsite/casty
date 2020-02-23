@@ -21,9 +21,10 @@ function UserFormModal(props) {
 
   const inputRef = useRef(null);
   const classes = useStyles();
+  
   const {
     formData:{name='', description='', cphoto=''},
-    handleSubmit,handleChange, title, ...others} = props;
+    handleSubmit,handleChange, title,buttonText, ...others} = props;
     return (
       <Modal
         {...others}       
@@ -82,71 +83,11 @@ className={classes.root}
  
         </Col>
         </Row>
-        <Button type="submit" className="btn btn-secondary button-next float-right">Add Channel</Button>
+        <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
+
             </ValidatorForm>
 
 
-             {/*  <Row>
-                <Col xl={12}>
-                  <div class="card">
-                    <div class="card-body">
-
-                      <div id="rootwizard">
-                        
-                        <div class="tab-content mb-0 b-0">
-                          <div class="tab-pane active" id="first">
-
-                            <div class="tab-pane" id="first">
-                            <AvForm onSubmit={handleSubmit}>
-                                <div class="row">
-                                  <div class="col-12">
-                                   
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="Show">Channel Name</label>
-                                      <div class="col-md-9">
-                                      
-                                      <AvField value={name} onChange={handleChange} 
-                                      class="form-control" id="name" name="name" 
-                                       type="text" errorMessage="Invalid name" validate={{
-                                     required: {value: true}
-                                     }} />
-                                    
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="show">Channel Description</label>
-                                      <div class="col-md-9">
-                                     <AvField value={description} onChange={handleChange} class="form-control" id="description" name="description"  type="text" errorMessage="Invalid Description" validate={{
-                                     required: {value: true}
-                                     }} />
-                                      </div>
-                                    </div>
-                                    <div class="form-group row mb-3">
-                                      <label class="col-md-3 col-form-label" for="show">Photo</label>
-                                      <div class="col-md-9 ">
-                                     <AvField type="file" value={cphoto}  class="form-control" id="cphoto" name="cphoto" 
-                                      errorMessage="Invalid Images" 
-                                       />
-                                    
-                                      </div>
-                                      
-                                    </div>
-     
-                                  </div>
-                                </div>
-                                <FormGroup className="btn btn-secondary button-next float-right">
-          <Button>Add Channel</Button>
-        </FormGroup>
-                          </AvForm>
-                            </div>
-                          </div>
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </Row> */}
   
 
         </Modal.Body>

@@ -9,13 +9,15 @@ import {
     LOAD_CHANNEL,
      ONCLICK_MODAL,
     TOGGLE_CHANNEL_MODAL,
-    SAVE_CHANNEL
+    SAVE_CHANNEL,
+    UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
     loadChannelSuccess,
     toggleChannelModal,
-    saveChannelSuccess
+    saveChannelSuccess,
+    updateChannelSuccess
 } from './actions';
 
  const onChannelSaveSuccess = {
@@ -100,16 +102,12 @@ function* saveNewChannel({payload={}}) {
         const response = yield call(fetchJSON, 
             appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE,
              options);
-console.log("response---->>>>",  response);
              const status  = processPutSuccessResponse(response, 'name');
-              console.log("Channel Save status---", status)
-
              const {name=''} = response; 
         if(name !== '' || name !== null){
             let  nwChannel = Object.assign (
                 {...onChannelSaveSuccess}, { channelNotification : {notify:true, message:'Channel Added Successfully'}}
-            );
-          
+            );          
             yield put(saveChannelSuccess(nwChannel));
          }else{
              const {nonRegisteredUser = []} = response;
@@ -119,11 +117,7 @@ console.log("response---->>>>",  response);
              }else{               
                 message = 'Internal server error';                 
              }
-            // yield put(loginUserFailed(message));
-           
-
          }
-      //  yield put(saveChannelSuccess(processSuccessResponse(response)));
     } catch (error) {
         let message;
         switch (error.status) {
@@ -133,6 +127,55 @@ console.log("response---->>>>",  response);
         }
     }
 }
+
+
+/**
+ * Updating the selected Channel
+ * @param {*} payload - username and password 
+ */
+function* updateChannel({payload={}}) {
+    
+    const {name='', description='', id=''} = payload;
+    const updateChannelData= {
+      "Name": name,
+      "Description": description,
+      "Id" : id
+    }
+  const options = {
+      body: JSON.stringify(updateChannelData),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+  };
+  try {
+      const response = yield call(fetchJSON, 
+          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_UPDATE,
+           options);
+           const status  = processPutSuccessResponse(response, 'name');
+           const {name=''} = response; 
+      if(name !== '' || name !== null){
+          let  nwChannel = Object.assign (
+              {...onChannelSaveSuccess}, { channelNotification : {notify:true, message:'Channel Updated Successfully'}}
+          );          
+          yield put(updateChannelSuccess(nwChannel));
+       }else{
+           const {nonRegisteredUser = []} = response;
+           let message;
+           if(nonRegisteredUser.length > 0){               
+              message = nonRegisteredUser[0]; 
+           }else{               
+              message = 'Internal server error';                 
+           }
+       }
+  } catch (error) {
+      let message;
+      switch (error.status) {
+          case 500: message = 'Internal Server Error'; break;
+          case 401: message = 'Invalid credentials'; break;
+          default: message = error;
+      }
+  }
+}
+
 
 export function* watchLoadChannel():any {
     yield takeEvery(LOAD_CHANNEL, loadChannelList);
@@ -146,6 +189,10 @@ export function* watchSaveChannel():any {
     yield takeEvery(SAVE_CHANNEL, saveNewChannel);
 }
 
+export function* watchUpdateChannel():any {
+    yield takeEvery(UPDATE_CHANNEL, updateChannel);
+}
+
 
 
 
@@ -154,6 +201,7 @@ function* channelSaga():any {
         fork(watchLoadChannel),
         fork(watchModalClick),
         fork(watchSaveChannel),
+        fork(watchUpdateChannel),
     ]);
 }
 
