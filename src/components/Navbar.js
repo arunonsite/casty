@@ -4,43 +4,40 @@ import { connect } from 'react-redux';
 import { Collapse } from 'reactstrap';
 
 
+import { routes } from '../routes';
+
 const NavMenuContent = (props) => {
     const onMenuClickCallback = props.onMenuClickCallback;
+    const roles = [
+        //user roles + concatinate common role
+        'Admin'
+       ];
+       let allowedRoutes =[];
+       Object.keys(routes).map((ind) =>{
+            
+            if(routes[ind].roles !== undefined){
+                  routes[ind].roles.reduce((acc, role) => {                   
+                   if (roles && roles.indexOf(role) !== -1) {
+                                              // role not authorised so redirect to home page
+                                              
+                                               allowedRoutes.push(routes[ind]);
+                      
+                     }   
+                  }, []);
+            }           
+
+       });   
 
     return <React.Fragment>
         <ul className="navigation-menu">
-
-
-            <li>  <Link to="/dashboard" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-airplay"></i>
-                        <span> Dashboard </span>
-                    </Link></li>
-            <li> <Link to="/users" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-users"></i>
-              
-                        <span> User Management</span>
-                    </Link></li>
-            
-            <li>
-                    <Link to="/channels" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-play-circle "></i>
-              
-                        <span> Channels  </span>
-                    </Link></li>
-                    <li>
-                    <Link to="/shows" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-film"></i>
-              
-                        <span> Shows   </span>
-                    </Link></li>
-            <li>
-                    <Link to="/episodes" className="waves-effect has-dropdown" aria-expanded="true">
-                        <i className="fe-grid"></i>
-              
-                        <span> Episodes   </span>
-                    </Link></li>
-          
-           
+        { allowedRoutes.map((menu) =>  					 
+                   <li> 
+                        <Link to={menu.path}className="waves-effect has-dropdown"
+                          aria-expanded="true">
+                    <i className={menu.icon}></i>
+                    <span> { menu.name} </span>
+                </Link></li>                     
+        )}
         </ul>
     </React.Fragment>
 }
@@ -49,7 +46,6 @@ const NavMenuContent = (props) => {
 class Navbar extends Component {
     constructor(props) {
         super(props);
-
         this.initMenu = this.initMenu.bind(this);
     }
 
