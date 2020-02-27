@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Table } from 'react-bootstrap';
+import swal from 'sweetalert'
+
 import  * as channelActions from '../../redux/channel/actions';
 import { bindActionCreators } from 'redux';
 import { toast } from 'react-toastify';
@@ -44,20 +44,7 @@ class ChannelPage extends Component {
         this.loadPageData();
     }
   }
-  renderTableData() {
-    return this.props.channels.map((channel, index) => {
-       const {  name='', description='', imageFullURL='',id='' } = channel //destructuring
-       return (
-          <tr key={name}>          
-             <td>{id}</td>
-             <td>{name}</td>
-             <td>{description}</td>
-             <td align='center'><img src={imageFullURL} alt='channel' width="65" height="65" /> </td>
-             <td><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" onClick={() => { this.toggleEditUserModal(channel) }} class="btn btn-warning btn-sm">Edit</button>  <button type="button" class="btn btn-danger btn-sm">Delete</button> </td>
-          </tr>
-       )
-    })
- }
+
  loadPageData = () => {  //this.state.departments.push()
   const {user:{id=''}} = this.props;
   this.props.actions.loadChannel(id);
@@ -122,6 +109,25 @@ toggleEditChannelModal = (channel) => {
       id
     },}});     
     this.props.actions.onclickModal(togg);
+ }
+ deleteChannel = (channel) => {
+  const {user:{id=''}} = this.props;
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Channel file!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      this.props.actions.deleteChannel({ UserID: id, ChannelID : channel.id});
+    } else {
+      swal("Your Channel is safe!");
+    }
+  });
+ 
+
  }
 
   render() { 
@@ -206,7 +212,7 @@ toggleEditChannelModal = (channel) => {
             rowData => ({
               icon: 'delete',
               tooltip: 'Delete Channel',
-              onClick: (event, rowData) => alert("You saved " + rowData.name),
+              onClick: (event, rowData) => this.deleteChannel(rowData),
               disabled: rowData.birthYear < 2000
             })
           ]}

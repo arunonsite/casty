@@ -206,9 +206,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-  console
-  .log("CompanyID---", state);
-
    const {UserPageReducer: {users=[], userModal={},loading=false,userNotification={}}, 
    Auth:{user={}, applicationDynamicConstants:{roleSource={}}} }= state;
   return { users ,userModal,userNotification, loading,  user, roleSource};

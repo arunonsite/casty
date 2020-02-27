@@ -7,6 +7,7 @@ ONCLICK_MODAL,
 TOGGLE_CHANNEL_MODAL,
 SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL,
 UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL,
+DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL
 
 
 
@@ -51,4 +52,16 @@ export const updateChannel  = (updateChannel) => ({
 export const updateChannelSuccess  = (updateChannel) => ({
     type: UPDATE_CHANNEL_SUCCESS,
     payload: updateChannel
+});
+
+
+
+
+export const deleteChannel  = (deleteChananl) => ({
+    type: DELETE_CHANNEL,
+    payload: deleteChananl
+});
+export const deleteChannelSuccess  = (deleteChananl) => ({
+    type: DELETE_CHANNEL_SUCCESS,
+    payload: deleteChananl
 });

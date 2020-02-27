@@ -7,14 +7,19 @@ export default{
          "LOGIN_ROUTE" :"api/Users/Login",
          "GET_USER_LIST_BYCOMPANY_ROUTE" :"/api/Users/ByCompany/",
 
+         "SHOW_LIST" : 'api/Shows/CreatedByUserId/',
+         "SHOW_SAVE" : '/api/Shows/New/',
+         "SHOW_UPDATE" : 'api/Shows/Update/',
+         "SHOW_DELETE" : 'api/Shows/Delete/',
+
 
          "CHANNEL_LIST" : 'api/Channels/CreatedByUserId/',
-         "CHANNEL_SAVE" : 'api/Channels/NewChannel/',
-         "CHANNEL_UPDATE" : 'api/Channels/UpdateChannel/',
+         "CHANNEL_SAVE" : 'api/Channels/New/',
+         "CHANNEL_UPDATE" : 'api/Channels/Update/',
+         "CHANNEL_DELETE" : 'api/Channels/Delete/',
 
-         "SHOW_LIST" : 'api/Shows/CreatedByUserId/',
+         
          "LOAD_CHANNEL_BY_USER" : 'api/Channels/CreatedByUserId/',
-         "SHOW_SAVE" : '/api/Shows/NewShow/',
 
          "USER_SAVE" : '/api/Users/Register/',
 

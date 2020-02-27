@@ -10,14 +10,16 @@ import {
      ONCLICK_MODAL,
     TOGGLE_CHANNEL_MODAL,
     SAVE_CHANNEL,
-    UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL
+    UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL,
+    DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
     loadChannelSuccess,
     toggleChannelModal,
     saveChannelSuccess,
-    updateChannelSuccess
+    updateChannelSuccess,
+    deleteChannelSuccess
 } from './actions';
 
  const onChannelSaveSuccess = {
@@ -177,6 +179,50 @@ function* updateChannel({payload={}}) {
 }
 
 
+/**
+ * Updating the selected Channel
+ * @param {*} payload - username and password 
+ */
+function* deleteChannel({payload={}}) {
+    
+   
+  const options = {
+      body: JSON.stringify(payload),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+  };
+  try {
+      const response = yield call(fetchJSON, 
+          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_DELETE
+          +'?ChannelID='+payload.ChannelID+"&UserID="+payload.ChannelID,
+           options);
+           const status  = processPutSuccessResponse(response, 'name');
+           const {name=''} = response; 
+      if(name !== '' || name !== null){
+          let  nwChannel = Object.assign (
+              {...onChannelSaveSuccess}, { channelNotification : {notify:true, message:'Channel Deleted Successfully'}}
+          );          
+          yield put(deleteChannelSuccess(nwChannel));
+       }else{
+           const {nonRegisteredUser = []} = response;
+           let message;
+           if(nonRegisteredUser.length > 0){               
+              message = nonRegisteredUser[0]; 
+           }else{               
+              message = 'Internal server error';                 
+           }
+       }
+  } catch (error) {
+      let message;
+      switch (error.status) {
+          case 500: message = 'Internal Server Error'; break;
+          case 401: message = 'Invalid credentials'; break;
+          default: message = error;
+      }
+  }
+}
+
+
 export function* watchLoadChannel():any {
     yield takeEvery(LOAD_CHANNEL, loadChannelList);
 }
@@ -193,6 +239,9 @@ export function* watchUpdateChannel():any {
     yield takeEvery(UPDATE_CHANNEL, updateChannel);
 }
 
+export function* watchDeleteChannel():any {
+    yield takeEvery(DELETE_CHANNEL, deleteChannel);
+}
 
 
 
@@ -202,6 +251,7 @@ function* channelSaga():any {
         fork(watchModalClick),
         fork(watchSaveChannel),
         fork(watchUpdateChannel),
+        fork(watchDeleteChannel),
     ]);
 }
 
