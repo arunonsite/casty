@@ -85,7 +85,11 @@ class App extends Component {
                   return (
                     <Suspense fallback={loading()}>
                       <Layout {...props}>
+                        <div class="Samp">
+
+                      
                         <route.component {...props} />
+                        </div>
                       </Layout>
                     </Suspense>
                   );

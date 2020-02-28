@@ -61,7 +61,8 @@ const routes = [
 ]
 const loggedInUser = getLoggedInUser();
  console.log("loggedInUser--->>", loggedInUser);
-  const {role=''} = loggedInUser;
+ // const {role=''} = loggedInUser;
+   const role ='SuperAdmin';
   const dahs= {
     path: "/",
     exact: true,

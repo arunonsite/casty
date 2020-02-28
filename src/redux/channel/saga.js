@@ -91,6 +91,7 @@ function* saveNewChannel({payload={}}) {
     
       const {name='', description='', userId=''} = payload;
       const newChannelData= {
+        ...payload ,
         "Name": name,
         "Description": description,
         "createdById" : userId
@@ -102,7 +103,7 @@ function* saveNewChannel({payload={}}) {
     };
     try {
         const response = yield call(fetchJSON, 
-            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE,
+            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE+'?UserId='+userId,
              options);
              const status  = processPutSuccessResponse(response, 'name');
              const {name=''} = response; 
