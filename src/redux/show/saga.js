@@ -4,13 +4,13 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { processSuccessResponse} from '../../helpers/applicationUtils';
 
 import {
-    LOAD_SHOW_SUCCESS,    
-    LOAD_SHOW_FAILED,
     LOAD_SHOW,
      ONCLICK_MODAL,
-    TOGGLE_SHOW_MODAL,
     SAVE_SHOW,
-    LOAD_CHANNELS_BY_USER, LOAD_CHANNELS_BY_USER_SUCCESS, LOAD_CHANNELS_BY_USER_FAILED
+    LOAD_CHANNELS_BY_USER,
+     UPDATE_SHOW,
+     RESET_SHOW_NOTIFICATION,
+     DELETE_SHOW
 
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
@@ -18,14 +18,18 @@ import {
     loadShowSuccess,
     toggleShowModal,
     saveShowSuccess,
-    loadChannelsByUserSuccess
+    loadChannelsByUserSuccess,
+    updateShowSuccess,
+    updateShowFailed,
+    resetShowNotification,
+    deleteShowSuccess
 } from './actions';
 
  const onShowSaveSuccess = {
     showModal :{show: false,title: 'New Show',mode : 'Add',data:   {name: '',description: '',cphoto : ''}},
-    showNotification : {notify:false, message:''}
+    showNotification : {notify:false,mode:0,  message:''}
  }
-
+//https://casty.azurewebsites.net/api/Shows/Delete?ShowID=a4a3b628-32e4-42aa-a124-08d7b830efc6&UserID=6fdd16f5-2b43-4e40-b59f-e0a1933cc744
 
 /**
  * Fetch data from given url
@@ -41,9 +45,12 @@ const fetchJSON = (url, options = {}) => {
             return response.json();
         })
         .then(json => {
+            
             return json;
         })
-        .catch(error => { throw error });
+        .catch(error => {             
+            return {error : error};
+         });
 }
 
 
@@ -61,7 +68,7 @@ function* loadShowList({payload={}}) {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
         const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
             .API_PATH.SHOW_LIST+'/'+payload+'?CreatedByUserId='+payload, options);
-             console.log("response----", response);
+           
 
         yield put(loadShowSuccess(processSuccessResponse(response)));
     } catch (error) {
@@ -133,29 +140,26 @@ function* saveNewShow({payload={}}) {
     try {
 
         const response = yield call(fetchJSON, 
-            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_SAVE,
+            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_SAVE+'?UserId='+payload.userId,
              options);
-
-             const {name=''} = response; 
-        if(name !== '' || name !== null){
-            let  nwShow = Object.assign (
-                {...onShowSaveSuccess}, { showNotification : {notify:true, message:'Show Added Successfully'}}
-            );
-          
-            yield put(saveShowSuccess(nwShow));
-         }else{
-             const {nonRegisteredUser = []} = response;
-             let message;
-             if(nonRegisteredUser.length > 0){               
-                message = nonRegisteredUser[0]; 
-             }else{               
-                message = 'Internal server error';                 
-             }
-            // yield put(loginUserFailed(message));
-           
-
-         }
-      //  yield put(saveShowSuccess(processSuccessResponse(response)));
+             const {name='', error={}} = response; 
+             if(name !== '' || name !== null && error === null){                  
+                 let  nwShow = Object.assign (
+                     {...onShowSaveSuccess}, { showNotification : {notify:true,mode:0 ,  message:'Show Added Successfully'}}
+                 );             
+                 yield put(updateShowSuccess(nwShow));
+              }else{        
+                  const {error : {message =''}} = response;
+                  let apiErrorMessage = 'Unable to add show';
+                  if(message === ''){                             
+                   apiErrorMessage = 'Unable to Update Successfully';                 
+                  }
+       
+                  let  nwShow = Object.assign (
+                   {...onShowSaveSuccess}, { showNotification : {notify:true,mode:-1 ,  message:apiErrorMessage}}
+               );
+                  yield put(updateShowFailed(nwShow));       
+              }
     } catch (error) {
         let message;
         switch (error.status) {
@@ -166,6 +170,141 @@ function* saveNewShow({payload={}}) {
     }
 }
 
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* updateShow({payload={}}) {
+    
+    const {name='', description='', userId='', channelId='', id=''} = payload;
+    const nuptShowData= {
+      "Name": name,
+      "Description": description,
+      "createdById" : userId,
+      "ChannelId" :channelId,
+      "Id" :id
+
+    }
+  const options = {
+      body: JSON.stringify(nuptShowData),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+  };
+  try {
+
+      const response = yield call(fetchJSON, 
+          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_UPDATE+'?UserId='+payload.userId,
+           options); 
+           const {name='', error={}} = response; 
+      if(name !== '' || name !== null && error === null){
+           
+          let  nwShow = Object.assign (
+              {...onShowSaveSuccess}, { showNotification : {notify:true,mode:0 ,  message:'Show Added Successfully'}}
+          );
+      
+          yield put(updateShowSuccess(nwShow));
+       }else{        
+           const {error : {message =''}} = response;
+           let apiErrorMessage = 'Unable to Update show';
+           if(message === ''){                             
+            apiErrorMessage = 'Unable to Update Successfully';                 
+           }
+
+           let  nwShow = Object.assign (
+            {...onShowSaveSuccess}, { showNotification : {notify:true,mode:-1 ,  message:apiErrorMessage}}
+        );
+           yield put(updateShowFailed(nwShow));         
+
+       }
+    //  yield put(saveShowSuccess(processSuccessResponse(response)));
+  } catch (error) {
+      let message;
+      switch (error.status) {
+          case 500: message = 'Internal Server Error'; break;
+          case 401: message = 'Invalid credentials'; break;
+          default: message = error;
+      }
+  }
+}
+
+
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* deleteShow({payload={}}) {
+     console
+     .log("payload--", payload);
+    
+    const {name='', description='', UserID='', ShowId='', id=''} = payload;
+    const nuptShowData= {
+      "Name": name,
+      "Description": description,
+      "createdById" : UserID,
+      "ShowID" :ShowId,
+      "UserID" :UserID,
+      "Id" :id
+
+    }
+  const options = {
+      body: JSON.stringify(nuptShowData),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+  };
+  try {
+
+      const response = yield call(fetchJSON, 
+          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_DELETE+'?ShowID='+ShowId+
+          '&UserID='+UserID,
+           options); 
+           const {name='', error={}} = response; 
+      if(name !== '' || name !== null && error === null){
+           
+          let  nwShow = Object.assign (
+              {...onShowSaveSuccess}, { showNotification : {notify:true,mode:0 ,  message:'Show delete Successfully'}}
+          );
+      
+          yield put(deleteShowSuccess(nwShow));
+       }else{        
+           const {error : {message =''}} = response;
+           let apiErrorMessage = 'Unable to delete show';
+           if(message === ''){                             
+            apiErrorMessage = 'Unable to Updadeletete Successfully';                 
+           }
+
+           let  nwShow = Object.assign (
+            {...onShowSaveSuccess}, { showNotification : {notify:true,mode:-1 ,  message:apiErrorMessage}}
+        );
+           yield put(updateShowFailed(nwShow));         
+
+       }
+    //  yield put(saveShowSuccess(processSuccessResponse(response)));
+  } catch (error) {
+      let message;
+      switch (error.status) {
+          case 500: message = 'Internal Server Error'; break;
+          case 401: message = 'Invalid credentials'; break;
+          default: message = error;
+      }
+  }
+}
+
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* resetShowNotifications({payload={}}) {  
+    try {
+        yield put(resetShowNotification(payload));
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
 export function* watchLoadShow():any {
     yield takeEvery(LOAD_SHOW, loadShowList);
 }
@@ -182,8 +321,15 @@ export function* watchSaveShow():any {
     yield takeEvery(SAVE_SHOW, saveNewShow);
 }
 
-
-
+export function* watchUpdateShow():any {
+    yield takeEvery(UPDATE_SHOW, updateShow);
+}
+export function* watchResetNotificationShow():any {
+    yield takeEvery(RESET_SHOW_NOTIFICATION, resetShowNotifications);
+}
+export function* watchDeleteShow():any {
+    yield takeEvery(DELETE_SHOW, deleteShow);
+}
 
 
 
@@ -193,7 +339,9 @@ function* showSaga():any {
         fork(watchLoadShow),
         fork(watchModalClick),
         fork(watchSaveShow),
-        fork(watchLoadChannelsOfUser)
+        fork(watchUpdateShow),
+        fork(watchLoadChannelsOfUser),
+        fork(watchDeleteShow)
     ]);
 }
 

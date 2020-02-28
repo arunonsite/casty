@@ -19,11 +19,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserFormModal(props) {
+   console
+   .log("props---", props);
 
   const inputRef = useRef(null);
   const classes = useStyles();
   const {
-    formData: { name = '', description = '', cphoto = '' },
+    formData: { name = '', description = '', cphoto = '' , channelId='', id=''},
     handleSubmit, handleChange, title, buttonText = '', channelsByUser = [], ...others } = props;
   return (
     <Modal
@@ -64,6 +66,7 @@ function UserFormModal(props) {
                 variant="outlined"
                 onChange={handleChange}
                 name='channelId'
+                value={channelId}
               >
                 {channelsByUser.map((item) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)

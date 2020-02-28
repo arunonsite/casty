@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {  Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
-import { toast } from 'react-toastify';
-import swal from 'sweetalert'
+import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
+
 import  * as showActions from '../../redux/show/actions';
 import { bindActionCreators } from 'redux';
 import MaterialTable from "material-table";
+import { notifyMe } from '../../helpers/applicationUtils';
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
-const resetNotification  = {showNotification : {notify:false,mode:0,  message:''}};
-
+import { Redirect } from 'react-router-dom'
 class ShowPage extends Component {
 
   constructor(props) {
@@ -24,36 +23,17 @@ class ShowPage extends Component {
           cphoto : '',
           channelId:'',
           channelName:'',}
-        },       
+        },
+       
     };
   }
 
-  componentDidUpdate(){
-     const {showNotification : {notify = false,mode=0, message='Success'}} = this.props; 
-    if(notify){
-      if(mode> -1){
-        toast.success(message, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-          });
-        //  this.loadPageData();
-      }else{
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-          });
-      }
-     this.props.actions.resetShowNotification(resetNotification);
-      // this.loadPageData();
-    } 
+  componentDidUpdate(){ 
+    const {showNotification ={}, showNotification :{notify = false}} = this.props; 
+    
+    notifyMe(showNotification);   
+    
+    
   }
 
 
@@ -76,22 +56,22 @@ class ShowPage extends Component {
  // this.setState({newShowModalData: {formData : formData}});
  }
  handleSubmit =() => {   
-  const {user:{id=''},showModal:{mode= "edit"}} = this.props;
+  const {user:{id=''}} = this.props;
   const { newShowModalData:{formData={}}} = this.state; 
   const newCHannelData= Object.assign({...formData}, {userId : id}); 
-  if(mode === 'edit'){
-    this.props.actions.updateShow(newCHannelData);
-  }else{
-    this.props.actions.newShow(newCHannelData);
-  }
+  this.props.actions.newShow(newCHannelData);
  }  
  
  showEpisodesDetails = ()=>{
+   alert(1);
    this.props.history.push(`/episodes`)
  }
  toggleShowModal = () => {
+
    const {showModal : {show = false}, pageDropDown:{channelsByUser=[]}} = this.props; 
-   const { newShowModalData:{formData={}}} = this.state;   
+
+   const { newShowModalData:{formData={}}} = this.state;
+   
    const togg = { showModal: {
      show: !show,
      title: 'New Show',
@@ -116,59 +96,38 @@ class ShowPage extends Component {
    channelsByUser}});  
    this.props.actions.onclickModal(togg);
   }
-  toggleEditShowModal = (channel) => { 
-    const {showModal : {show = false}, pageDropDown:{channelsByUser=[]}} = this.props; 
-     const {name = "Demo1",    description= "Demo 2", id='', channelId=''} = channel;
-     const togg = { showModal: {
+ toggleEditChannelModal = (channel) => { 
+    const {channelModal : {show = false}} = this.props; 
+     const {name = "Demo1",    description= "Demo 2", id=''} = channel;
+     const togg = { channelModal: {
        show: !show,
-       title: 'Edit Show',
+       title: 'Edit Channel',
        mode : 'edit',
-       buttonText: 'Update Show',
+       buttonText: 'Update Channel',
        formData:   {
         name,
        description, 
-       id,
-       channelId
+       id
        },
-       channelsByUser
      }}; 
      /* to save in loacal State */
      this.setState({newShowModalData: {
        formData : { 
        name,
        description,
-       id,
-       channelId
+       id
      },}});     
      this.props.actions.onclickModal(togg);
   }
-  deleteShow = (show) => {
-    const {user:{id=''}} = this.props;
-    swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this show file!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-         console
-         .log({ UserID: id, ShowId : show.id});
-        this.props.actions.deleteShow({ UserID: id, ShowId : show.id});
-      } else {
-        swal("Your show is safe!");
-      }
-    });
-   
-  
-   }
-  render() { 
+  render() {
+ 
     //const {newShow:{name='', description='', cphoto=''}} = this.state;
     const {     newShowModalData={} } = this.state;
     const {shows=[], showModal={}} = this.props;
     return (
-      <React.Fragment>       
+      <React.Fragment>
+        
+
         <Modal
           handleSubmit={this.handleSubmit}    
           handleChange={this.handleChange}          
@@ -250,7 +209,7 @@ class ShowPage extends Component {
             rowData => ({
               icon: 'delete',
               tooltip: 'Delete Show',
-              onClick: (event, rowData) => this.deleteShow(rowData),
+              onClick: (event, rowData) => alert("You saved " + rowData.name),
               disabled: rowData.birthYear < 2000
             })
           ]}
@@ -279,9 +238,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   console.log("state----", state);
-  const {Auth:{user={}}, ShowPageReducer : {showNotification,shows=[],
-     loading=false, showModal={}, channelsByUser} }= state;
+  const {Auth:{user={}}, ShowPageReducer : {showNotification,shows=[], loading=false, showModal={}, channelsByUser} }= state;
 
   shows.map((show, ind)=>{
    let selectChan = channelsByUser.filter((channel) =>
