@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // https://blog.logrocket.com/lazy-loading-components-in-react-16-6-6cea535c0b52
 const Topbar = React.lazy(() => import("./Topbar"));
 const Navbar = React.lazy(() => import("./Navbar"));
+const BreadCrumb = React.lazy(() => import("./BreadCrumb"));
 const RightSidebar = React.lazy(() => import("./RightSidebar"));
 const Footer = React.lazy(() => import("./Footer"));
 const loading = () => <div className="text-center"></div>;
@@ -79,8 +80,10 @@ class AuthLayout extends Component {
                 </Container>
                     <Container fluid>
                     <ToastContainer />
-                        <Suspense fallback={loading()}>                      
+                        <Suspense fallback={loading()}>   
+                        <div class="sumo">                   
                             {children}
+                            </div>
                         </Suspense>
                     </Container>
                  

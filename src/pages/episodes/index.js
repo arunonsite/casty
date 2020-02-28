@@ -134,7 +134,7 @@ toggleEditEpisodeModal = () => {
                             <h4 class="page-title">ShowName -Episodes</h4>
                         </div>
                     </div>
-                </div>     
+              </div>     
 
                 <div class="row">
                     <div class="col-12">

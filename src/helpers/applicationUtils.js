@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { Cookies } from "react-cookie";
 import { toast } from 'react-toastify';
+import base64Img from "base64-img";
 /**
  * Checks if user is authenticated
  */
@@ -69,5 +70,19 @@ const notifyMe = (notifyM) => {
 }
 
 
+/**
+ * Fetch data from given url
+ * @param {*} url 
+ * @param {*} options 
+ */
+const getBese64Image = (url, options = {}) => {
+  
+     return   base64Img.requestBase64(url, function(err, res, body) {
+          console.log("res-getBese64Image---", res); 
+      
+    }).catch(error => { throw error });
+}
 
-export { processSuccessResponse,fetchJSON, processPutSuccessResponse, notifyMe };
+
+
+export { processSuccessResponse,fetchJSON, processPutSuccessResponse, notifyMe , getBese64Image};

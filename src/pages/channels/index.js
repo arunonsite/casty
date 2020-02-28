@@ -50,20 +50,35 @@ class ChannelPage extends Component {
   this.props.actions.loadChannel(id);
  }
  handleChange =  (event, field) => {   
+    console
+    .log("event.target--", event.target);
+  
   const {newChannelModalData :{formData={}}} = this.state;
   formData[event.target.name] = event.target.value;  
   this.setState({newChannelModalData: {formData : formData}});
  }
+ handleFileChange =  ({id= "9dxverkvh", name= "postoffice (1).png", type= "image/png", data=''}) => {   
+  var re = /(?:\.([^.]+))?$/;
+  var ext = re.exec(name)[1]; 
+
+ const {newChannelModalData :{formData={}}} = this.state;
+  const imageStruc = { "ImageBase64": data,
+  "ImageFileExtensionIncludingDot": '.'+ext} ;
+this.setState({newChannelModalData: {formData : {...formData, ...imageStruc}}});
+}
  handleSubmit =() => {   
   const {user:{id=''}, channelModal:{mode= "edit"}} = this.props;
   const { newChannelModalData:{formData={}}} = this.state; 
   const newCHannelData= Object.assign({...formData}, {userId : id});
-  
-  if(mode === 'edit'){
+   if(mode === 'edit'){
+    console
+    .log("updateCHannelData---", newCHannelData);
     this.props.actions.updateChannel(newCHannelData);
   }else{
+    console
+    .log("newCHannelData---", newCHannelData);
     this.props.actions.newChannel(newCHannelData);
-  }
+  } 
  // this.props.actions.newChannel(newCHannelData);
  }    
 toggleChannelModal = () => {
@@ -139,7 +154,8 @@ toggleEditChannelModal = (channel) => {
         <Modal
           handleSubmit={this.handleSubmit}    
           handleChange={this.handleChange}          
-          handlehide={this.toggleChannelModal}         
+          handlehide={this.toggleChannelModal}  
+          handleFileChange={this.handleFileChange}         
           size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered
