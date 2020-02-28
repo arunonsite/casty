@@ -89,12 +89,12 @@ function* onclickModal({payload={}}) {
  */
 function* saveNewChannel({payload={}}) {
     
-      const {name='', description='', userId=''} = payload;
+      const {name='', description='', UserId=''} = payload;
       const newChannelData= {
         ...payload ,
         "Name": name,
         "Description": description,
-        "createdById" : userId
+        "createdById" : UserId
       }
     const options = {
         body: JSON.stringify(newChannelData),
@@ -103,7 +103,7 @@ function* saveNewChannel({payload={}}) {
     };
     try {
         const response = yield call(fetchJSON, 
-            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE+'?UserId='+userId,
+            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_SAVE+'?UserId='+UserId,
              options);
              const status  = processPutSuccessResponse(response, 'name');
              const {name=''} = response; 
@@ -138,8 +138,9 @@ function* saveNewChannel({payload={}}) {
  */
 function* updateChannel({payload={}}) {
     
-    const {name='', description='', id=''} = payload;
+    const {name='', description='', id='',UserId=''} = payload;
     const updateChannelData= {
+        ...payload ,
       "Name": name,
       "Description": description,
       "Id" : id
@@ -151,8 +152,10 @@ function* updateChannel({payload={}}) {
   };
   try {
       const response = yield call(fetchJSON, 
-          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_UPDATE,
+          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_UPDATE+"?UserId="+UserId,
            options);
+
+           console.log("response---", response);
            const status  = processPutSuccessResponse(response, 'name');
            const {name=''} = response; 
       if(name !== '' || name !== null){
@@ -197,21 +200,31 @@ function* deleteChannel({payload={}}) {
           appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.CHANNEL_DELETE
           +'?ChannelID='+payload.ChannelID+"&UserID="+payload.ChannelID,
            options);
-           const status  = processPutSuccessResponse(response, 'name');
-           const {name=''} = response; 
-      if(name !== '' || name !== null){
-          let  nwChannel = Object.assign (
-              {...onChannelSaveSuccess}, { channelNotification : {notify:true, message:'Channel Deleted Successfully'}}
-          );          
-          yield put(deleteChannelSuccess(nwChannel));
-       }else{
-           const {nonRegisteredUser = []} = response;
-           let message;
-           if(nonRegisteredUser.length > 0){               
-              message = nonRegisteredUser[0]; 
-           }else{               
-              message = 'Internal server error';                 
-           }
+
+
+
+           const {name='', error={}} = response; 
+           if(name !== '' || name !== null && error === null){
+                
+               let  nwShow = Object.assign (
+                   {...onChannelSaveSuccess}, { channelNotification : {notify:true,mode:0 ,  message:'Channel delete Successfully'}}
+               );
+           
+               yield put(deleteChannelSuccess(nwShow));
+            }else{        
+                const {error : {message =''}} = response;
+                let apiErrorMessage = 'Unable to delete show';
+                if(message === ''){                             
+                 apiErrorMessage = 'Unable to Updadeletete Successfully';                 
+                }
+     
+                let  nwShow = Object.assign (
+                 {...onChannelSaveSuccess}, { channelNotification : {notify:true,mode:-1 ,  message:apiErrorMessage}}
+             );
+               // yield put(updateShowFailed(nwShow)); 
+
+
+           
        }
   } catch (error) {
       let message;
