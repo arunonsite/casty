@@ -28,7 +28,7 @@ const Channel = (state:State = INIT_STATE, action: AuthAction) => {
     switch (action.type) {
 
         case LOAD_CHANNEL:
-            return { ...state, loading: true};
+            return { ...state,channelNotification :INIT_STATE.channelNotification, loading: true};
         case LOAD_CHANNEL_FAILED:
             return { ...state, error: action.payload, loading: false };
         case LOAD_CHANNEL_SUCCESS:
@@ -49,7 +49,13 @@ const Channel = (state:State = INIT_STATE, action: AuthAction) => {
                 return { ...state, loading: true};
         case UPDATE_CHANNEL_SUCCESS:
             return { ...state, ...action.payload, loading: false, error: null };
-            
+        
+            case DELETE_CHANNEL:
+                return { ...state, loading: true };
+            case DELETE_CHANNEL_SUCCESS:
+                return { ...state, ...action.payload, loading: false, error: null };
+            case DELETE_CHANNEL_FAILED:
+                return { ...state, ...action.payload,loading: false };   
       
         default: return { ...state };
     }

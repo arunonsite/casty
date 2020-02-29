@@ -37,7 +37,7 @@ const AuthLayout = Loadable({
 });
 
 // configure fake backend
-configureFakeBackend();
+//configureFakeBackend();
 
 /**
  * Exports the component with layout wrapped to it

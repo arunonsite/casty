@@ -2,6 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { Cookies } from "react-cookie";
 import { toast } from 'react-toastify';
 import base64Img from "base64-img";
+const imageToBase64 = require('image-to-base64');
 /**
  * Checks if user is authenticated
  */
@@ -77,10 +78,16 @@ const notifyMe = (notifyM) => {
  */
 const getBese64Image = (url, options = {}) => {
   
-     return   base64Img.requestBase64(url, function(err, res, body) {
-          console.log("res-getBese64Image---", res); 
-      
-    }).catch(error => { throw error });
+  //  base64Img.base64Sync(url);
+  //http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png
+
+    return imageToBase64(url)
+    .then(response=>response)
+    .catch(
+        (error) => {
+            console.log(error); //Exepection error....
+        }
+    )
 }
 
 
