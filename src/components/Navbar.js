@@ -2,25 +2,55 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Collapse } from 'reactstrap';
+import { isUserAuthenticated, getLoggedInUser } from '../helpers/authUtils';
+import { Redirect } from "react-router-dom";
 
 
-import { routes } from '../routes';
 
-const NavMenuContent = (props) => {
+import { routes, PrivateRoute } from '../routes';
+
+
+const NavMenuContent = (props) => {    
+const loggedInUser = getLoggedInUser();
+ const {roles=[]} = loggedInUser;
+
+  console
+  .log("role--Current -",loggedInUser );
+ // const role ='SuperAdmin';
+ const dahs= {
+   path: "/",
+   exact: true,
+   component: () => <Redirect to="/dashboard" />,
+   route: PrivateRoute
+ };
+ const usesrs= {
+   path: "/",
+   exact: true,
+   component: () => <Redirect to="/users" />,
+   route: PrivateRoute
+ };
+ const dashROles = 'SuperAdmin';
+ let customRoutes = routes;
+ if (roles && roles.indexOf(dashROles) === -1) {
+   // role not authorised so redirect to home page
+   customRoutes.push(dahs);
+ } else{
+   customRoutes.push(usesrs);
+
+    console
+    .log("customRoutes---", customRoutes);
+ }
     const onMenuClickCallback = props.onMenuClickCallback;
-    const roles = [
-        //user roles + concatinate common role
-        'Admin'
-       ];
+
        let allowedRoutes =[];
-       Object.keys(routes).map((ind) =>{
+       Object.keys(customRoutes).map((ind) =>{
             
-            if(routes[ind].roles !== undefined){
-                  routes[ind].roles.reduce((acc, role) => {                   
+            if(customRoutes[ind].roles !== undefined){
+                  customRoutes[ind].roles.reduce((acc, role) => {                   
                    if (roles && roles.indexOf(role) !== -1) {
                                               // role not authorised so redirect to home page
                                               
-                                               allowedRoutes.push(routes[ind]);
+                                               allowedRoutes.push(customRoutes[ind]);
                       
                      }   
                   }, []);

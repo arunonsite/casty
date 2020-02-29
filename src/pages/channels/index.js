@@ -58,7 +58,6 @@ class ChannelPage extends Component {
     const { newChannelModalData: { formData = {} } } = this.state;
     let proceddesData = {};
     proceddesData[event.target.name] = event.target.value;
-    const ddd = { newChannelModalData: { formData: { ...formData, ...proceddesData } } };
     this.setState({ newChannelModalData: { formData: { ...formData, ...proceddesData } } });
   }
   handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
@@ -120,19 +119,16 @@ class ChannelPage extends Component {
     let previewFile = [];
     previewFile.push({
       // the server file reference
-
       source: imageFullURL,
       // set type to limbo to tell FilePond this is a temp file
       options: {
         type: 'local',
-
         // stub file information
         file: {
           name: 'my-file.png',
           size: 3001025,
           type: 'image/png'
         },
-
         // pass poster property
         metadata: {
           poster: imageFullURL

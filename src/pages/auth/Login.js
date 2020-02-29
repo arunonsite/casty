@@ -50,8 +50,17 @@ class Login extends Component {
      */
     renderRedirectToRoot = () => {
         const isAuthTokenValid = isUserAuthenticated();
+        const {user={}}=this.props;
         if (isAuthTokenValid) {
-            return <Redirect to='/' />
+            const {roles = []} = user;
+         if (roles && roles.indexOf('SuperAdmin') !== -1) {
+            // role not authorised so redirect to home page           
+           
+                return <Redirect to='/dashboard' />
+            
+
+} 
+            return <Redirect to='/users' />
         }
     }
 
@@ -96,7 +105,7 @@ class Login extends Component {
                                                 <Button color="primary" className="btn-block">Log In</Button>
                                             </FormGroup>
 
-                                            <p><strong>Username:</strong> test &nbsp;&nbsp; <strong>Password:</strong> test</p>
+                                    
                                         </AvForm>
                                     </CardBody>
                                 </Card>

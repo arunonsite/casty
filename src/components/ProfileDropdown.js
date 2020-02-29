@@ -22,6 +22,7 @@ class ProfileDropdown extends Component {
 
     render() {
         const profilePic = this.props.profilePic || null;
+        console.log("-=-=-", this.props);
 
         return (
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} className="notification-list">
@@ -36,7 +37,7 @@ class ProfileDropdown extends Component {
                 <DropdownMenu right className="topbar-dropdown-menu profile-dropdown">
                     <div onClick={this.toggleDropdown}>
                         <div className="dropdown-header noti-title">
-                            <h6 className="text-overflow m-0">Welcome !</h6>
+                            <h6 className="text-overflow m-0">Welcome {this.props.firstName}!</h6>
                         </div>
                         {this.props.menuItems.map((item, i) => {
                             return <React.Fragment key={i + "-profile-menu"}>

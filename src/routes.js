@@ -30,8 +30,10 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
       return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
     }
     const loggedInUser = getLoggedInUser();
+
+    const allowedRoutes = roles.filter(element => loggedInUser.roles.includes(element));
     // check if route is restricted by role
-    if (roles && roles.indexOf(loggedInUser.role) === -1) {
+    if (allowedRoutes.length <= 0) {
       // role not authorised so redirect to home page
       return <NotFound  {...props} />
     }
@@ -52,36 +54,15 @@ const routes = [
 
   // other pages
   { path: '/dashboard', icon:'fe-airplay',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: [ 'SuperAdmin'] },
-  { path: '/users',icon:'fe-users',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin'] },
-  { path: '/channels',icon:'fe-play-circle',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin'] },
-  { path: '/episodes',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin'] },
-  { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin'] },
+  { path: '/users',icon:'fe-users',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/channels',icon:'fe-play-circle',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/episodes',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+
   
   
 ]
-const loggedInUser = getLoggedInUser();
- console.log("loggedInUser--->>", loggedInUser);
- // const {role=''} = loggedInUser;
-   const role ='SuperAdmin';
-  const dahs= {
-    path: "/",
-    exact: true,
-    component: () => <Redirect to="/dashboard" />,
-    route: PrivateRoute
-  };
-  const usesrs= {
-    path: "/",
-    exact: true,
-    component: () => <Redirect to="/users" />,
-    route: PrivateRoute
-  };
-  const dashROles = ['super'];
-  if (dashROles && dashROles.indexOf(role) === -1) {
-    // role not authorised so redirect to home page
-    routes.push(usesrs);
-  } else{
-    routes.push(usesrs);
-  }
+
  
 
 export { routes, PrivateRoute };

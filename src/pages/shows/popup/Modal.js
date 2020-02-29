@@ -9,6 +9,26 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+// Import React FilePond
+import { FilePond, registerPlugin } from "react-filepond";
+import { getBese64Image } from '../../../helpers/applicationUtils';
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+// Import the plugin code
+import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
+// Import the plugin styles
+import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
+registerPlugin(FilePondPluginFilePoster,
+  FilePondPluginFileEncode,
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview, FilePondPluginFileValidateType);
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiTextField-root': {
@@ -19,14 +39,34 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserFormModal(props) {
-   console
-   .log("props---", props);
-
   const inputRef = useRef(null);
+  const fileRef = useRef(null);
   const classes = useStyles();
   const {
-    formData: { name = '', description = '', cphoto = '' , channelId='', id=''},
-    handleSubmit, handleChange, title, buttonText = '', channelsByUser = [], ...others } = props;
+    formData: { name = '', description = '', channelId = '', id = '', imageFullURL = '', imageURL = '', previewFile = undefined },
+    handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', channelsByUser = [], ...others } = props;
+  const changeShowImage = (image) => {
+    handleFileChange(JSON.parse(document.getElementsByName("showImage")[0].value));
+  }
+  const initialShowImage = (image) => {
+    let customrUrl = "http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png";
+    getBese64Image(imageFullURL).then((succ) => {
+      if (succ === undefined) {
+        getBese64Image(customrUrl).then((succ2) => {
+          handleFileChange({ name: imageURL, data: succ2 });
+        });
+      } else {
+        handleFileChange({ name: imageURL, data: succ });
+      }
+
+    }).catch((error) => {
+      console.log("error----", error);
+    })
+
+
+  }
+
+
   return (
     <Modal
       {...others}
@@ -88,14 +128,27 @@ function UserFormModal(props) {
                 errorMessages={['this field is required']}
               /></Col>
             <Col xl={12}>
-              <input
-                accept="image/*"
-                className={classes.input}
-                id="icon-button-photo"
+              <FilePond
+                allowFileEncode={true}
+                ref={fileRef}
+                onupdatefiles={(rowData) => changeShowImage(rowData[0])}
+                allowMultiple={false}
+                maxFiles={1}
+                name="showImage"
+                id="showImage"
+                allowFilePoster={true}
+                allowImagePreview={true}
+                {...(previewFile ? { files: previewFile } : {})}
 
-                type="file"
+                allowFileTypeValidation={true}
+                acceptedFileTypes={['image/png', 'image/jpeg']}
+                accept="image/*"
+                labelIdle='Drag & Drop your Show Image or <span class="filepond--label-action">Browse</span>'
+                 oninit={(rowData) => initialShowImage(rowData)} 
               />
+
             </Col>
+           
             <Col xl={12}>
 
             </Col>
