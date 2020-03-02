@@ -123,12 +123,17 @@ function* onclickModal({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* saveNewShow({payload={}}) {
+
+     console.log("payload---New Show---", payload);
     
-      const {name='', description='', userId='', channelId=''} = payload;
+      const {name='', description='', UserId='', channelId=''} = payload;
+
+
       const newShowData= {
+          ...payload,
         "Name": name,
         "Description": description,
-        "createdById" : userId,
+        "createdById" : UserId,
         "ChannelId" :channelId
 
       }
@@ -140,7 +145,7 @@ function* saveNewShow({payload={}}) {
     try {
 
         const response = yield call(fetchJSON, 
-            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_SAVE+'?UserId='+payload.userId,
+            appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_SAVE+'?UserId='+UserId,
              options);
              const {name='', error={}} = response; 
              if(name !== '' || name !== null && error === null){                  
@@ -176,13 +181,14 @@ function* saveNewShow({payload={}}) {
  */
 function* updateShow({payload={}}) {
     
-    const {name='', description='', userId='', channelId='', id=''} = payload;
+    const {name='', description='', UserId='', channelId=''} = payload;
     const nuptShowData= {
+        ...payload,
       "Name": name,
       "Description": description,
-      "createdById" : userId,
+      "createdById" : UserId,
       "ChannelId" :channelId,
-      "Id" :id
+      
 
     }
   const options = {
@@ -193,7 +199,7 @@ function* updateShow({payload={}}) {
   try {
 
       const response = yield call(fetchJSON, 
-          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_UPDATE+'?UserId='+payload.userId,
+          appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SHOW_UPDATE+'?UserId='+UserId,
            options); 
            const {name='', error={}} = response; 
       if(name !== '' || name !== null && error === null){

@@ -9,6 +9,8 @@ import MaterialTable from "material-table";
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
+import { v4 as uuidv4 } from 'uuid';
+
 const resetNotification  = {showNotification : {notify:false,mode:0,  message:''}};
 
 class ShowPage extends Component {
@@ -40,7 +42,7 @@ class ShowPage extends Component {
           pauseOnHover: true,
           draggable: true
           });
-        //  this.loadPageData();
+          this.loadPageData();
       }else{
         toast.error(message, {
           position: "top-right",
@@ -69,20 +71,41 @@ class ShowPage extends Component {
   this.props.actions.loadShows(id);
  }
  handleChange =  (event, field) => {   
-  const {newShowModalData :{formData={}}} = this.state;
+/*   const {newShowModalData :{formData={}}} = this.state;
   formData[event.target.name] = event.target.value;  
 
-   this.setState({newShowModalData: {formData : formData}});
+   this.setState({newShowModalData: {formData : formData}}); */
+
+
+   const { newShowModalData: { formData = {} } } = this.state;
+   let proceddesData = {};
+   proceddesData[event.target.name] = event.target.value;
+   this.setState({ newShowModalData: { formData: { ...formData, ...proceddesData } } });
+
+
  // this.setState({newShowModalData: {formData : formData}});
  }
+ handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
+  var re = /(?:\.([^.]+))?$/;
+  var ext = re.exec(name)[1];
+
+  const { newShowModalData: { formData = {} } } = this.state;
+
+  const imageStruc = {
+    previewFile: undefined, "ImageBase64": data,
+    "ImageFileExtensionIncludingDot": '.' + ext
+  };
+  this.setState({ newShowModalData: { formData: { ...formData, ...imageStruc } } });
+}
  handleSubmit =() => {   
   const {user:{id=''},showModal:{mode= "edit"}} = this.props;
   const { newShowModalData:{formData={}}} = this.state; 
-  const newCHannelData= Object.assign({...formData}, {userId : id}); 
   if(mode === 'edit'){
-    this.props.actions.updateShow(newCHannelData);
+    const updateShowData = Object.assign({ ...formData }, { UserId: id });
+    this.props.actions.updateShow(updateShowData);
   }else{
-    this.props.actions.newShow(newCHannelData);
+    const newShowData = Object.assign({ ...formData }, { UserId: id, Id: uuidv4() });
+    this.props.actions.newShow(newShowData);
   }
  }  
  
@@ -118,17 +141,41 @@ class ShowPage extends Component {
   }
   toggleEditShowModal = (channel) => { 
     const {showModal : {show = false}, pageDropDown:{channelsByUser=[]}} = this.props; 
-     const {name = "Demo1",    description= "Demo 2", id='', channelId=''} = channel;
+     const {name = "Demo1",    description= "Demo 2", id='', channelId='',  imageFullURL = '', imageURL = '' } = channel;
+
+     let previewFile = [];
+     previewFile.push({
+       // the server file reference
+       source: imageFullURL,
+       // set type to limbo to tell FilePond this is a temp file
+       options: {
+         type: 'local',
+         // stub file information
+         file: {
+           name: 'my-file.png',
+           size: 3001025,
+           type: 'image/png'
+         },
+         // pass poster property
+         metadata: {
+           poster: imageFullURL
+         }
+       }
+     });
+
      const togg = { showModal: {
        show: !show,
        title: 'Edit Show',
        mode : 'edit',
        buttonText: 'Update Show',
        formData:   {
-        name,
+      name,
        description, 
        id,
-       channelId
+       channelId,
+       imageFullURL,
+       imageURL,
+       previewFile
        },
        channelsByUser
      }}; 
@@ -138,7 +185,10 @@ class ShowPage extends Component {
        name,
        description,
        id,
-       channelId
+       channelId,
+       imageFullURL,
+       imageURL,
+       previewFile
      },}});     
      this.props.actions.onclickModal(togg);
   }
@@ -153,9 +203,8 @@ class ShowPage extends Component {
     })
     .then((willDelete) => {
       if (willDelete) {
-         console
-         .log({ UserID: id, ShowId : show.id});
         this.props.actions.deleteShow({ UserID: id, ShowId : show.id});
+        this.loadPageData();
       } else {
         swal("Your show is safe!");
       }
@@ -172,7 +221,8 @@ class ShowPage extends Component {
         <Modal
           handleSubmit={this.handleSubmit}    
           handleChange={this.handleChange}          
-          handlehide={this.toggleShowModal}         
+          handlehide={this.toggleShowModal}    
+          handleFileChange={this.handleFileChange}     
           size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered

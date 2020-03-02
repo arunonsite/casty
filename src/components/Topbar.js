@@ -73,16 +73,7 @@ const ProfileMenus = [{
   icon: 'fe-user',
   redirectTo: "/",
 },
-{
-  label: 'Settings',
-  icon: 'fe-settings',
-  redirectTo: "/"
-},
-{
-  label: 'Lock Screen',
-  icon: 'fe-lock',
-  redirectTo: "/"
-},
+
 {
   label: 'Logout',
   icon: 'fe-log-out',
@@ -117,7 +108,7 @@ class Topbar extends Component {
                 </Link>
             </li>
 
-              <li className="d-none d-sm-block">
+            {/*   <li className="d-none d-sm-block">
                 <form className="app-search">
                   <div className="app-search-box">
                     <div className="input-group">
@@ -130,22 +121,22 @@ class Topbar extends Component {
                     </div>
                   </div>
                 </form>
-              </li>
+              </li> */}
 
               <li>
                 <NotificationDropdown notifications={Notifications} />
               </li>
 
               <li>
-                <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={firstName+', '+lastName} />
+                <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={firstName+', '+lastName} firstName={firstName} />
               </li>
 
-
+{/* 
               <li className="dropdown notification-list">
                 <button className="btn btn-link nav-link right-bar-toggle waves-effect waves-light" onClick={this.props.rightSidebarToggle}>
                   <i className="fe-settings noti-icon"></i>
                 </button>
-              </li>
+              </li> */}
             </ul>
 
             <div className="logo-box">

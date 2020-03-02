@@ -19,14 +19,10 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
-
 // Import the plugin code
 import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
-
 // Import the plugin styles
 import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
-
-
 registerPlugin(FilePondPluginFilePoster,
   FilePondPluginFileEncode,
   FilePondPluginImageExifOrientation,
@@ -48,30 +44,30 @@ const useStyles = makeStyles(theme => ({
 
 function UserFormModal(props) {
   const {
-    formData: { name = '', description = '', imageFullURL = '', imageURL='',previewFile=undefined },
-    handleSubmit, handleChange, handleFileChange, title, buttonText, mode='new',...others } = props;
- 
-    
+    formData: { name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined },
+    handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
+
+
   const fileRef = useRef(null);
   const changeChannelImage = (image) => {
     handleFileChange(JSON.parse(document.getElementsByName("channelImage")[0].value));
   }
   const initialChannelImage = (image) => {
     let customrUrl = "http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png";
-    getBese64Image(imageFullURL).then((succ)=>{
-       if(succ === undefined){
-        getBese64Image(customrUrl).then((succ2)=>{
-          handleFileChange({name: imageURL,  data:succ2});
+    getBese64Image(imageFullURL).then((succ) => {
+      if (succ === undefined) {
+        getBese64Image(customrUrl).then((succ2) => {
+          handleFileChange({ name: imageURL, data: succ2 });
         });
-       }else{
-        handleFileChange({name: imageURL,  data:succ});
-       }
+      } else {
+        handleFileChange({ name: imageURL, data: succ });
+      }
 
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log("error----", error);
     })
 
-   
+
   }
   const inputRef = useRef(null);
 
@@ -131,15 +127,15 @@ function UserFormModal(props) {
                 maxFiles={1}
                 name="channelImage"
                 id="channelImage"
-                allowFilePoster ={true}
+                allowFilePoster={true}
                 allowImagePreview={true}
-                {...(previewFile ? {files: previewFile} : {})}
-                
+                {...(previewFile ? { files: previewFile } : {})}
+
                 allowFileTypeValidation={true}
                 acceptedFileTypes={['image/png', 'image/jpeg']}
                 accept="image/*"
                 labelIdle='Drag & Drop your Channel or <span class="filepond--label-action">Browse</span>'
-                oninit ={(rowData) => initialChannelImage(rowData)}
+                oninit={(rowData) => initialChannelImage(rowData)}
               />
 
             </Col>
