@@ -46,7 +46,7 @@ class ForgetPassword extends Component {
      * Handles the submit
      */
     handleValidSubmit = (event, values) => {
-        console.log(values);
+       
         
         this.setState({ isLoading: true });
 

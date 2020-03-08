@@ -1,8 +1,9 @@
 import React, { Component, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Container, Row, Col, Card, CardBody, Label, FormGroup, Alert } from 'reactstrap';
-import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
-import MenuItem from '@material-ui/core/MenuItem';
+import {  Row, Col } from 'reactstrap';
+
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -40,18 +41,20 @@ const useStyles = makeStyles(theme => ({
 
 
 function UserFormModal(props) {
-  console.log("GPTOTPTPT", props);
-  const {currentUsrAccess,
-    pageDropDown:{ availableCompany=[]},
-    formData: {name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined },
+   console
+   .log("props---", props);
+  const {
+    formData: { companyName = '',  
+     address='', contact1='', contact2='', details='',
+    imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 
 
   const fileRef = useRef(null);
-  const changeChannelImage = (image) => {
-    handleFileChange(JSON.parse(document.getElementsByName("channelImage")[0].value));
+  const changeCompanyImage = (image) => {
+    handleFileChange(JSON.parse(document.getElementsByName("companyImage")[0].value));
   }
-  const initialChannelImage = (image) => {
+  const initialCompanyImage = (image) => {
     let customrUrl = "http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png";
     getBese64Image(imageFullURL).then((succ) => {
       if (succ === undefined) {
@@ -91,67 +94,74 @@ function UserFormModal(props) {
           ref={inputRef}
         >
           <Row>
-            <Col xl={12}>
-
+            <Col xl={6}>
               <TextValidator
                 label="Name"
-                label="Channel Name"
+                label="Comapny Name"
                 variant="outlined"
                 onChange={handleChange}
-                name="name"
-                value={name}
+                name="companyName"
+                value={companyName}
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col xl={12}>
+            <Col xl={6}>
               <TextValidator
                 id="outlined-multiline-static"
-                label="Description"
-                placeholder="Channel Description"
-                multiline
-                rows="4"
-                name="description"
-                value={description}
+                label="Address"
+                placeholder="Address"
+                
+            
+                name="address"
+                value={address}
                 onChange={handleChange}
                 variant="outlined"
                 validators={['required']}
                 errorMessages={['this field is required']}
-              /></Col>
-            {currentUsrAccess <= 0 ?     <Col xl={12}>
-              <SelectValidator
-                label="Company"
-                label="Company"
+              /></Col>           
+          </Row>
+          <Row>
+            <Col xl={6}>
+              <TextValidator
+                 placeholder="Contact 1"
+                label="Contact 1"
                 variant="outlined"
                 onChange={handleChange}
-                name='companyId'
-              
-              >
-                 {availableCompany.map((item) =>
-                  <MenuItem value={item.id}>{item.companyName}</MenuItem>)
-                } 
-              </SelectValidator>
-            </Col> : '' }
-            <Col xl={12}>
-              <FilePond
-                allowFileEncode={true}
-                ref={fileRef}
-                onupdatefiles={(rowData) => changeChannelImage(rowData[0])}
-                allowMultiple={false}
-                maxFiles={1}
-                name="channelImage"
-                id="channelImage"
-                allowFilePoster={true}
-                allowImagePreview={true}
-                {...(previewFile ? { files: previewFile } : {})}
-                allowFileTypeValidation={true}
-                acceptedFileTypes={['image/png', 'image/jpeg']}
-                accept="image/*"
-                labelIdle='Drag & Drop your Channel or <span class="filepond--label-action">Browse</span>'
-                oninit={(rowData) => initialChannelImage(rowData)}              />
-            </Col>
-            <Col xl={12}>
+                name="contact1"
+                value={contact1}
+                validators={['required']}
+                errorMessages={['this field is required']}
+              /></Col>
+            <Col xl={6}>
+              <TextValidator
+                id="outlined-multiline-static"
+                label="Contact 2"
+                placeholder="Contact 2"
+                
+                name="contact2"
+                value={contact2}
+                onChange={handleChange}
+                variant="outlined"
+              /></Col>           
+          </Row>
 
-            </Col>
+          <Row>
+            <Col xl={12}>
+            <TextValidator
+                id="outlined-multiline-static"
+                label="Details"
+                placeholder="Details"
+                multiline
+                rows="4"
+                name="details"
+                value={details}
+                onChange={handleChange}
+                variant="outlined"
+              />
+              
+              
+              </Col>
+                     
           </Row>
           <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
 

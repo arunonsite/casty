@@ -6,9 +6,12 @@ import {
     ONCLICK_MODAL,
     TOGGLE_SHOW_MODAL,
     SAVE_SHOW_SUCCESS, SAVE_SHOW_FAILED, SAVE_SHOW,
-    LOAD_CHANNELS_BY_USER, LOAD_CHANNELS_BY_USER_SUCCESS, LOAD_CHANNELS_BY_USER_FAILED,
+     LOAD_CHANNELS_BY_USER_SUCCESS, LOAD_CHANNELS_BY_USER_FAILED,
     UPDATE_SHOW_SUCCESS, UPDATE_SHOW_FAILED, UPDATE_SHOW,RESET_SHOW_NOTIFICATION,
-    DELETE_SHOW_FAILED, DELETE_SHOW_SUCCESS, DELETE_SHOW
+    DELETE_SHOW_FAILED, DELETE_SHOW_SUCCESS, DELETE_SHOW,
+    LOAD_COMPANY_BY_USER_FOR_SHOWS, LOAD_COMPANY_BY_USER_SUCCESS_FOR_SHOWS, LOAD_COMPANY_BY_USER_FAILED_FOR_SHOWS,
+    LOAD_CHANNELS_FOR_SHOWS_SUCCESS, LOAD_CHANNELS_FOR_SHOWS
+
 } from '../../constants/actionTypes';
 
 
@@ -31,13 +34,7 @@ const INIT_STATE = {
 
 const show = (state = INIT_STATE, action = {  }) => {
     switch (action.type) {
-        case LOAD_CHANNELS_BY_USER:
-            return { ...state, loading: true };
-        case LOAD_CHANNELS_BY_USER_SUCCESS:
-            return {
-                ...state, channelsByUser: action.payload.response !== undefined ? action.payload.response : [],
-                showNotification: INIT_STATE.showNotification, loading: false, error: null
-            };
+
         case LOAD_SHOW:
             return { ...state, loading: true };
         case LOAD_SHOW_FAILED:
@@ -73,6 +70,20 @@ const show = (state = INIT_STATE, action = {  }) => {
             case DELETE_SHOW_FAILED:
                 return { ...state, ...action.payload,loading: false };
 
+                case LOAD_COMPANY_BY_USER_FOR_SHOWS:
+                    return { ...state, loading: true };
+                    case LOAD_COMPANY_BY_USER_SUCCESS_FOR_SHOWS:
+                        return {
+                            ...state, availableCompany: action.payload.response !== undefined ? action.payload.response : [],
+                            showNotification: INIT_STATE.showNotification, loading: false, error: null
+                        }
+                        case LOAD_CHANNELS_FOR_SHOWS:
+                            return { ...state, loading: true };
+                        case LOAD_CHANNELS_FOR_SHOWS_SUCCESS: 
+                            return {
+                                ...state, availableChannel: action.payload.response !== undefined ? action.payload.response : [],
+                                showNotification: INIT_STATE.showNotification, loading: false, error: null
+                            };
 
         default: return { ...state };
     }

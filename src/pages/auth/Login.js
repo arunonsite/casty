@@ -60,7 +60,7 @@ class Login extends Component {
             
 
 } 
-            return <Redirect to='/users' />
+            return <Redirect to='/' />
         }
     }
 

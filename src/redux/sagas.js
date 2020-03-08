@@ -3,6 +3,8 @@ import authSaga from './auth/saga';
 import channelSaga from './channel/saga';
 import userSaga from './user/saga';
 import showSaga from './show/saga';
+import episodeSaga from './episode/saga';
+import companySaga from './company/saga';
 
 
 export default function* rootSaga(getState) {
@@ -11,5 +13,7 @@ export default function* rootSaga(getState) {
         channelSaga(),
         userSaga(),
         showSaga(),
+        episodeSaga(),
+        companySaga()
     ]);
 }

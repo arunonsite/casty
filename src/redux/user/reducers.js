@@ -36,8 +36,8 @@ const User = (state:State = INIT_STATE, action: UserAction) => {
         case LOAD_USERS:
             return { ...state, loading: true};
         case LOAD_USERS_SUCCESS:            
-            const {response=[]}  =action.payload;
-            return { ...state, users: response,userNotification :INIT_STATE.userNotification, loading: false, error: null };
+            const {response:{data=[]}}  =action.payload;
+            return { ...state, users: data,userNotification :INIT_STATE.userNotification, loading: false, error: null };
 
         case LOAD_USERS_FAILED:
             return { ...state, error: action.payload, loading: false, error: null };

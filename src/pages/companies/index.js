@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Container, Row, Col, Card, CardBody, Label, FormGroup, Button, Alert } from 'reactstrap';
 import swal from 'sweetalert'
 
-import * as channelActions from '../../redux/channel/actions';
+import * as companyActions from '../../redux/company/actions';
 import { bindActionCreators } from 'redux';
 import { toast } from 'react-toastify';
 import MaterialTable from "material-table";
@@ -11,21 +11,21 @@ import MaterialTable from "material-table";
 import { getLoggedInUser, findTheAccess } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
-import appSettings from '../../App.Settings';
 
 import { v4 as uuidv4 } from 'uuid';
-class ChannelPage extends Component {
+class CompanyPage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       user: getLoggedInUser(),
-      newChannelModalData: {
+      newCompanyModalData: {
         formData:
         {
           name: '',
           description: '',
-          cphoto: ''
+          cphoto: '',
+          address:'', contact1:'', contact2:'', details:'',
         }
       },
 
@@ -33,12 +33,13 @@ class ChannelPage extends Component {
     this.tableRef = React.createRef();
   }
   componentDidMount() {
+
    // this.loadPageData();
-   const {user:{id='',currentUsrAccess =1, companyID }} = this.props;
-   this.props.actions.loadCompanyListForChannel({companyID, currentUsrAccess});
   }
   componentDidUpdate() {
-    const { channelNotification: { notify = false, message = 'Success' } } = this.props;
+   
+
+    const { companyNotification: { notify = false, message = 'Success' } } = this.props;
     if (notify) {
       toast.success(message, {
         position: "top-right",
@@ -48,146 +49,126 @@ class ChannelPage extends Component {
         pauseOnHover: true,
         draggable: true
       });
-      this.tableRef.current.onQueryChange()
+    //  this.loadPageData();.
+    this.tableRef.current.onQueryChange()
     }
   }
 
   loadPageData = () => {  //this.state.departments.push()
     const { user: { id = '' } } = this.props;
-    this.props.actions.loadChannel(id);
+    this.props.actions.loadCompany(id);
   }
   handleChange = (event, field) => {
 
-    const { newChannelModalData: { formData = {} } } = this.state;
+    const { newCompanyModalData: { formData = {} } } = this.state;
     let proceddesData = {};
     proceddesData[event.target.name] = event.target.value;
-    this.setState({ newChannelModalData: { formData: { ...formData, ...proceddesData } } });
+    this.setState({ newCompanyModalData: { formData: { ...formData, ...proceddesData } } });
   }
   handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
     var re = /(?:\.([^.]+))?$/;
     var ext = re.exec(name)[1];
 
-    const { newChannelModalData: { formData = {} } } = this.state;
+    const { newCompanyModalData: { formData = {} } } = this.state;
 
     const imageStruc = {
       previewFile: undefined, "ImageBase64": data,
       "ImageFileExtensionIncludingDot": '.' + ext
     };
-    this.setState({ newChannelModalData: { formData: { ...formData, ...imageStruc } } });
+    this.setState({ newCompanyModalData: { formData: { ...formData, ...imageStruc } } });
   }
   handleSubmit = () => {
-    const { user: { id = '' , companyID=''}, channelModal: { mode = "edit" } } = this.props;
-    const { newChannelModalData: { formData = {} } } = this.state;
+    const { user: { id = '' }, companyModal: { mode = "edit" } } = this.props;
+    const { newCompanyModalData: { formData = {} } } = this.state;
 
 
     if (mode === 'edit') {
       const uptCHannelData = Object.assign({ ...formData }, { UserId: id });
-      this.props.actions.updateChannel(uptCHannelData);
+      this.props.actions.updateCompany(uptCHannelData);
     } else {
-      const newCHannelData = Object.assign({ ...formData }, { UserId: id, companyID,  Id: uuidv4() });
-      this.props.actions.newChannel(newCHannelData);
+      const newCHannelData = Object.assign({ ...formData }, { UserId: id, Id: uuidv4() });
+      this.props.actions.newCompany(newCHannelData);
     }
-    // this.props.actions.newChannel(newCHannelData);
+    // this.props.actions.newCompany(newCHannelData);
   }
-  toggleChannelModal = () => {
-    const { channelModal: { show = false } } = this.props;
-    const { newChannelModalData: { formData = {} } } = this.state;
+  toggleCompanyModal = () => {
+    const { companyModal: { show = false } } = this.props;
+    const { newCompanyModalData: { formData = {} } } = this.state;
 
     const togg = {
-      channelModal: {
+      companyModal: {
         show: !show,
-        title: 'New Channel',
+        title: 'New Company',
         mode: 'add',
-        buttonText: 'Add Channel',
+        buttonText: 'Add Company',
         formData: {
-          name: '',
-          description: '',
+          companyName: '',
+     
+          address:'', contact1:'', contact2:'', details:'',
         }
       }
     };
     this.setState({
-      newChannelModalData: {
+      newCompanyModalData: {
         formData: {
-          name: '',
-          description: '',
+          companyName: '',
+          address:'', contact1:'', contact2:'', details:'',
         },
       }
     });
     this.props.actions.onclickModal(togg);
   }
-  toggleEditChannelModal = (channel) => {
-    const { channelModal: { show = false } } = this.props;
-    const { name = "Demo1", description = "Demo 2", id = '', imageFullURL = '', imageURL = '' } = channel;
+  toggleEditCompanyModal = (company) => {
+     console
+     .log("company---", company);
+    const { companyModal: { show = false } } = this.props;
+    const {  id = '', 
+    companyName='', address='', contact1='', contact2='', details='' } = company;
 
-    let previewFile = [];
-    previewFile.push({
-      // the server file reference
-      source: imageFullURL,
-      // set type to limbo to tell FilePond this is a temp file
-      options: {
-        type: 'local',
-        // stub file information
-        file: {
-          name: 'my-file.png',
-          size: 3001025,
-          type: 'image/png'
-        },
-        // pass poster property
-        metadata: {
-          poster: imageFullURL
-        }
-      }
-    });
 
 
 
 
     const togg = {
-      channelModal: {
+      companyModal: {
         show: !show,
-        title: 'Edit Channel',
+        title: 'Edit Company',
         mode: 'edit',
-        buttonText: 'Update Channel',
+        buttonText: 'Update Company',
         formData: {
-          name,
-          description,
+         
+        
           id,
-          imageFullURL,
-          imageURL,
-          previewFile
+          address, contact1, contact2, details,
         },
       }
     };
     /* to save in loacal State */
     this.setState({
-      newChannelModalData: {
-        formData: {
-          name,
-          description,
-          id,
-          imageFullURL,
-          imageURL,
-          previewFile
+      newCompanyModalData: {
+        formData: {          
+          id,companyName,address, contact1, contact2, details,
         },
       }
     });
     this.props.actions.onclickModal(togg);
   }
-  deleteChannel = (channel) => {
+  deleteCompany = (company) => {
     const { user: { id = '' } } = this.props;
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this Channel file!",
+      text: "Once deleted, you will not be able to recover this Company file!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
       .then((willDelete) => {
         if (willDelete) {
-          this.props.actions.deleteChannel({ UserID: id, ChannelID: channel.id });
-          //this.loadPageData();
+           //console.log("company---", company,id );
+          this.props.actions.deleteCompany({ UserID: id, CompanyID: company.id });
+          this.loadPageData();
         } else {
-          swal("Your Channel is safe!");
+          swal("Your Company is safe!");
         }
       });
 
@@ -195,29 +176,30 @@ class ChannelPage extends Component {
   }
 
   render() {
-    //const {newChannel:{name='', description='', cphoto=''}} = this.state;
-    const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
-    const { channels = [], channelModal = {},currentUsrAccess, user:{id=''}, pageDropDown ={}} = this.props;
+    //const {newCompany:{name='', description='', cphoto=''}} = this.state;
+    const { addNewUser = false, modalTitle, newCompanyModalData = {} } = this.state;
+    const { companies = [], companyModal = {} ,currentUsrAccess} = this.props;
     return (
       <React.Fragment>
         <Modal
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
-          handlehide={this.toggleChannelModal}
+          handlehide={this.toggleCompanyModal}
           handleFileChange={this.handleFileChange}
-          pageDropDown={pageDropDown}    
-          size="l"
+          size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          {...channelModal}
-          {...newChannelModalData}
-          currentUsrAccess={currentUsrAccess}
+          {...companyModal}
+          {...newCompanyModalData}
 
         />
         <div className="">
           { /* preloader */}
-         
-          <Row></Row>
+          {this.props.loading && <Loader />}
+          <Row>
+
+            
+          </Row>
           <Row class='hidden'>
             <Col lg={12}>
               <Row>
@@ -230,38 +212,31 @@ class ChannelPage extends Component {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Channels List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleChannelModal}>
+                  <h1>Companies List</h1>
+                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleCompanyModal}>
                     + New User        </Button>
                   <MaterialTable
-                   tableRef={this.tableRef}
+ tableRef={this.tableRef}
+
                     columns={[
-                      { title: " Name", field: "name" },
-                      { title: " Description", field: "description" },
-                      {
-                        title: "Image", field: "birthYear", type: "imageFullURL",
-                        render: rowData => <img src={rowData.imageFullURL} style={{ width: 50, borderRadius: '50%' }} />
-                      },
+                        { title: "Name", field: "companyName" },
+                      { title: "Address", field: "address" },
+                      { title: "Contact", field: "contact1" }
+                      
 
                     ]}
                     data={query =>
                       new Promise((resolve, reject) => {
-                        let url = appSettings.API_ROUTE.MAIN_SITE;     
+                        let url = 'https://casty.azurewebsites.net/api/Companies/Full/'    
                          if(currentUsrAccess === 0){
-                           url = url+'/api/Channels'   
+                           url = 'https://casty.azurewebsites.net/api/Companies/Full/'   
                           let sera = query.search !== '' ? query.search : ' ';
                           let skp =  query.pageSize*query.page;
                           let take =  query.pageSize*query.page + query.pageSize;
-                          url += '/'+sera+'/SkipTake/' +skp;                        
+                          url +=  '/SkipTake/' +skp;                        
                           url += '/' + query.pageSize   
-                         }else{
-                           url =  url+'/api/Channels/CreatedBy/'+id 
-                           let sera = query.search !== '' ? query.search : ' ';
-                           let skp =  query.pageSize*query.page;
-                           let take =  query.pageSize*query.page + query.pageSize;
-                           url += '/'+sera+'/' +skp;                        
-                           url += '/' + query.pageSize  
-                         }                      
+                         }
+                                            
                         fetch(url)
                           .then(response => response.json())
                           .then(result => {
@@ -271,11 +246,15 @@ class ChannelPage extends Component {
                               totalCount: result.totalRecords,
                               per_page:query.pageSize,
                               "page":result.pageNumber-1,
-                            })
+                            });
+                           // 
+                         //  this.tableRef.current.onQueryChange()
+                        //   console.log("componentDidUpdate");
+                           
                           })
                       })
                     }
-                    title="Channels"
+                    title="Companies"
                     detailPanel={[
 
                       {
@@ -302,17 +281,17 @@ class ChannelPage extends Component {
                         icon: 'add_circle',
                         tooltip: 'Add User',
                         isFreeAction: true,
-                        onClick: (event) => this.toggleChannelModal()
+                        onClick: (event) => this.toggleCompanyModal()
                       },
                       {
                         icon: 'edit',
-                        tooltip: 'Edit Channel',
-                        onClick: (event, rowData) => this.toggleEditChannelModal(rowData)
+                        tooltip: 'Edit Company',
+                        onClick: (event, rowData) => this.toggleEditCompanyModal(rowData)
                       },
                       rowData => ({
                         icon: 'delete',
-                        tooltip: 'Delete Channel',
-                        onClick: (event, rowData) => this.deleteChannel(rowData),
+                        tooltip: 'Delete Company',
+                        onClick: (event, rowData) => this.deleteCompany(rowData),
                         disabled: rowData.birthYear < 2000
                       })
                     ]}
@@ -337,17 +316,17 @@ class ChannelPage extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(channelActions, dispatch),
+    actions: bindActionCreators(companyActions, dispatch),
   };
 }
 const mapStateToProps = (state) => {
 
 
-  const { ChannelPageReducer: {availableCompany=[], loading = false, channels = [], channelModal = {}, 
-  channelNotification = {} }, 
+  const { CompanyPageReducer: { loading = false, companies = [], companyModal = {}, 
+  companyNotification = {} },
   Auth:{user={},user:{roles=[]}} }= state;
   const currentUsrAccess =findTheAccess(roles);
-  return { channels, user, channelModal, channelNotification, loading,currentUsrAccess, pageDropDown:{availableCompany} };
+  return { companies, user, companyModal, companyNotification, loading ,currentUsrAccess};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyPage);
