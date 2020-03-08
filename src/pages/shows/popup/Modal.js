@@ -43,8 +43,10 @@ function UserFormModal(props) {
   const fileRef = useRef(null);
   const classes = useStyles();
   const {
-    formData: { name = '', description = '', channelId = '', id = '', imageFullURL = '', imageURL = '', previewFile = undefined },
-    handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', channelsByUser = [], ...others } = props;
+    formData: {companyId='', name = '', description = '', channelId = '', id = '',
+     imageFullURL = '', imageURL = '', previewFile = undefined },
+    handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new',
+     channelsByUser = [],pageDropDown:{availableChannel=[],availableCompany=[]}, ...others } = props;
   const changeShowImage = (image) => {
     handleFileChange(JSON.parse(document.getElementsByName("showImage")[0].value));
   }
@@ -98,7 +100,20 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-
+  <Col xl={12}>
+              <SelectValidator
+                label="Company"
+                label="Company"
+                variant="outlined"
+                onChange={handleChange}
+                name='companyId'
+                value={companyId}
+              >
+                 {availableCompany.map((item) =>
+                  <MenuItem value={item.id}>{item.companyName}</MenuItem>)
+                } 
+              </SelectValidator>
+            </Col>
             <Col xl={12}>
               <SelectValidator
                 label="Channel"
@@ -108,9 +123,9 @@ function UserFormModal(props) {
                 name='channelId'
                 value={channelId}
               >
-                {channelsByUser.map((item) =>
+                 {availableChannel.map((item) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)
-                }
+                } 
               </SelectValidator>
             </Col>
             <Col xl={12}>

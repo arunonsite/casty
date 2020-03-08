@@ -22,7 +22,7 @@ class ProfileDropdown extends Component {
 
     render() {
         const profilePic = this.props.profilePic || null;
-        console.log("-=-=-", this.props);
+      
 
         return (
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} className="notification-list">

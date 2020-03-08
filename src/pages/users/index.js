@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { Table, Button } from 'react-bootstrap';
 import { bindActionCreators } from 'redux'
-
-import { notifyMe } from '../../helpers/applicationUtils';
+import { toast } from 'react-toastify';
+import { notifyMe} from '../../helpers/applicationUtils';
 
 import  * as userActions from '../../redux/user/actions';
 
-import { getLoggedInUser } from '../../helpers/authUtils';
+import { getLoggedInUser, findTheAccess  } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 import MaterialTable from "material-table";
-import Icon from '@material-ui/core/Icon';
+import appSettings from '../../App.Settings';
 
 class UserPage extends Component {
   constructor(props) {
@@ -34,19 +34,30 @@ class UserPage extends Component {
       }
     
     };
+    this.tableRef = React.createRef();
   }
   componentDidUpdate(){ 
-    const {userNotification ={}, userNotification :{notify = false}} = this.props; 
-    notifyMe(userNotification);   
+  
+    const { userNotification: { notify = false, message = 'Success' } } = this.props;
+    if (notify) {
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
+    //  this.loadPageData();.
+    this.tableRef.current.onQueryChange()
+    } 
   }
   componentDidMount(){
-    this.loadPageData();    
-      
+    //this.loadPageData();      
   }
    loadPageData = () => {  //this.state.departments.push()
-    const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d'}} = this.props;
-
-   this.props.actions.loadUsers(CompanyID);
+    const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d' }, currentUsrAccess} = this.props;
+    this.props.actions.loadUsers({CompanyID,currentUsrAccess});
    }
   handleChange = (event, field) => {
     const {newUserModalData :{formData={}}} = this.state;
@@ -95,7 +106,7 @@ class UserPage extends Component {
 
   render() {
     const {  newUserModalData } = this.state;
-    const{users=[], userModal={}} =this.props;
+    const{users=[], userModal={},currentUsrAccess, user:{id='', companyID=''} } =this.props;
     
     return (
       <React.Fragment>
@@ -130,23 +141,59 @@ class UserPage extends Component {
                     + New User        </Button>
 
                     <MaterialTable style={{ border: "1px solid #dee2e6" }}
+                     tableRef={this.tableRef}
           columns={[
             { title: "First Name", field: "firstName" },
             { title: "Last Name", field: "lastName" },
            
-            { title: "Email", field: "companyName"  },
+            { title: "Company", field: "companyName"  },
             { title: "Phone", field: "phone", },
            
           ]}
-          data={users}
+          data={query =>
+            new Promise((resolve, reject) => {
+              let url = appSettings.API_ROUTE.MAIN_SITE;  
+               if(currentUsrAccess === 0){
+                 url = url+'/api/Users/'   
+                let sera = query.search !== '' ? query.search : ' ';
+                let skp =  query.pageSize*query.page;
+                let take =  query.pageSize*query.page + query.pageSize;
+                url +=  '/SkipTake/' +skp;                        
+                url += '/' + query.pageSize   
+               }else{
+                 url = url+'/api/Users/ByCompany/'+companyID 
+               }  
+                console
+                .log("url==", url);                    
+              fetch(url)
+                .then(response => response.json())
+                .then(result => {
+                  if(result.data !== undefined){
+                    resolve({
+                      data: result.data ,
+                      page: result.page - 1,
+                      totalCount: result.totalRecords,
+                      per_page:query.pageSize,
+                      page:result.query,
+                    })
+                  }else{
+                    resolve({
+                      data  : result,
+                      totalCount: result.length,
+                      per_page:query.pageSize,
+                      page:query.page,
+                    })
+                  }
+              
+                })
+            })
+          }
           title="Users  "
           detailPanel={[     
             {
               icon: 'account_circle',
               tooltip: 'Show Surname',
               render: rowData => {
-                 console.log("USer Row-Data--", rowData );
-
                 return (
                   <div
                     style={{
@@ -207,8 +254,10 @@ function mapDispatchToProps(dispatch) {
 }
 const mapStateToProps = (state) => {
    const {UserPageReducer: {users=[], userModal={},loading=false,userNotification={}}, 
-   Auth:{user={}, applicationDynamicConstants:{roleSource={}}} }= state;
-  return { users ,userModal,userNotification, loading,  user, roleSource};
+   Auth:{user={},user:{roles=[]},  applicationDynamicConstants:{roleSource={}}} }= state;
+   const currentUsrAccess =findTheAccess(roles);
+    console.log("currentUsrAccess-->>" , currentUsrAccess);
+  return { users ,userModal,userNotification, loading,  user,currentUsrAccess, roleSource};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

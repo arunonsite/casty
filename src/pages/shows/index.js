@@ -6,11 +6,11 @@ import swal from 'sweetalert'
 import  * as showActions from '../../redux/show/actions';
 import { bindActionCreators } from 'redux';
 import MaterialTable from "material-table";
-import { getLoggedInUser } from '../../helpers/authUtils';
+import { getLoggedInUser,findTheAccess } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 import { v4 as uuidv4 } from 'uuid';
-
+import appSettings from '../../App.Settings';
 const resetNotification  = {showNotification : {notify:false,mode:0,  message:''}};
 
 class ShowPage extends Component {
@@ -60,37 +60,28 @@ class ShowPage extends Component {
 
 
   componentDidMount(){
-    const {user:{id=''}} = this.props;
-    this.props.actions.loadChannelsByUser(id);
-    this.loadPageData();    
+    const {user:{id='',currentUsrAccess =1, companyID }} = this.props;
+   // this.props.actions.loadChannelsByUser({id, currentUsrAccess});
+    this.props.actions.loadCompanyListForShow({companyID, currentUsrAccess});
+    this.props.actions.loadChannelsListForShow({id, currentUsrAccess});
+    //this.loadPageData();    
   }
  
 
  loadPageData = () => {  //this.state.departments.push()
-  const {user:{id=''}} = this.props;
-  this.props.actions.loadShows(id);
+  const {user:{id='',companyID=''}} = this.props;
+  this.props.actions.loadShows({id,companyID});
  }
- handleChange =  (event, field) => {   
-/*   const {newShowModalData :{formData={}}} = this.state;
-  formData[event.target.name] = event.target.value;  
-
-   this.setState({newShowModalData: {formData : formData}}); */
-
-
+ handleChange =  (event, field) => {
    const { newShowModalData: { formData = {} } } = this.state;
    let proceddesData = {};
    proceddesData[event.target.name] = event.target.value;
    this.setState({ newShowModalData: { formData: { ...formData, ...proceddesData } } });
-
-
- // this.setState({newShowModalData: {formData : formData}});
  }
  handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
   var re = /(?:\.([^.]+))?$/;
   var ext = re.exec(name)[1];
-
   const { newShowModalData: { formData = {} } } = this.state;
-
   const imageStruc = {
     previewFile: undefined, "ImageBase64": data,
     "ImageFileExtensionIncludingDot": '.' + ext
@@ -109,11 +100,13 @@ class ShowPage extends Component {
   }
  }  
  
- showEpisodesDetails = ()=>{
-   this.props.history.push(`/episodes`)
+ showEpisodesDetails = (sjow)=>{
+    const {id=''} = sjow;
+   this.props.history.push('/episodes/'+id)
  }
  toggleShowModal = () => {
-   const {showModal : {show = false}, pageDropDown:{channelsByUser=[]}} = this.props; 
+   const {showModal : {show = false}, pageDropDown:{channelsByUser=[]},
+   user:{companyID='', id=''},} = this.props; 
    const { newShowModalData:{formData={}}} = this.state;   
    const togg = { showModal: {
      show: !show,
@@ -125,6 +118,7 @@ class ShowPage extends Component {
        description:'', 
        channelId:'',
        channelName:'',
+       companyID
 
      },
      channelsByUser
@@ -135,12 +129,13 @@ class ShowPage extends Component {
        description:'', 
        channelId:'',
        channelName:'',
+       companyID
    },
    channelsByUser}});  
    this.props.actions.onclickModal(togg);
   }
   toggleEditShowModal = (channel) => { 
-    const {showModal : {show = false}, pageDropDown:{channelsByUser=[]}} = this.props; 
+    const {showModal : {show = false},user:{companyID='' }, pageDropDown:{channelsByUser=[]}} = this.props; 
      const {name = "Demo1",    description= "Demo 2", id='', channelId='',  imageFullURL = '', imageURL = '' } = channel;
 
      let previewFile = [];
@@ -171,11 +166,12 @@ class ShowPage extends Component {
        formData:   {
       name,
        description, 
-       id,
+       Id : id,
        channelId,
        imageFullURL,
        imageURL,
-       previewFile
+       previewFile,
+       companyID
        },
        channelsByUser
      }}; 
@@ -184,11 +180,12 @@ class ShowPage extends Component {
        formData : { 
        name,
        description,
-       id,
+       Id : id,
        channelId,
        imageFullURL,
        imageURL,
-       previewFile
+       previewFile,
+       companyID
      },}});     
      this.props.actions.onclickModal(togg);
   }
@@ -215,7 +212,7 @@ class ShowPage extends Component {
   render() { 
     //const {newShow:{name='', description='', cphoto=''}} = this.state;
     const {     newShowModalData={} } = this.state;
-    const {shows=[], showModal={}} = this.props;
+    const {shows=[], showModal={}, user:{companyID='', id=''}, currentUsrAccess, pageDropDown} = this.props;
     return (
       <React.Fragment>       
         <Modal
@@ -223,6 +220,7 @@ class ShowPage extends Component {
           handleChange={this.handleChange}          
           handlehide={this.toggleShowModal}    
           handleFileChange={this.handleFileChange}     
+          pageDropDown={pageDropDown}     
           size="l"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -257,7 +255,41 @@ class ShowPage extends Component {
               },
            
           ]}
-          data={shows}
+          data={query =>
+            new Promise((resolve, reject) => {
+              let url = appSettings.API_ROUTE.MAIN_SITE;    
+              let sera = query.search !== '' ? query.search : ' ';
+              let skp =  query.pageSize*query.page;
+              let take =  query.pageSize*query.page + query.pageSize;  
+              
+              ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}
+              if(currentUsrAccess <= 0){
+               /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
+                url = url+'/api/Shows/'    
+                url += '/'+sera+'/SkipTake/' +skp;    ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}                    
+                url += '/' + query.pageSize 
+              }else{
+                url = url+'/api/Shows/CreatedByUser/'+id 
+                url += '/'+sera+'/' +skp;                        
+                url += '/' + query.pageSize 
+              } 
+              
+             
+                console
+                .log("url==", url);                    
+              fetch(url)
+                .then(response => response.json())
+                .then(result => {
+                  resolve({
+                    data: result.data,
+                    page: result.page - 1,
+                    totalCount: result.totalRecords,
+                    per_page:query.pageSize,
+                    "page":result.pageNumber-1,
+                  })
+                })
+            })
+          }
           title="Shows"
           detailPanel={[
      
@@ -329,16 +361,22 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   console.log("state----", state);
-  const {Auth:{user={}}, ShowPageReducer : {showNotification,shows=[],
-     loading=false, showModal={}, channelsByUser} }= state;
+   
+  const { ShowPageReducer : {showNotification,shows=[],
+     loading=false, showModal={}, availableCompany=[], availableChannel=[]} ,  
 
-  shows.map((show, ind)=>{
-   let selectChan = channelsByUser.filter((channel) =>
+     Auth:{user={},user:{roles=[]}} }= state;
+      
+  const currentUsrAccess =findTheAccess(roles);
+
+
+   shows.map((show, ind)=>{
+   let selectChan = availableChannel.filter((channel) =>
     channel.id == show.channelId)
      show[`channel`] =selectChan[0];
-  });
-  return {  user , shows,loading, showModal,showNotification, pageDropDown:{channelsByUser} };
+  }); 
+  return {currentUsrAccess,   user , shows,loading,
+     showModal,showNotification, pageDropDown:{availableCompany, availableChannel} };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowPage);

@@ -7,7 +7,7 @@ import NotFound from './components/NotFound';
 // lazy load all the views
 const Dashboard = React.lazy(() => import('./pages/dashboards/'));
 const Users = React.lazy(() => import('./pages/users/'));
-const Company = React.lazy(() => import('./pages/company/'));
+const Company = React.lazy(() => import('./pages/companies/'));
 const Departments = React.lazy(() => import('./pages/departments/'));
 const Channels = React.lazy(() => import('./pages/channels/'));
 const Episodes = React.lazy(() => import('./pages/episodes/'));
@@ -54,12 +54,15 @@ const routes = [
 
   // other pages
   { path: '/dashboard', icon:'fe-airplay',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: [ 'SuperAdmin'] },
+  { path: '/companies',icon:'fe-users',  name: 'Company', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
   { path: '/users',icon:'fe-users',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
-  { path: '/channels',icon:'fe-play-circle',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
-  { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
-  { path: '/episodes',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
 
-  
+  { path: '/channels',icon:'fe-play-circle',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+/*   { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+ */  {exact:true,  path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/episodes/:id',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+
+
   
 ]
 

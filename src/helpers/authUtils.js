@@ -29,4 +29,26 @@ const getLoggedInUser = () => {
     return user ? (typeof(user) == 'object'? user: JSON.parse(user)) : null;
 }
 
-export { isUserAuthenticated, getLoggedInUser };
+
+/**
+ * Fetch data from given url
+ * @param {*} url 
+ * @param {*} options 
+ */
+const findTheAccess = (roles) => {
+    const superUsr = 'SuperAdmin';
+    const adminUsr = 'admin';
+    const constriUsr = 'constributer';
+    
+        if (roles && roles.indexOf(superUsr) !== -1) {
+            return 0;                      
+        } else if (roles && roles.indexOf(adminUsr) !== -1) {
+            return 1;         
+        } else if (roles && roles.indexOf(constriUsr) !== -1) {
+            return -1;         
+        }
+        return 1; 
+    
+  }
+
+export { isUserAuthenticated, getLoggedInUser, findTheAccess};

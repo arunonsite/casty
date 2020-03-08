@@ -41,16 +41,27 @@ const onUserSaveSuccess = {
  * Load the user list
  * @param {*} payload - username and password 
  */
-function* loadUserListByCompany({payload}) {
-   
+function* loadUserListByCompany({payload={}}) {
+     const {CompanyID, currentUsrAccess} = payload;
+     
     const options = {
         body: JSON.stringify(),
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
     try {
-        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
-        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.GET_USER_LIST_BYCOMPANY_ROUTE+'/'+payload, options);
+        let response={};
+
+        if(currentUsrAccess <= 0){
+             response = yield call(fetchJSON,
+                appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.SUPER_USER_LIST+'/0/100',
+                 options);
+        }else{
+             response = yield call(fetchJSON,
+                appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.GET_USER_LIST_BYCOMPANY_ROUTE+'/'+CompanyID,
+                 options);
+        }
+        
         yield put(loadUserSuccess(processSuccessResponse(response)));
     } catch (error) {
         let message;

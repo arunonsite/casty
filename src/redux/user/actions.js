@@ -12,9 +12,9 @@ import {
 
 
 
-export const loadUsers = (companyId) => ({
+export const loadUsers = (payload:{}) => ({
     type: LOAD_USERS,
-    payload: companyId
+    payload: payload
 });
 
 export const loadUserSuccess = (users: {}) => ({

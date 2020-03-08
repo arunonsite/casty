@@ -19,28 +19,21 @@ class BreadCrumb extends Component {
     this.state = {};
   }
 
+  navigatePage = (value) => {
+ this.props.navigatePage(value);
+  }
+
 
   render() {
-
-    console.log("This.props---", this.props);
-    const {user:{firstName='', lastName=''}} = this.props;
+    const {user:{firstName='', lastName=''}, list=[],navigatePage} = this.props;
     return (
       <React.Fragment>
-             <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box">
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Channels</a></li>
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Shows</a></li>
-                                    <li class="breadcrumb-item active">Episodes</li>
-                                </ol>
-                            </div>
-                            <h4 class="page-title">ShowName -Episodes</h4>
-                        </div>
-                    </div>
-              </div> 
+             <ol class="breadcrumb m-0">
+             {list.map((value, index) => {
+        return (index === (list.length - 1)) ? <li class="breadcrumb-item active">{value.name}</li> :
+         <li class="breadcrumb-item"><a href={value.link}>{value.name}</a></li>
+      })}
+      </ol>
       </React.Fragment >
     );
   }
