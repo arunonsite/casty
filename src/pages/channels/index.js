@@ -12,8 +12,9 @@ import { getLoggedInUser, findTheAccess } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 import appSettings from '../../App.Settings';
-
 import { v4 as uuidv4 } from 'uuid';
+const resetNotification  = {channelNotification : {notify:false,mode:0,  message:''}};
+
 class ChannelPage extends Component {
 
   constructor(props) {
@@ -49,7 +50,9 @@ class ChannelPage extends Component {
         draggable: true
       });
       this.tableRef.current.onQueryChange()
+      this.props.actions.resetChannelNotification(resetNotification);
     }
+  
   }
 
   loadPageData = () => {  //this.state.departments.push()
@@ -84,7 +87,7 @@ class ChannelPage extends Component {
       const uptCHannelData = Object.assign({ ...formData }, { UserId: id });
       this.props.actions.updateChannel(uptCHannelData);
     } else {
-      const newCHannelData = Object.assign({ ...formData }, { UserId: id, companyID,  Id: uuidv4() });
+      const newCHannelData = Object.assign({ ...formData }, { UserId: id, CompanyId:companyID,  Id: uuidv4() });
       this.props.actions.newChannel(newCHannelData);
     }
     // this.props.actions.newChannel(newCHannelData);
@@ -102,6 +105,7 @@ class ChannelPage extends Component {
         formData: {
           name: '',
           description: '',
+          companyId :''
         }
       }
     };
@@ -110,6 +114,7 @@ class ChannelPage extends Component {
         formData: {
           name: '',
           description: '',
+          companyId :''
         },
       }
     });
@@ -117,7 +122,10 @@ class ChannelPage extends Component {
   }
   toggleEditChannelModal = (channel) => {
     const { channelModal: { show = false } } = this.props;
-    const { name = "Demo1", description = "Demo 2", id = '', imageFullURL = '', imageURL = '' } = channel;
+     console
+     .log("channel--", channel);
+    const {companyId='', name = "Demo1", description = "Demo 2", id = '',
+     imageFullURL = '', imageURL = '' } = channel;
 
     let previewFile = [];
     previewFile.push({
@@ -154,7 +162,8 @@ class ChannelPage extends Component {
           id,
           imageFullURL,
           imageURL,
-          previewFile
+          previewFile,
+          companyId 
         },
       }
     };
@@ -167,7 +176,8 @@ class ChannelPage extends Component {
           id,
           imageFullURL,
           imageURL,
-          previewFile
+          previewFile,
+          companyId
         },
       }
     });
@@ -197,7 +207,7 @@ class ChannelPage extends Component {
   render() {
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
-    const { channels = [], channelModal = {},currentUsrAccess, user:{id=''}, pageDropDown ={}} = this.props;
+    const { channels = [], channelModal = {},currentUsrAccess, user:{id='', companyID=''}, pageDropDown ={}} = this.props;
     return (
       <React.Fragment>
         <Modal
@@ -255,7 +265,7 @@ class ChannelPage extends Component {
                           url += '/'+sera+'/SkipTake/' +skp;                        
                           url += '/' + query.pageSize   
                          }else{
-                           url =  url+'/api/Channels/CreatedBy/'+id 
+                           url =  url+'/api/Channels/ByCompany/'+companyID 
                            let sera = query.search !== '' ? query.search : ' ';
                            let skp =  query.pageSize*query.page;
                            let take =  query.pageSize*query.page + query.pageSize;

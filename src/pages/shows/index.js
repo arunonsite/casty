@@ -28,6 +28,7 @@ class ShowPage extends Component {
           channelName:'',}
         },       
     };
+    this.tableRef = React.createRef();
   }
 
   componentDidUpdate(){
@@ -42,7 +43,7 @@ class ShowPage extends Component {
           pauseOnHover: true,
           draggable: true
           });
-          this.loadPageData();
+          //this.loadPageData();
       }else{
         toast.error(message, {
           position: "top-right",
@@ -53,6 +54,7 @@ class ShowPage extends Component {
           draggable: true
           });
       }
+      this.tableRef.current.onQueryChange();
      this.props.actions.resetShowNotification(resetNotification);
       // this.loadPageData();
     } 
@@ -62,8 +64,11 @@ class ShowPage extends Component {
   componentDidMount(){
     const {user:{id='',currentUsrAccess =1, companyID }} = this.props;
    // this.props.actions.loadChannelsByUser({id, currentUsrAccess});
+
+    console.log("currentUsrAccess--Show>--",currentUsrAccess);
+   
     this.props.actions.loadCompanyListForShow({companyID, currentUsrAccess});
-    this.props.actions.loadChannelsListForShow({id, currentUsrAccess});
+    this.props.actions.loadChannelsListForShow({id, currentUsrAccess, companyID});
     //this.loadPageData();    
   }
  
@@ -201,7 +206,7 @@ class ShowPage extends Component {
     .then((willDelete) => {
       if (willDelete) {
         this.props.actions.deleteShow({ UserID: id, ShowId : show.id});
-        this.loadPageData();
+        //this.loadPageData();
       } else {
         swal("Your show is safe!");
       }
@@ -248,6 +253,7 @@ class ShowPage extends Component {
                   <Button style={{ float: "right" }} variant="primary" onClick={this.toggleShowModal}>
                     + New User        </Button>
                     <MaterialTable
+                    tableRef={this.tableRef}
           columns={[
             { title: " Name", field: "name" },
             { title: " Description", field: "description" },
@@ -269,7 +275,7 @@ class ShowPage extends Component {
                 url += '/'+sera+'/SkipTake/' +skp;    ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}                    
                 url += '/' + query.pageSize 
               }else{
-                url = url+'/api/Shows/CreatedByUser/'+id 
+                url = url+'/api/Shows/ByCompany/'+companyID 
                 url += '/'+sera+'/' +skp;                        
                 url += '/' + query.pageSize 
               } 
@@ -368,8 +374,7 @@ const mapStateToProps = (state) => {
      Auth:{user={},user:{roles=[]}} }= state;
       
   const currentUsrAccess =findTheAccess(roles);
-
-
+    
    shows.map((show, ind)=>{
    let selectChan = availableChannel.filter((channel) =>
     channel.id == show.channelId)

@@ -122,7 +122,6 @@ class EpisodePage extends Component {
     let episode = episodes.filter(episode => {
       return episode.id === episodeId ;
   });
-  console.log("pos={indepos}-episode-", episode);
     const { name = "Demo1", description = "Demo 2", id = ''} = episode[0];
     const togg = {
       episodeModal: {

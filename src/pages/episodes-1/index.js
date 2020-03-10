@@ -270,7 +270,6 @@ const mapStateToProps = (state) => {
 while (episodeList.length > 0)
 episodes.push(episodeList.splice(0, size));
 
-console.log(episodes);
   return {  user  , episodes};
 };
 

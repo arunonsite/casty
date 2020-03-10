@@ -17,9 +17,9 @@ export default{
          "SHOW_DELETE" : 'api/Shows/Delete/',
          "SHOW_LOAD_COMPANIES" : '/api/Companies/GetById/',
          "SHOW_SUPER_LOAD_COMPANIES" : '/api/Companies/Full/',
-         "SHOW_LOAD_CHANNEL" : 'api/Channels/CreatedBy/',
+         "SHOW_ADMIN_LOAD_CHANNEL" : 'api/Channels/ByCompany/',
 
-
+    
          "CHANNEL_LIST" : 'api/Channels/CreatedByUserId/',
          "SUPER_CHANNEL_LIST" : 'api/Channels/', ///api/Channels/{SearchCriteria}/SkipTake/{Skip}/{Take}
          "CHANNEL_SAVE" : 'api/Channels/New/',

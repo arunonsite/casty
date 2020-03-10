@@ -12,7 +12,7 @@ import {
     SAVE_CHANNEL,
     UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL,
     DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL,
-    LOAD_COMPANY_BY_USER_FOR_CHANNEL
+    LOAD_COMPANY_BY_USER_FOR_CHANNEL,RESET_CHANNEL_NOTIFICATION
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
@@ -22,6 +22,7 @@ import {
     updateChannelSuccess,
     deleteChannelSuccess,
     loadCompanyListForChannalSuccess,
+    resetChannelNotification
     
 } from './actions';
 
@@ -92,12 +93,20 @@ function* onclickModal({payload={}}) {
  */
 function* saveNewChannel({payload={}}) {
     
-      const {name='', description='', UserId=''} = payload;
+      const {name='', description='', UserId='', ImageBase64, ImageFileExtensionIncludingDot,
+      CompanyId,Id} = payload;
       const newChannelData= {
-        ...payload ,
+       
         "Name": name,
         "Description": description,
-        "createdById" : UserId
+        "createdById" : UserId,
+
+        
+      
+    
+        
+        ImageBase64, ImageFileExtensionIncludingDot,
+        CompanyId,Id
       }
     const options = {
         body: JSON.stringify(newChannelData),
@@ -280,7 +289,22 @@ function* loadCompanyForChannel({payload={}}) {
         }
     }
  }
-
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* resetChannelNotifications({payload={}}) {  
+    try {
+        yield put(resetChannelNotification(payload));
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
 export function* watchLoadChannel():any {
     yield takeEvery(LOAD_CHANNEL, loadChannelList);
 }
@@ -304,6 +328,9 @@ export function* watchDeleteChannel():any {
 
 export function* watchLoadComapnyForChannel():any {
     yield takeEvery(LOAD_COMPANY_BY_USER_FOR_CHANNEL, loadCompanyForChannel);
+}
+export function* watchResetNotificationShow():any {
+    yield takeEvery(RESET_CHANNEL_NOTIFICATION, resetChannelNotifications);
 }
 
 

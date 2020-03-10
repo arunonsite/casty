@@ -40,10 +40,10 @@ const useStyles = makeStyles(theme => ({
 
 
 function UserFormModal(props) {
-  console.log("GPTOTPTPT", props);
+
   const {currentUsrAccess,
     pageDropDown:{ availableCompany=[]},
-    formData: {name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined },
+    formData: {name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined, companyId='' },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 
 
@@ -124,7 +124,9 @@ function UserFormModal(props) {
                 variant="outlined"
                 onChange={handleChange}
                 name='companyId'
-              
+                value={companyId}
+                validators={['required']}
+                errorMessages={['this field is required']}
               >
                  {availableCompany.map((item) =>
                   <MenuItem value={item.id}>{item.companyName}</MenuItem>)
