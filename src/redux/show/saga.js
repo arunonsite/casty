@@ -77,6 +77,8 @@ function* loadShowList({payload={}}) {
            let url = appSettings.API_ROUTE.MAIN_SITE+appSettings
            .API_PATH.SH20OW_LIST+'/'+payload.id+'?CreatedByUserId='+payload.id;
            ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}
+            console
+            .log("currentUsrAccess--");
         if(currentUsrAccess === 0){
             /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
              url = appSettings.API_ROUTE.MAIN_SITE+appSettings
@@ -118,7 +120,7 @@ function* loadShowList({payload={}}) {
 function* loadChannelsListForShow({payload={}}) {  
   
    // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
-   const {currentUsrAccess, id} = payload;
+   const {currentUsrAccess, id, companyID} = payload;
    const options = {
        body: JSON.stringify(),
        method: 'GET',
@@ -131,7 +133,7 @@ function* loadChannelsListForShow({payload={}}) {
                /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
                 url = url+appSettings.API_PATH.SHOW_LOAD_CHANNEL;  
               }else{
-                url = url+appSettings.API_PATH.SHOW_LOAD_CHANNEL+id 
+                url = url+appSettings.API_PATH.SHOW_ADMIN_LOAD_CHANNEL+companyID 
                 let sera = ' ';
                 let take = '0';
                 url += '/'+sera+'/' +take;                        
@@ -369,7 +371,7 @@ function* resetShowNotifications({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* loadCompanyListForShow({payload={}}) { 
-     const {currentUsrAccess=1, companyID=''} =  payload;
+     const {currentUsrAccess, companyID=''} =  payload;
   
     // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
     const options = {
@@ -381,12 +383,12 @@ function* loadCompanyListForShow({payload={}}) {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
         let response = {};
         if(currentUsrAccess <= 0){
-             response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-                .API_PATH.SHOW_SUPER_LOAD_COMPANIES, options);
+            response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+               .API_PATH.SHOW_LOAD_COMPANIES+'/'+companyID, options);          
           
         }else{
-             response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-                .API_PATH.SHOW_LOAD_COMPANIES+'/'+companyID, options);
+                response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+                    .API_PATH.SHOW_SUPER_LOAD_COMPANIES, options);
         }
         if(response.data !== undefined){
             yield put(loadCompanyListForShowSuccess(processSuccessResponse(response.data)));

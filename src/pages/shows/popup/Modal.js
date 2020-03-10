@@ -43,7 +43,7 @@ function UserFormModal(props) {
   const fileRef = useRef(null);
   const classes = useStyles();
   const {
-    formData: {companyId='', name = '', description = '', channelId = '', id = '',
+    formData: {companyID    ='', name = '', description = '', channelId = '', id = '',
      imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new',
      channelsByUser = [],pageDropDown:{availableChannel=[],availableCompany=[]}, ...others } = props;
@@ -107,7 +107,7 @@ function UserFormModal(props) {
                 variant="outlined"
                 onChange={handleChange}
                 name='companyId'
-                value={companyId}
+                value={companyID}
               >
                  {availableCompany.map((item) =>
                   <MenuItem value={item.id}>{item.companyName}</MenuItem>)

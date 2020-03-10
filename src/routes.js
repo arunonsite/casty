@@ -53,7 +53,7 @@ const routes = [
   { path: '/confirm', name: 'Confirm', component: ConfirmAccount, route: Route },
 
   // other pages
-  { path: '/dashboard', icon:'fe-airplay',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: [ 'SuperAdmin'] },
+  { path: '/dashboard', icon:'fe-airplay',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin', 'SuperAdmin'] },
   { path: '/companies',icon:'fe-users',  name: 'Company', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
   { path: '/users',icon:'fe-users',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
 
@@ -61,6 +61,7 @@ const routes = [
 /*   { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
  */  {exact:true,  path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   { path: '/episodes/:id',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  
 
 
   

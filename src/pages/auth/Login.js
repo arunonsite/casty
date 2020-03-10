@@ -49,17 +49,20 @@ class Login extends Component {
      * Redirect to root
      */
     renderRedirectToRoot = () => {
+        console.log("RURRU");
         const isAuthTokenValid = isUserAuthenticated();
         const {user={}}=this.props;
         if (isAuthTokenValid) {
             const {roles = []} = user;
-         if (roles && roles.indexOf('SuperAdmin') !== -1) {
+        // if (roles && roles.indexOf('SuperAdmin') !== -1) {
             // role not authorised so redirect to home page           
            
                 return <Redirect to='/dashboard' />
             
 
-} 
+//} 
+         //   return <Redirect to='/' />
+        }else{
             return <Redirect to='/' />
         }
     }

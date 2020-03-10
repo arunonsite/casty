@@ -22,6 +22,8 @@ const useStyles = makeStyles(theme => ({
   
 
 function UserFormModal(props) {
+   console
+   .log("props--", props);
   const classes = useStyles(); 
   const {
     formData: { fname = '', lname = '', username = '', password = '', 
@@ -136,9 +138,9 @@ function UserFormModal(props) {
                                 label="Confirm Password"
                                 variant="outlined"
                                 value={cpassword} onChange={handleChange}
-                                name="repeatPassword"
+                                name="cpassword"
                                 type="password"
-                                validators={['required', 'isPasswordMatch']}
+                                validators={['required' ]}
                                 errorMessages={['this field is required','password mismatch']}
                               />
                             </Col>

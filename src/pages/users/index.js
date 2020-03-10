@@ -153,12 +153,14 @@ class UserPage extends Component {
           data={query =>
             new Promise((resolve, reject) => {
               let url = appSettings.API_ROUTE.MAIN_SITE;  
+               console
+               .log("currentUsrAccess--", currentUsrAccess);
                if(currentUsrAccess === 0){
                  url = url+'/api/Users/'   
                 let sera = query.search !== '' ? query.search : ' ';
                 let skp =  query.pageSize*query.page;
                 let take =  query.pageSize*query.page + query.pageSize;
-                url +=  '/SkipTake/' +skp;                        
+                url +=  sera+'/SkipTake/' +skp;                        
                 url += '/' + query.pageSize   
                }else{
                  url = url+'/api/Users/ByCompany/'+companyID 
@@ -170,11 +172,11 @@ class UserPage extends Component {
                 .then(result => {
                   if(result.data !== undefined){
                     resolve({
-                      data: result.data ,
+                      data: result.data,
                       page: result.page - 1,
                       totalCount: result.totalRecords,
                       per_page:query.pageSize,
-                      page:result.query,
+                      "page":result.pageNumber-1,
                     })
                   }else{
                     resolve({
@@ -218,11 +220,7 @@ class UserPage extends Component {
               isFreeAction: true,
               onClick: (event) => this.toggleNewUserModal()
             },
-            {
-              icon: 'edit',
-              tooltip: 'Edit User',
-              onClick: (event, rowData) => this.toggleEditChannelModal()
-            },
+            
             rowData => ({
               icon: 'delete',
               color: 'error',
@@ -256,7 +254,6 @@ const mapStateToProps = (state) => {
    const {UserPageReducer: {users=[], userModal={},loading=false,userNotification={}}, 
    Auth:{user={},user:{roles=[]},  applicationDynamicConstants:{roleSource={}}} }= state;
    const currentUsrAccess =findTheAccess(roles);
-    console.log("currentUsrAccess-->>" , currentUsrAccess);
   return { users ,userModal,userNotification, loading,  user,currentUsrAccess, roleSource};
 };
 

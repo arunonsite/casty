@@ -4,7 +4,7 @@ LOAD_CHANNEL_SUCCESS,
 LOAD_CHANNEL_FAILED,
 LOAD_CHANNEL,
 ONCLICK_MODAL,
-TOGGLE_CHANNEL_MODAL,
+TOGGLE_CHANNEL_MODAL,RESET_CHANNEL_NOTIFICATION,
 SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED,SAVE_CHANNEL,
 UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL,
 DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL,
@@ -54,8 +54,11 @@ export const saveChannelSuccess  = (successUpdate) => ({
     type: SAVE_CHANNEL_SUCCESS,
     payload: successUpdate
 });
-
-
+export const resetChannelNotification  = (resetNotification) => ({
+    type: RESET_CHANNEL_NOTIFICATION,
+    payload: resetNotification
+});
+//
 export const updateChannel  = (updateChannel) => ({
     type: UPDATE_CHANNEL,
     payload: updateChannel

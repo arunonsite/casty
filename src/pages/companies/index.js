@@ -233,7 +233,7 @@ class CompanyPage extends Component {
                           let sera = query.search !== '' ? query.search : ' ';
                           let skp =  query.pageSize*query.page;
                           let take =  query.pageSize*query.page + query.pageSize;
-                          url +=  '/SkipTake/' +skp;                        
+                          url +=  sera+'/SkipTake/' +skp;                        
                           url += '/' + query.pageSize   
                          }
                                             
