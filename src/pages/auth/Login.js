@@ -49,7 +49,6 @@ class Login extends Component {
      * Redirect to root
      */
     renderRedirectToRoot = () => {
-        console.log("RURRU");
         const isAuthTokenValid = isUserAuthenticated();
         const {user={}}=this.props;
         if (isAuthTokenValid) {
@@ -62,8 +61,6 @@ class Login extends Component {
 
 //} 
          //   return <Redirect to='/' />
-        }else{
-            return <Redirect to='/' />
         }
     }
 

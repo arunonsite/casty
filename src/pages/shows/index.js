@@ -62,11 +62,8 @@ class ShowPage extends Component {
 
 
   componentDidMount(){
-    const {user:{id='',currentUsrAccess =1, companyID }} = this.props;
-   // this.props.actions.loadChannelsByUser({id, currentUsrAccess});
-
-    console.log("currentUsrAccess--Show>--",currentUsrAccess);
-   
+    const {user:{id='', companyID }, currentUsrAccess =1} = this.props;
+   // this.props.actions.loadChannelsByUser({id, currentUsrAccess});   
     this.props.actions.loadCompanyListForShow({companyID, currentUsrAccess});
     this.props.actions.loadChannelsListForShow({id, currentUsrAccess, companyID});
     //this.loadPageData();    
@@ -74,13 +71,18 @@ class ShowPage extends Component {
  
 
  loadPageData = () => {  //this.state.departments.push()
-  const {user:{id='',companyID=''}} = this.props;
+  const {user:{id='',companyID=''}, currentUsrAccess} = this.props;
   this.props.actions.loadShows({id,companyID});
  }
  handleChange =  (event, field) => {
    const { newShowModalData: { formData = {} } } = this.state;
+   const {user:{id='',companyID=''}, currentUsrAccess} = this.props;
    let proceddesData = {};
    proceddesData[event.target.name] = event.target.value;
+   if(event.target.name === 'companyId'){
+    this.props.actions.loadChannelsListForShow({id, currentUsrAccess, companyID : event.target.value});
+    proceddesData[event.target.name] = event.target.value;
+   }
    this.setState({ newShowModalData: { formData: { ...formData, ...proceddesData } } });
  }
  handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
@@ -140,7 +142,7 @@ class ShowPage extends Component {
    this.props.actions.onclickModal(togg);
   }
   toggleEditShowModal = (channel) => { 
-    const {showModal : {show = false},user:{companyID='' }, pageDropDown:{channelsByUser=[]}} = this.props; 
+    const {showModal : {show = false},user:{companyID='' }, pageDropDown:{availableChannel=[], channelsByUser=[]}} = this.props; 
      const {name = "Demo1",    description= "Demo 2", id='', channelId='',  imageFullURL = '', imageURL = '' } = channel;
 
      let previewFile = [];
@@ -163,6 +165,14 @@ class ShowPage extends Component {
        }
      });
 
+     //Prepare COmpany ID for teh channnel
+
+      let filteredchannel = availableChannel.filter(channel => {
+      return channel.id === channelId;
+  }); 
+  const showCompanyId = (filteredchannel[0] !== undefined) ? filteredchannel[0].companyId : '';
+
+
      const togg = { showModal: {
        show: !show,
        title: 'Edit Show',
@@ -176,7 +186,7 @@ class ShowPage extends Component {
        imageFullURL,
        imageURL,
        previewFile,
-       companyID
+       companyId : showCompanyId
        },
        channelsByUser
      }}; 
@@ -190,7 +200,8 @@ class ShowPage extends Component {
        imageFullURL,
        imageURL,
        previewFile,
-       companyID
+       companyId : showCompanyId
+       
      },}});     
      this.props.actions.onclickModal(togg);
   }
@@ -217,7 +228,13 @@ class ShowPage extends Component {
   render() { 
     //const {newShow:{name='', description='', cphoto=''}} = this.state;
     const {     newShowModalData={} } = this.state;
-    const {shows=[], showModal={}, user:{companyID='', id=''}, currentUsrAccess, pageDropDown} = this.props;
+    const { shows=[], 
+    showModal={}, user:{companyID='', id=''}, currentUsrAccess,
+    pageDropDown:{availableChannel=[], channelsByUser=[]}, pageDropDown={}
+     } = this.props;
+   
+  
+   
     return (
       <React.Fragment>       
         <Modal
@@ -257,7 +274,14 @@ class ShowPage extends Component {
           columns={[
             { title: " Name", field: "name" },
             { title: " Description", field: "description" },
-            { title: "Channel", field: "channel.name" 
+            { title: "Channel", field: "channel.name" ,
+            render: rowData =>  {
+              let filteredchannel = availableChannel.filter(channel => {
+                return channel.id === rowData.channelId;
+            }); 
+              return (filteredchannel[0] !== undefined) ? filteredchannel[0].name : '-';
+              
+            }
               },
            
           ]}

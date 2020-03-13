@@ -263,13 +263,17 @@ function* loadCompanyForChannel({payload={}}) {
     try {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
         let response = {};
-        if(currentUsrAccess <= 0){
+         console
+         .log("currentUsrAccess", currentUsrAccess);
+        
+        if(currentUsrAccess <= 0){// Super Admin
             ///api/Companies/Names
             response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-                .API_PATH.SHOW_LOAD_COMPANIES+'/'+companyID, options);          
-        }else{
+                .API_PATH.SHOW_SUPER_LOAD_COMPANIES , options);
+                 
+        }else{ // Admin
             response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-                .API_PATH.SHOW_SUPER_LOAD_COMPANIES, options);
+                .API_PATH.SHOW_LOAD_COMPANIES+'/'+companyID, options);  
         }
         if(response.data !== undefined){
             yield put(loadCompanyListForChannalSuccess(processSuccessResponse(response.data)));

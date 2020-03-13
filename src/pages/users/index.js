@@ -5,7 +5,7 @@ import { Table, Button } from 'react-bootstrap';
 import { bindActionCreators } from 'redux'
 import { toast } from 'react-toastify';
 import { notifyMe} from '../../helpers/applicationUtils';
-
+import { v4 as uuidv4 } from 'uuid';
 import  * as userActions from '../../redux/user/actions';
 
 import { getLoggedInUser, findTheAccess  } from '../../helpers/authUtils';
@@ -14,22 +14,22 @@ import Modal from './popup/Modal';
 
 import MaterialTable from "material-table";
 import appSettings from '../../App.Settings';
-
+const resetNotification  = {userNotification : {notify:false,mode:0,  message:''}};
 class UserPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newUserModalData :{
         formData : {
-          fname: '',
-          lname: '',
+          firstName: '',
+          lastName: '',
           username: '',
           password: '',
           cpassword: '',
           email: '',
           cemail: '',
            phone: '',
-           role :''
+           role :'',blocked:null
         },
       }
     
@@ -50,10 +50,14 @@ class UserPage extends Component {
       });
     //  this.loadPageData();.
     this.tableRef.current.onQueryChange()
+    this.props.actions.resetUserNotification(resetNotification);
     } 
+   
   }
   componentDidMount(){
-    //this.loadPageData();      
+    //this.loadPageData();   
+    const {user:{id='', companyID }, currentUsrAccess } = this.props;
+    this.props.actions.loadCompanyListForUser({companyID, currentUsrAccess});   
   }
    loadPageData = () => {  //this.state.departments.push()
     const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d' }, currentUsrAccess} = this.props;
@@ -61,52 +65,124 @@ class UserPage extends Component {
    }
   handleChange = (event, field) => {
     const {newUserModalData :{formData={}}} = this.state;
+    const {user: { id = ''}} =  this.props;
+    if(event.target.name ==='role'){
+      formData['roleSelected'] = [event.target.value];
+      formData['roles'] = [event.target.value];
+    }else if(event.target.name ==='blocked'){
+      if(event.target.checked){
+        formData[event.target.name] = null;
+      }else{
+        formData[event.target.name] = new Date();;
+        formData['BlockedBy'] = id;
+        
+      }
+
+    }else{
     formData[event.target.name] = event.target.value;
+    }
     this.setState({newUserModalData: {formData : formData}});
   }
   
   handleSubmit = (event) => {
-    const {user:{id='', companyID=''}} = this.props;
-    const { newUserModalData:{formData={}}} = this.state; 
-    const newUserData= Object.assign({...formData}, {parentId : id,companyID });
-   this.props.actions.newUser(newUserData);
+   const { user: { id = '', companyID='' }, userModal: { mode = "edit" } } = this.props;
+   const { newUserModalData: { formData = {} } } = this.state;
+   if (mode === 'edit') {
+     const uptCHannelData = Object.assign({ ...formData }, { UserId: id });
+     this.props.actions.updateUser(uptCHannelData);
+   } else {
+     const newUserData = Object.assign({ ...formData }, {companyID, UserId: id,  Id: uuidv4() });
+     this.props.actions.newUser(newUserData);
+   }
   }
 
   toggleNewUserModal = () => {
-    const {userModal : {show = false},roleSource={}} = this.props;   
+    const {userModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;    
     const togg = { userModal: {
       show: !show,
       title: 'New User',
       mode : 'add',
       data:   {
-        fname: '',
-        lname: '',
+        firstName: '',
+        lastName: '',
         username: '',
         password: '',
         cpassword: '',
         email: '',
         cemail: '',
-         phone: '',
-         role : ''
+        phone: '',
+        role : '',
+        companyID:'',
+        roleSelected : ['Admin'],
+        roles : ['Admin'],
+        blocked:null
       },
       constants: {roleSource}
     }};
+
+
+    this.setState({
+      newUserModalData: {
+        formData: {
+          firstName: '',
+          lastName: '',
+          username: '',
+          password: '',
+          cpassword: '',
+          email: '',
+          cemail: '',
+          phone: '',
+          role : '',
+          companyID:'',
+          roleSelected : ['Admin'],
+          blocked:null,
+          roles : ['Admin'],
+        },
+      }
+    });
+
+
     this.props.actions.onclickModal(togg);   
   }
   toggleEditUserModal = (user) => {
-    const {userModal : {show = false}} = this.state;   
-    this.setState({ 
-      userModal: {      show: !show,      title: 'Edit User',      mode : 'edit' ,
-      data:   {...user},   
-    },      
-    }
-    );
+    const {userModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;   
+    const {roles, firstName= '',lastName= '',password= '',cpassword= '',email= '',cemail= '',
+    phone= '',companyID='', id='', role='',blocked=null} = user   
+    let roleSelected = [];
+  roleSource.map((rolev, ind)=>{
+    const tempRole = roles.filter((roled) =>{
+      return rolev === roled
+    });
+    if(tempRole[0] !== undefined){
+      roleSelected.push(tempRole[0]);
+    }   
+  });
+
+    
+    const togg = { userModal: {
+      show: !show,
+      title: 'Edit User',
+      mode : 'edit',
+      data:   { ID :id, 
+        roles,roleSelected, firstName,lastName,password,cpassword,email,cemail,phone ,companyID,blocked
+      }
+    }};
+
+
+   /* to save in loacal State */
+   this.setState({
+    newUserModalData: {
+       formData: { blocked,ID :id, roles,roleSelected, firstName,lastName,password,cpassword,email,cemail,phone,companyID
+       }
+     }
+   });
+   this.props.actions.onclickModal(togg);
   }
   
 
   render() {
     const {  newUserModalData } = this.state;
-    const{users=[], userModal={},currentUsrAccess, user:{id='', companyID=''} } =this.props;
+    const{users=[], userModal={},currentUsrAccess, user:{id='', companyID=''} ,  pageDropDown ={}} =this.props;
     
     return (
       <React.Fragment>
@@ -117,8 +193,11 @@ class UserPage extends Component {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          {...newUserModalData}
           {...userModal}
+          {...newUserModalData}
+          currentUsrAccess={currentUsrAccess}
+          pageDropDown =  {pageDropDown}
+       
         />
         <div className="">
           { /* preloader */}
@@ -147,26 +226,27 @@ class UserPage extends Component {
             { title: "Last Name", field: "lastName" },
            
             { title: "Company", field: "companyName"  },
-            { title: "Phone", field: "phone", },
+            { title: "Status", field: "blocked", render: rowData => (rowData.blocked !== null ? <span class="badge badge-danger badge-pill">InActive</span> :<span  class="badge badge-success badge-pill">Active</span>) },
            
           ]}
           data={query =>
             new Promise((resolve, reject) => {
-              let url = appSettings.API_ROUTE.MAIN_SITE;  
-               console
-               .log("currentUsrAccess--", currentUsrAccess);
+              let url = appSettings.API_ROUTE.MAIN_SITE;
                if(currentUsrAccess === 0){
-                 url = url+'/api/Users/'   
+                url = url+'/api/Users'   
+               let sera = query.search !== '' ? query.search : ' ';
+               let skp =  query.pageSize*query.page;
+               let take =  query.pageSize*query.page + query.pageSize;
+               url += '/'+sera+'/SkipTake/' +skp;                        
+               url += '/' + query.pageSize   
+              }else{
+                url =  url+'/api/Users/ByCompany/'+companyID 
                 let sera = query.search !== '' ? query.search : ' ';
                 let skp =  query.pageSize*query.page;
                 let take =  query.pageSize*query.page + query.pageSize;
-                url +=  sera+'/SkipTake/' +skp;                        
-                url += '/' + query.pageSize   
-               }else{
-                 url = url+'/api/Users/ByCompany/'+companyID 
-               }  
-                console
-                .log("url==", url);                    
+                url += '/'+sera+'/' +skp;                        
+                url += '/' + query.pageSize  
+              }                   
               fetch(url)
                 .then(response => response.json())
                 .then(result => {
@@ -185,8 +265,7 @@ class UserPage extends Component {
                       per_page:query.pageSize,
                       page:query.page,
                     })
-                  }
-              
+                  }              
                 })
             })
           }
@@ -220,14 +299,11 @@ class UserPage extends Component {
               isFreeAction: true,
               onClick: (event) => this.toggleNewUserModal()
             },
-            
-            rowData => ({
-              icon: 'delete',
-              color: 'error',
-              tooltip: 'Delete User',
-              onClick: (event, rowData) => alert("You saved " + rowData.name),
-              disabled: rowData.birthYear < 2000
-            })
+            {
+              icon: 'edit',
+              tooltip: 'edit Show',
+              onClick: (event, rowData) => this.toggleEditUserModal(rowData)
+            }
           ]}
           options={{
             actionsColumnIndex: -1
@@ -251,10 +327,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   const {UserPageReducer: {users=[], userModal={},loading=false,userNotification={}}, 
+   const {UserPageReducer: {availableCompany=[],users=[], userModal={},loading=false,userNotification={}}, 
    Auth:{user={},user:{roles=[]},  applicationDynamicConstants:{roleSource={}}} }= state;
    const currentUsrAccess =findTheAccess(roles);
-  return { users ,userModal,userNotification, loading,  user,currentUsrAccess, roleSource};
+  return { users ,userModal,userNotification, loading,  user,currentUsrAccess,  pageDropDown:{availableCompany, roleSource}};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

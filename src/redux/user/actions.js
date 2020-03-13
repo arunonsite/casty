@@ -5,7 +5,10 @@ import {
     LOAD_USERS_SUCCESS,
     ONCLICK_MODAL,
     SAVE_USER_SUCCESS,SAVE_USER  ,SAVE_USER_FAILED,
-    TOGGLE_USER_MODAL   
+    TOGGLE_USER_MODAL   ,
+    LOAD_COMPANY_BY_USER_FOR_USER,LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER,
+    UPDATE_USER,UPDATE_USER_SUCCESS,
+    RESET_USER_NOTIFICATION
 } from '../../constants/actionTypes';
 
 
@@ -45,5 +48,30 @@ export const saveUserSuccess  = (successUpdate) => ({
 export const saveUserFailed  = (failUpdate) => ({
     type: SAVE_USER_FAILED,
     payload: failUpdate
+});
+
+
+export const loadCompanyListForUser = (payload) => ({
+    type: LOAD_COMPANY_BY_USER_FOR_USER,
+    payload: payload
+});
+export const loadCompanyListSuccessForUser = (compnaies: {}) => ({
+    type: LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER,
+    payload: compnaies
+});
+
+
+export const updateUser  = (updatUser) => ({
+    type: UPDATE_USER,
+    payload: updatUser
+});
+export const updateChannelSuccess  = (updatUser) => ({
+    type: UPDATE_USER_SUCCESS,
+    payload: updatUser
+});
+
+export const resetUserNotification  = (resetNotification) => ({
+    type: RESET_USER_NOTIFICATION,
+    payload: resetNotification
 });
 

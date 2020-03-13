@@ -117,7 +117,7 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            {currentUsrAccess <= 0 ?     <Col xl={12}>
+               <Col xl={12}>
               <SelectValidator
                 label="Company"
                 label="Company"
@@ -132,7 +132,7 @@ function UserFormModal(props) {
                   <MenuItem value={item.id}>{item.companyName}</MenuItem>)
                 } 
               </SelectValidator>
-            </Col> : '' }
+            </Col> 
             <Col xl={12}>
               <FilePond
                 allowFileEncode={true}
