@@ -7,7 +7,8 @@ import {
     TOGGLE_COMPANY_MODAL,
     SAVE_COMPANY_SUCCESS, SAVE_COMPANY_FAILED,SAVE_COMPANY,
     UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
-    DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY
+    DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY,
+    RESET_COMPANY_NOTIFICATION
 } from '../../constants/actionTypes';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
@@ -58,7 +59,8 @@ const Comapny = (state:State = INIT_STATE, action: AuthAction) => {
                 return { ...state, ...action.payload, loading: false, error: null };
             case DELETE_COMPANY_FAILED:
                 return { ...state, ...action.payload,loading: false };   
-      
+                case RESET_COMPANY_NOTIFICATION:
+                    return { ...state, ...action.payload, loading: false };
         default: return { ...state };
     }
 }

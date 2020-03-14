@@ -29,7 +29,7 @@ class UserPage extends Component {
           email: '',
           cemail: '',
            phone: '',
-           role :'',blocked:null
+           role :'',blocked:null, roleSelected : ['Admin'],
         },
       }
     
@@ -74,24 +74,25 @@ class UserPage extends Component {
         formData[event.target.name] = null;
       }else{
         formData[event.target.name] = new Date();;
-        formData['BlockedBy'] = id;
-        
+        formData['BlockedBy'] = id;       
       }
 
     }else{
+       console
+       .log("event.target.name=", event.target.name, event.target.value);
     formData[event.target.name] = event.target.value;
     }
     this.setState({newUserModalData: {formData : formData}});
   }
   
   handleSubmit = (event) => {
-   const { user: { id = '', companyID='' }, userModal: { mode = "edit" } } = this.props;
+   const { user: { id = '' }, userModal: { mode = "edit" } } = this.props;
    const { newUserModalData: { formData = {} } } = this.state;
    if (mode === 'edit') {
      const uptCHannelData = Object.assign({ ...formData }, { UserId: id });
      this.props.actions.updateUser(uptCHannelData);
    } else {
-     const newUserData = Object.assign({ ...formData }, {companyID, UserId: id,  Id: uuidv4() });
+     const newUserData = Object.assign({ ...formData }, {  UserId: id,  Id: uuidv4() });
      this.props.actions.newUser(newUserData);
    }
   }

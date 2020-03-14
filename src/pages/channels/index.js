@@ -87,7 +87,7 @@ class ChannelPage extends Component {
       const uptCHannelData = Object.assign({ ...formData }, { UserId: id });
       this.props.actions.updateChannel(uptCHannelData);
     } else {
-      const newCHannelData = Object.assign({ ...formData }, { UserId: id, CompanyId:companyID,  Id: uuidv4() });
+      const newCHannelData = Object.assign({ ...formData }, { UserId: id, Id: uuidv4() });
       this.props.actions.newChannel(newCHannelData);
     }
     // this.props.actions.newChannel(newCHannelData);

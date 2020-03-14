@@ -36,9 +36,15 @@ function UserFormModal(props) {
     let role = roleSource.findIndex(source => source === roleSelected[0]);
     role = roleSource[role];
     //COmpany Preselect
-    if(availableCompany.length ===1){
-    //  companyID = availableCompany[0].id;
-    }
+   
+
+    ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+       
+      if (value !== password) {
+          return false;
+      }
+      return true;
+  });
   return (
     <Modal
       {...others}
@@ -147,8 +153,18 @@ function UserFormModal(props) {
                                 validators={['required', 'isEmail']}
                                 errorMessages={['this field is required', 'email is not valid']}
                               /></Col> : '' }
-                         
-                        
+                         <Col sm={6}> Status : 
+                          <Checkbox
+        {...checkedStatus}
+        size="small"
+        name="blocked"
+        value={new Date()}
+        onChange={handleChange}
+        inputProps={{ 'aria-label': 'checkbox with small size' }}
+      />
+</Col> 
+</Row>{mode !== 'edit'  ?  
+<Row style={{ "padding": "4px" }}>     
                             <Col sm={6}>
                               <TextValidator
                                 label="Password"
@@ -162,7 +178,7 @@ function UserFormModal(props) {
                     errorMessages={[ 'this field is required']}
                               /></Col>
 
-                          {/*   <Col sm={6}>
+                            <Col sm={6}>
                               <TextValidator
                                 label="Confirm"
                                 label="Confirm Password"
@@ -170,21 +186,12 @@ function UserFormModal(props) {
                                 value={cpassword} onChange={handleChange}
                                 name="cpassword"
                                 type="password"
-                                validators={['required' ]}
-                                errorMessages={['this field is required','password mismatch']}
+                                validators={['isPasswordMatch','required' ]}
+                                errorMessages={['password mismatch','this field is required']}
                               />
-                            </Col> */}
-                          </Row>
-                          <Col sm={6}> Status : 
-                          <Checkbox
-        {...checkedStatus}
-        size="small"
-        name="blocked"
-        value={new Date()}
-        onChange={handleChange}
-        inputProps={{ 'aria-label': 'checkbox with small size' }}
-      />
-</Col> 
+                            </Col> 
+                          </Row> : ""
+}                          
                        
 
 
