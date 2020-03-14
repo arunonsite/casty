@@ -4,7 +4,10 @@ import {
     LOAD_USERS_FAILED,
     LOAD_USERS_SUCCESS,
     TOGGLE_USER_MODAL , ONCLICK_MODAL,
-    SAVE_USER_SUCCESS,SAVE_USER  ,SAVE_USER_FAILED
+    SAVE_USER_SUCCESS,SAVE_USER  ,SAVE_USER_FAILED,
+    LOAD_COMPANY_BY_USER_FOR_USER,LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER,
+    UPDATE_USER,UPDATE_USER_SUCCESS,
+    RESET_USER_NOTIFICATION
 } from '../../constants/actionTypes';
 
 
@@ -52,6 +55,22 @@ const User = (state:State = INIT_STATE, action: UserAction) => {
                 return { ...state, ...INIT_STATE, ...action.payload, loading: false, error: null };
             case SAVE_USER_FAILED:
                 return { ...state, ...action.payload, loading: false, error: null };
+
+
+                case LOAD_COMPANY_BY_USER_FOR_USER:
+                    return { ...state, loading: true };
+                case LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER:
+                    return {
+                        ...state, availableCompany: action.payload.response !== undefined ? action.payload.response : [],
+                        userNotification: INIT_STATE.userNotification, loading: false, error: null
+                    }
+                    case UPDATE_USER:
+            return { ...state, loading: true };
+        case UPDATE_USER_SUCCESS:
+            return { ...state, ...action.payload, loading: false, error: null };
+
+            case RESET_USER_NOTIFICATION:
+                return { ...state, ...action.payload, loading: false };
         default: return { ...state };
     }
 }

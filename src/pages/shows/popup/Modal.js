@@ -39,17 +39,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserFormModal(props) {
+
+   console
+   .log("props--", props);
   const inputRef = useRef(null);
   const fileRef = useRef(null);
   const classes = useStyles();
   const {
-    formData: {companyID    ='', name = '', description = '', channelId = '', id = '',
+    formData: {companyId    ='', name = '', description = '', channelId = '', id = '',
      imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new',
      channelsByUser = [],pageDropDown:{availableChannel=[],availableCompany=[]}, ...others } = props;
   const changeShowImage = (image) => {
     handleFileChange(JSON.parse(document.getElementsByName("showImage")[0].value));
   }
+  
   const initialShowImage = (image) => {
     let customrUrl = "http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png";
     getBese64Image(imageFullURL).then((succ) => {
@@ -107,7 +111,9 @@ function UserFormModal(props) {
                 variant="outlined"
                 onChange={handleChange}
                 name='companyId'
-                value={companyID}
+                value={companyId}
+                validators={['required']}
+                errorMessages={['this field is required']}
               >
                  {availableCompany.map((item) =>
                   <MenuItem value={item.id}>{item.companyName}</MenuItem>)
@@ -122,6 +128,8 @@ function UserFormModal(props) {
                 onChange={handleChange}
                 name='channelId'
                 value={channelId}
+                validators={['required']}
+                errorMessages={['this field is required']}
               >
                  {availableChannel.map((item) =>
                   <MenuItem value={item.id}>{item.name}</MenuItem>)

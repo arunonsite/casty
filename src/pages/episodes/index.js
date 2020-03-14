@@ -444,7 +444,6 @@ while (allProcessEpisods.length > 0)
 allProcessedEpisods.push(allProcessEpisods.splice(0, 3)); */
 
 let groupEpisode =[];
- console.log("episodes--", state, episodes.length);
 episodes.map((epi, index)=>{
   groupEpisode.push(epi);
   if((index+1)%3 === 0 || episodes.length === index+1){

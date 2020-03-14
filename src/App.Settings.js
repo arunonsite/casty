@@ -8,6 +8,7 @@ export default{
          "GET_USER_LIST_BYCOMPANY_ROUTE" :"/api/Users/ByCompany/",
 
          "SUPER_USER_LIST" :"/api/Users/SkipTake/",
+         "USER_UPDATE" : '/api/Users/Update',
 
          "SHOW_LIST" : 'api/Shows/CreatedByUserId/',
          "SHOW_LIST_COMPANY" : 'api/Shows/ByCompany/',
@@ -17,7 +18,7 @@ export default{
          "SHOW_DELETE" : 'api/Shows/Delete/',
          "SHOW_LOAD_COMPANIES" : '/api/Companies/GetById/',
          "SHOW_SUPER_LOAD_COMPANIES" : '/api/Companies/Full/',
-         "SHOW_ADMIN_LOAD_CHANNEL" : 'api/Channels/ByCompany/',
+         "SHOW_ADMIN_LOAD_CHANNEL" : '/api/Channels/ByCompany/',
 
     
          "CHANNEL_LIST" : 'api/Channels/CreatedByUserId/',
@@ -26,6 +27,7 @@ export default{
          "CHANNEL_UPDATE" : 'api/Channels/Update/',
          "CHANNEL_DELETE" : 'api/Channels/Delete/',         
          "LOAD_CHANNEL_BY_USER" : 'api/Channels/CreatedByUserId/',
+         "CHANNEL_LOAD_COMPANIES" : '/api/Companies/GetById/',
 
          "USER_SAVE" : '/api/Users/Register/',
 

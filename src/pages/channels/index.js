@@ -35,7 +35,7 @@ class ChannelPage extends Component {
   }
   componentDidMount() {
    // this.loadPageData();
-   const {user:{id='',currentUsrAccess =1, companyID }} = this.props;
+   const {user:{id='',companyID }, currentUsrAccess=1} = this.props;
    this.props.actions.loadCompanyListForChannel({companyID, currentUsrAccess});
   }
   componentDidUpdate() {
@@ -357,6 +357,7 @@ const mapStateToProps = (state) => {
   channelNotification = {} }, 
   Auth:{user={},user:{roles=[]}} }= state;
   const currentUsrAccess =findTheAccess(roles);
+
   return { channels, user, channelModal, channelNotification, loading,currentUsrAccess, pageDropDown:{availableCompany} };
 };
 

@@ -9,7 +9,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { Checkbox } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiTextField-root': {
@@ -25,11 +25,20 @@ function UserFormModal(props) {
    console
    .log("props--", props);
   const classes = useStyles(); 
-  const {
-    formData: { fname = '', lname = '', username = '', password = '', 
-    cpassword = '', email = '', cemail = '', phone = '', role='' },
-    handleSubmit, handleChange, title, constants:{roleSource=[]}, ...others } = props;
+  let {currentUsrAccess=1,mode='edit',
+    pageDropDown:{ availableCompany=[], roleSource=[]},
+    formData: {  roleSelected, firstName = '', lastName = '', username = '', password = '', 
+    cpassword = '', email = '', cemail = '', phone = '',  companyID='', blocked},
+    handleSubmit, handleChange, title, ...others } = props;
     
+    const checkedStatus = blocked !== null ? {checked : false} :  {checked : true};
+    //Role Preselect 
+    let role = roleSource.findIndex(source => source === roleSelected[0]);
+    role = roleSource[role];
+    //COmpany Preselect
+    if(availableCompany.length ===1){
+    //  companyID = availableCompany[0].id;
+    }
   return (
     <Modal
       {...others}
@@ -64,8 +73,8 @@ function UserFormModal(props) {
                                 label="First Name"
                                 variant="outlined"
                                 onChange={handleChange}
-                                value={fname} onChange={handleChange}
-                                name='fname'
+                                value={firstName} onChange={handleChange}
+                                name='firstName'
 
                                 validators={['required']}
                                 errorMessages={['this field is required']}
@@ -76,8 +85,8 @@ function UserFormModal(props) {
                                 label="Name"
                                 label="Last Name"
                                 variant="outlined"
-                                value={lname} onChange={handleChange}
-                                name="lname"
+                                value={lastName} onChange={handleChange}
+                                name="lastName"
                                 validators={['required']}
                                 errorMessages={['this field is required']}
                               />
@@ -85,18 +94,23 @@ function UserFormModal(props) {
                           </Row>
 
                           <Row style={{ "padding": "4px" }}>
-                            <Col sm={6}>
-                              <TextValidator
-                                label="Username"
-                                label="User Name"
-                                variant="outlined"
-                                onChange={handleChange}
-                                value={username} 
-                                name='username'
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                              /></Col>
-                                <Col sm={3}>
+                             <Col xl={6}>
+              <SelectValidator
+                label="Company"
+                label="Company"
+                variant="outlined"
+                onChange={handleChange}
+                name='companyID'
+                value={companyID}
+                validators={['required']}
+                errorMessages={['this field is required']}
+              >
+                 {availableCompany.map((item) =>
+                  <MenuItem value={item.id}>{item.companyName}</MenuItem>)
+                } 
+              </SelectValidator>
+            </Col> 
+                                <Col sm={6}>
                               <SelectValidator 
                                 label="Role"
                                 label="Role"
@@ -118,7 +132,23 @@ function UserFormModal(props) {
 
                           </Row>
 
+                         
+
                           <Row style={{ "padding": "4px" }}>
+                          {mode !== 'edit'  ?        <Col sm={6}>
+                              <TextValidator
+                                label="Email"
+                                label="Email"
+                                variant="outlined"
+                               
+                                value={email} onChange={handleChange}
+                                name='email'
+
+                                validators={['required', 'isEmail']}
+                                errorMessages={['this field is required', 'email is not valid']}
+                              /></Col> : '' }
+                         
+                        
                             <Col sm={6}>
                               <TextValidator
                                 label="Password"
@@ -132,7 +162,7 @@ function UserFormModal(props) {
                     errorMessages={[ 'this field is required']}
                               /></Col>
 
-                            <Col sm={6}>
+                          {/*   <Col sm={6}>
                               <TextValidator
                                 label="Confirm"
                                 label="Confirm Password"
@@ -143,35 +173,19 @@ function UserFormModal(props) {
                                 validators={['required' ]}
                                 errorMessages={['this field is required','password mismatch']}
                               />
-                            </Col>
+                            </Col> */}
                           </Row>
-
-                          <Row style={{ "padding": "4px" }}>
-                            <Col sm={6}>
-                              <TextValidator
-                                label="Email"
-                                label="Email"
-                                variant="outlined"
-                               
-                                value={email} onChange={handleChange}
-                                name='email'
-
-                                validators={['required', 'isEmail']}
-                                errorMessages={['this field is required', 'email is not valid']}
-                              /></Col>
-                             <Col sm={6}>
-                              <TextValidator
-                                label="Phone"
-                                label="Phone"
-                                variant="outlined"
-                                onChange={handleChange}
-                                value={phone} onChange={handleChange}
-                                name='phone'
-
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                              /></Col>
-                          </Row>
+                          <Col sm={6}> Status : 
+                          <Checkbox
+        {...checkedStatus}
+        size="small"
+        name="blocked"
+        value={new Date()}
+        onChange={handleChange}
+        inputProps={{ 'aria-label': 'checkbox with small size' }}
+      />
+</Col> 
+                       
 
 
                           <ul class="list-inline wizard mb-0">

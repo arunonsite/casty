@@ -18,7 +18,7 @@ const INIT_STATE = {
     user: getLoggedInUser(),
     loading: false,
     applicationDynamicConstants:{
-        roleSource : ["User","Contributor"]
+        roleSource : ["User","Contributor", 'Admin']
     }
 };
 
