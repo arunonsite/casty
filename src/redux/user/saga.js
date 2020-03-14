@@ -82,7 +82,10 @@ function* loadUserListByCompany({payload={}}) {
  * Load the CHannnel lsit
  * @param {*} payload - username and password 
  */
-function* saveNewUser({payload={}}) {    
+function* saveNewUser({payload={}}) { 
+    
+     console
+     .log("payload====", payload);
     const {firstName ='',roles,
     lastName='',password='',email='',cemail='',phone='',role='',companyID='',UserId='',Id} = payload;
     const newUserData= {

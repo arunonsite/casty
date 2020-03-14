@@ -13,6 +13,7 @@ import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 import { v4 as uuidv4 } from 'uuid';
+const resetNotification  = {companyNotification : {notify:false,mode:0,  message:''}};
 class CompanyPage extends Component {
 
   constructor(props) {
@@ -50,6 +51,7 @@ class CompanyPage extends Component {
         draggable: true
       });
     //  this.loadPageData();.
+    this.props.actions.resetCompanyNotification(resetNotification);
     this.tableRef.current.onQueryChange()
     }
   }

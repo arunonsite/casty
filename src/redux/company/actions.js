@@ -7,7 +7,8 @@ ONCLICK_MODAL,
 TOGGLE_COMPANY_MODAL,
 SAVE_COMPANY_SUCCESS, SAVE_COMPANY_FAILED,SAVE_COMPANY,
 UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
-DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY
+DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY,
+RESET_COMPANY_NOTIFICATION
 
 
 
@@ -51,6 +52,12 @@ export const updateCompany  = (updateCompany) => ({
 export const updateCompanySuccess  = (updateCompany) => ({
     type: UPDATE_COMPANY_SUCCESS,
     payload: updateCompany
+});
+
+
+export const resetCompanyNotification  = (resetNotification) => ({
+    type: RESET_COMPANY_NOTIFICATION,
+    payload: resetNotification
 });
 
 

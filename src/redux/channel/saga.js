@@ -94,7 +94,7 @@ function* onclickModal({payload={}}) {
 function* saveNewChannel({payload={}}) {
     
       const {name='', description='', UserId='', ImageBase64, ImageFileExtensionIncludingDot,
-      CompanyId,Id} = payload;
+      companyId,Id} = payload;
       const newChannelData= {
        
         "Name": name,
@@ -106,7 +106,7 @@ function* saveNewChannel({payload={}}) {
     
         
         ImageBase64, ImageFileExtensionIncludingDot,
-        CompanyId,Id
+        CompanyId : companyId,Id
       }
     const options = {
         body: JSON.stringify(newChannelData),
