@@ -7,7 +7,7 @@ import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Conta
 import NotificationDropdown from './NotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import logoSm from '../assets/images/logo-sm.png';
-import logo from '../assets/images/logo-dark.png';
+import logo from '../assets/images/log.jpg';
 import profilePic from '../assets/images/users/user-1.jpg';
 
 
@@ -142,7 +142,7 @@ class Topbar extends Component {
             <div className="logo-box">
               <Link to="/" className="logo text-center">
                 <span className="logo-lg">
-                 <h1>Casty</h1>
+                <img src={logo} alt="" ></img>
                 </span>
                 <span className="logo-sm">
                 <h1>Casty</h1>
@@ -150,11 +150,45 @@ class Topbar extends Component {
               </Link>
             </div>
 
-            <ul className="list-unstyled topnav-menu topnav-menu-left m-0">
-              <li className="dropdown d-none d-lg-block">
-                
-              </li>
-            </ul>
+            <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+            
+            <li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+				 <i class="mdi mdi-home"></i> Dashboard
+                </a>
+            </li>
+			<li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+				  <i class="mdi mdi-account-group"></i> User Management
+                </a>
+            </li>
+			<li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+				  <i class="mdi mdi-city"></i> Company
+                  
+                </a>
+            </li>
+			<li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="departments.html" role="button" aria-haspopup="false" aria-expanded="false">
+				<i class="mdi mdi-border-all"></i> Departments
+                    
+                </a>
+            </li>
+			<li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+				 <i class="mdi mdi-play-circle-outline"></i> Channels
+                   
+                </a>
+            </li>
+			<li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+				<i class="mdi mdi-play-box-outline"></i> Shows
+                    
+                </a>
+            </li>
+    
+            
+        </ul>
           </Container>
         </div>
       </React.Fragment >

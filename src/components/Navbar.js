@@ -65,7 +65,7 @@ const NavMenuContent = (props) => {
     });
 
     return <React.Fragment>
-        <ul className="navigation-menu">
+       {/* <ul className="navigation-menu">
             {allowedRoutes.map((menu) =>
                 <li>
                     <Link to={menu.path} className="waves-effect has-dropdown"
@@ -74,7 +74,7 @@ const NavMenuContent = (props) => {
                         <span> {menu.name} </span>
                     </Link></li>
             )}
-        </ul>
+        </ul> */}
     </React.Fragment>
 }
 
