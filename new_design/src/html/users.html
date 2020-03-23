@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>UBold - Responsive Admin Dashboard Template</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+		
+		     <!-- Custom box css -->
+        <link href="assets/libs/custombox/custombox.min.css" rel="stylesheet">
+		 <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+    </head>
+
+    <body>
+
+        <!-- Navigation Bar-->
+        <header id="topnav">
+
+            @@include('./partials/topbar.html')
+
+           <!-- @@include('./partials/horizontal-nav.html')-->
+
+        </header>
+        <!-- End Navigation Bar-->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="wrapper">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-sm-8" >
+                        <div class="page-title-box">
+                            <h4 class="page-title">User Managements</h4>
+                        </div>
+                    </div>	
+<div class="col-sm-2">
+                                        <div class="text-sm-right custom-top">
+                                        <form>
+                                            <div class="form-group">
+                                                <input type="search" class="form-control" id="inputPassword2" placeholder="Search User">
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div><!-- end col-->					
+					  <div class="col-sm-2">
+                                        <div class="text-sm-right custom-top">
+                                            <a href="#custom-modal" class="btn btn-primary waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i>Add User</a>
+                                        </div>
+                                    </div><!-- end col-->
+									
+									
+                </div>     
+                <!-- end page title --> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card-box">
+                           
+								
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                    <tr style="color:#aebbc5;font-size:13px;">
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Username</th>
+										<th>Password</th>
+										<th>Email</th>
+										<th>Phone</th>
+										<th>Status</th>
+										<th>Action</th>
+										
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <td>XXXXXX</td>
+                                        <td>Test@gmail.com</td>
+                                        <td>123456789</td>
+                                        <td><span class="badge label-table badge-success">Active</span></td>
+										<td><div id="navigation">
+            <!-- Navigation Menu-->
+            <ul class="navigation-menu">
+
+                <li class="has-submenu">
+                    <a href="#" style="color:#000">
+                       <i class="mdi mdi-transit-connection"></i></a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="index.html"><i class="mdi mdi-square-edit-outline"></i> Edit</a>
+                        </li>
+                        <li>
+                            <a href="dashboard-2.html"><i class="mdi mdi-delete"></i> Delete</a>
+                        </li>
+                       
+                    </ul>
+                </li></ul></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+										 <td>XXXXXX</td>
+                                        <td>Test@gmail.com</td>
+                                        <td>123456789</td>
+										<td><span class="badge label-table badge-success">Active</span></td>
+										<td><div id="navigation">
+            <!-- Navigation Menu-->
+            <ul class="navigation-menu">
+
+                <li class="has-submenu">
+                    <a href="#" style="color:#000">
+                       <i class="mdi mdi-transit-connection"></i></a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="index.html">Edit</a>
+                        </li>
+                        <li>
+                            <a href="dashboard-2.html">Delete</a>
+                        </li>
+                       
+                    </ul>
+                </li></ul></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+										 <td>XXXXXX</td>
+                                        <td>Test@gmail.com</td>
+                                        <td>123456789</td>
+										<td><span class="badge label-table badge-success">Active</span></td>
+										<td><i class="mdi mdi-transit-connection"></i> </td>
+                                    </tr>
+									 <tr>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+										 <td>XXXXXX</td>
+                                        <td>Test@gmail.com</td>
+                                        <td>123456789</td>
+										<td><span class="badge label-table badge-success">Active</span></td>
+										<td><i class="mdi mdi-transit-connection"></i> </td>
+                                    </tr>
+									<tr>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <td>XXXXXX</td>
+                                        <td>Test@gmail.com</td>
+                                        <td>123456789</td>
+										<td><span class="badge label-table badge-success">Active</span></td>
+										<td><i class="mdi mdi-transit-connection"></i> </td>
+                                    </tr> 
+									 <tr>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+										 <td>XXXXXX</td>
+                                        <td>Test@gmail.com</td>
+                                        <td>123456789</td>
+										<td><span class="badge label-table badge-success">Active</span></td>
+										<td><i class="mdi mdi-transit-connection"></i> </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end table-responsive-->
+
+                        </div> <!-- end card-box -->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+                <!-- end row -->
+
+                <!--- end row -->
+
+                <!--- end row --> 
+				
+				 <!-- Modal -->
+                <div id="custom-modal" class="modal-demo" style="background-color:#f5f6fa">
+                    <button type="button" class="close" onclick="Custombox.modal.close();">
+                        <span>&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="custom-modal-title">Add New User</h4>
+                    <div class="custom-modal-text text-left">
+                        <form>
+						 <div class="row">
+                                <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="name">First Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="First name">
+                            </div>
+							 </div>
+							 <div class="col-sm-6">
+							  <div class="form-group">
+                                <label for="name">Last Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Last name">
+                            </div>
+							 </div>
+							 <div class="col-sm-6">
+							 <div class="form-group">
+							  <label for="exampleInputEmail1">Company</label>
+								<select id="inputState" class="form-control">
+									<option>Select Company</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                               </div>
+                               </div>
+							   <div class="col-sm-6">
+							 <div class="form-group">
+							  <label for="exampleInputEmail1">Department</label>
+								<select id="inputState" class="form-control">
+									<option>Select Department</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                               </div>
+                               </div>
+							   <div class="col-sm-6">
+							    <div class="form-group">
+							  <label for="exampleInputEmail1">Role</label>
+								<select id="inputState" class="form-control">
+									<option>Select Role</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                               </div>
+                               </div>
+							   <div class="col-sm-6">
+                           <div class="form-group">
+                                <label for="name">Password</label>
+                                <input type="password" class="form-control" id="name" placeholder="Password">
+                            </div>
+                            </div>
+							<div class="col-sm-6">
+							  <div class="form-group">
+                                <label for="name">Confirm Password</label>
+                                <input type="password" class="form-control" id="name" placeholder="Confirm Password">
+                            </div>
+                            </div>
+							<div class="col-sm-6">
+							  <div class="form-group">
+                                <label for="name">Email</label>
+                                <input type="text" class="form-control" id="name" placeholder="Email">
+                            </div>
+                            </div>
+							  <div class="col-sm-6">
+							<div class="checkbox-success mb-2">
+                                        <input id="checkbox3" type="checkbox">
+										<label for="checkbox3">
+                                            Active
+                                        </label>
+                                        </div></div>
+  <div class="col-sm-6"><div class="form-group"></div></div>
+
+							<div class="col-sm-6">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                
+                            </div>
+                            </div>
+                           
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+
+            </div> <!-- end container -->
+        </div>
+        <!-- end wrapper -->
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+        @@include('./partials/footer.html')
+
+        @@include('./partials/right-sidebar.html')
+
+        <!-- Vendor js -->
+        <script src="assets/js/vendor.min.js"></script>
+		        <!-- Modal-Effect -->
+        <script src="assets/libs/custombox/custombox.min.js"></script>
+		<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!-- App js-->
+        <script src="assets/js/app.min.js"></script>
+        
+    </body>
+</html>

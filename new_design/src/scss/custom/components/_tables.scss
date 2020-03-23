@@ -1,0 +1,59 @@
+// 
+// tables.scss
+//
+
+
+//Table centered (Custom)
+.table-centered {
+    td,th {
+        vertical-align: middle !important;
+    }
+}
+
+
+// Custom table components (Custom)
+.table {
+    .table-user {
+        img {
+            height: 30px;
+            width: 30px;
+        }
+    }
+	color: #000;
+}
+.custom-top{
+margin-top:20px
+}
+
+.custom-tag{
+color:#000000;font-size:12px;font-weight:bold;border-radius:2px;background-color: #dcd7d7;
+    border-radius: 5px;
+    padding: 3px;
+}
+.custom-tag a{
+color:#000000;font-size:12px;font-weight:bold;border-radius:2px;background-color: #dcd7d7;
+    border-radius: 5px;
+    padding: 3px;
+}
+.custom-tag a:hover{
+color:#ff7a4c;
+}
+.view-episode{
+color:#ff7a4c;font-size:12px;font-weight:bold;padding-left: 14px;
+}
+.table thead th{
+border: none;
+}
+.table td, .table th{
+border: none;
+}
+.action-icon {
+    color: $gray-600;
+    font-size: 1.2rem;
+    display: inline-block;
+    padding: 0 3px;
+
+    &:hover {
+        color: $gray-700;
+    }
+}

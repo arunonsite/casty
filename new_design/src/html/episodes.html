@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Casty - Episodes</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- Custom box css -->
+        <link href="assets/libs/custombox/custombox.min.css" rel="stylesheet">
+		 <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- App css -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+    </head>
+
+    <body>
+
+        <!-- Navigation Bar-->
+        <header id="topnav">
+
+            @@include('./partials/topbar.html')
+
+        </header>
+        <!-- End Navigation Bar-->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="wrapper">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+						
+                            <h4 class="page-title">Episodes</h4>
+                        </div>
+                    </div>
+                </div>     
+                <!-- end page title --> 
+
+
+                <div class="row">
+                    <div class="col-xl-12 order-xl-1 order-2">
+                        <div class="card mb-2" style="background-color:#F4F5F9">
+                            <div class="card-body" >
+                                <div class="row" style="margin-right: -30px;
+    margin-left: -30px;">
+                                    <div class="col-sm-2">
+                                        <form>
+                                            <div class="form-group">
+                                                <input type="search" class="form-control" id="inputPassword2" placeholder="Search Episodes">
+                                            </div>
+                                        </form>
+                                    </div>
+									<div class="col-sm-2">
+									  <div class="form-group">
+                                            <select id="inputState" class="form-control">
+                                                <option>Date Added</option>
+                                                <option>Option 1</option>
+                                                <option>Option 2</option>
+                                                <option>Option 3</option>
+                                            </select>
+											
+                                        </div>
+									</div>
+									<div class="col-sm-2">
+									  <div class="form-group">
+                                            <select id="inputState" class="form-control">
+                                                <option>By Category</option>
+                                                <option>Option 1</option>
+                                                <option>Option 2</option>
+                                                <option>Option 3</option>
+                                            </select>
+                                        </div>
+									</div>									
+                                    <div class="col-sm-6">
+                                        <div class="text-sm-right">
+                                          
+                                            <a href="#custom-modal" class="btn btn-primary waves-effect waves-light" data-animation="fadein" data-plugin="custommodal" data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1"></i> Upload Episodes</a>
+                                        </div>
+                                    </div><!-- end col-->
+                                </div>
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+						  <div class="mb-2">
+                                 <div class="row align-items-center">    
+							<div class="col-sm-6 text-center card-title-section" style="padding-right:250px;">Title</div>
+							<div class="col-sm-2 text-center card-title-section">Duration</div>
+							<div class="col-sm-2 text-center card-title-section">Date Added</div>
+							<div class="col-sm-2 text-center card-title-section">Action</div>
+								</div>	
+						</div>
+                        <div class="card-box mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center mr-3" src="assets/images/companies/epi.jpg" alt="Generic placeholder image" height="94">
+                                        <div class="media-body">
+                                            <p class="mb-1">Episodes #34</p>
+											 <h4 class="mt-0 mb-2 font-16">Digital Selling:</h4>
+                                            <p class="mb-0">Comming soon to a theater near you.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                         <p class="mb-0 text-muted">48:55</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="text-center my-3 my-sm-0">
+                                        <p class="mb-0 text-muted">March 28, 2018</p>
+                                    </div>
+                                </div>
+                                
+                               <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                        <a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Publish</a>
+										<a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Delete</a>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div> <!-- end card-box-->
+
+                        <div class="card-box mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center mr-3" src="assets/images/companies/epi.jpg" alt="Generic placeholder image" height="94">
+                                        <div class="media-body">
+                                             <p class="mb-1">Episodes #34</p>
+											 <h4 class="mt-0 mb-2 font-16">Digital Selling:</h4>
+                                            <p class="mb-0">Comming soon to a theater near you.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                         <p class="mb-0 text-muted">48:55</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="text-center my-3 my-sm-0">
+                                        <p class="mb-0 text-muted">March 28, 2018</p>
+                                    </div>
+                                </div>
+                             <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                       <a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Publish</a>
+										<a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Delete</a>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div> <!-- end card-box-->
+
+                        <div class="card-box mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center mr-3" src="assets/images/companies/epi.jpg" alt="Generic placeholder image" height="94">
+                                        <div class="media-body">
+                                            <p class="mb-1">Episodes #34</p>
+											 <h4 class="mt-0 mb-2 font-16">Digital Selling:</h4>
+                                            <p class="mb-0">Comming soon to a theater near you.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                         <p class="mb-0 text-muted">48:55</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="text-center my-3 my-sm-0">
+                                        <p class="mb-0 text-muted">March 28, 2018</p>
+                                    </div>
+                                </div>
+                               <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                      <a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Publish</a>
+										<a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Delete</a>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div> <!-- end card-box-->
+
+                        <div class="card-box mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center mr-3" src="assets/images/companies/epi.jpg" alt="Generic placeholder image" height="94">
+                                        <div class="media-body">
+                                             <p class="mb-1">Episodes #34</p>
+											 <h4 class="mt-0 mb-2 font-16">Digital Selling:</h4>
+                                            <p class="mb-0">Comming soon to a theater near you.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                         <p class="mb-0 text-muted">48:55</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="text-center my-3 my-sm-0">
+                                        <p class="mb-0 text-muted">March 28, 2018</p>
+                                    </div>
+                                </div>
+                              <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                       <a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Publish</a>
+										<a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Delete</a>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div> <!-- end card-box-->
+
+                        <div class="card-box mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <img class="d-flex align-self-center mr-3" src="assets/images/companies/epi.jpg" alt="Generic placeholder image" height="94">
+                                        <div class="media-body">
+                                             <p class="mb-1">Episodes #34</p>
+											 <h4 class="mt-0 mb-2 font-16">Digital Selling:</h4>
+                                            <p class="mb-0">Comming soon to a theater near you.</p>
+                                        </div>
+                                    </div>
+                                </div>
+								 <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                         <p class="mb-0 text-muted">48:55</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="text-center my-3 my-sm-0">
+                                        <p class="mb-0 text-muted">March 28, 2018</p>
+                                    </div>
+                                </div>
+                               
+                               <div class="col-sm-2">
+                                    <div class="text-center button-list">
+                                        <a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Publish</a>
+										<a href="javascript: void(0);" class="btn btn-light waves-effect waves-light custon-btn">Delete</a>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div> <!-- end card-box-->
+
+                        
+
+                    </div> <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+
+                <!-- Modal -->
+                <div id="custom-modal" class="modal-demo" style="background-color:#f5f6fa">
+                    <button type="button" class="close" onclick="Custombox.modal.close();">
+                        <span>&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="custom-modal-title">Add New Episode</h4>
+                    <div class="custom-modal-text text-left">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Episode Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Episode name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Episode Description</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Episode Description">
+                            </div>
+							 <div class="form-group">
+							  <label for="exampleInputEmail1">Show</label>
+								<select id="inputState" class="form-control">
+									<option>Select Show</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                                        </div>
+                            <div class="form-group">
+                                <label for="position">Episode Media</label>
+                                <input type="text" class="form-control" id="position" placeholder="Episode Media Link">
+                            </div>
+  
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>     
+
+                
+            </div> <!-- end container -->
+        </div>
+        <!-- end wrapper -->
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+        @@include('./partials/footer.html')
+
+        @@include('./partials/right-sidebar.html')
+
+        <!-- Vendor js -->
+        <script src="assets/js/vendor.min.js"></script>
+
+        <!-- Modal-Effect -->
+        <script src="assets/libs/custombox/custombox.min.js"></script>
+		<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!--Morris Chart-->
+        <script src="assets/libs/raphael/raphael.min.js"></script>
+        <!-- App js-->
+        <script src="assets/js/app.min.js"></script>
+        
+    </body>
+</html>
