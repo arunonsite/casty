@@ -8673,11 +8673,11 @@ a.text-blue:hover, a.text-blue:focus {
 
 .card-box {
   background-color: #fff;
-  padding: 1.5rem;
+  padding: 1rem;
   -webkit-box-shadow: 0 0.75rem 6rem rgba(56, 65, 74, 0.03);
           box-shadow: 0 0.75rem 6rem rgba(56, 65, 74, 0.03);
   margin-bottom: 24px;
-  border-radius: 0.25rem; }
+  border-radius: 0.50rem; }
 
 .card-title-section {
   font-weight: bold;

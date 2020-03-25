@@ -411,8 +411,7 @@ Responsive Menu
 
 .logo-box {
   height: 70px;
-  float: left;
-  padding-right: 40px; }
+  float: left; }
 
 .navbar-custom {
   background-color: #f5f6fa;
@@ -457,7 +456,7 @@ Responsive Menu
       height: 38px;
       padding-left: 20px;
       padding-right: 0;
-      background-color: #f1f5f7;
+      background-color: #FFF;
       -webkit-box-shadow: none;
               box-shadow: none;
       border-radius: 30px 0 0 30px; }
@@ -465,7 +464,7 @@ Responsive Menu
       margin-left: 0;
       z-index: 4; }
     .navbar-custom .app-search .btn {
-      background-color: #f1f5f7;
+      background-color: #FFF;
       border-color: transparent;
       color: #adb5bd;
       border-radius: 0 30px 30px 0;
