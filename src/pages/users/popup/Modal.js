@@ -54,8 +54,8 @@ function UserFormModal(props) {
           {title}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Row>
+      <Modal.Body style={{backgroundColor:"#f5f6fa"}}>
+       {/*  <Row>
           <Col xl={12}>
             <div class="card">
               <div class="card-body">
@@ -209,7 +209,92 @@ function UserFormModal(props) {
           </Col>
         </Row>
 
+ */}
+  <div class="custom-modal-text text-left">
+                        <form>
+						 <div class="row">
+                                <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="name">First Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="First name"/>
+                            </div>
+							 </div>
+							 <div class="col-sm-6">
+							  <div class="form-group">
+                                <label for="name">Last Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Last name"/>
+                            </div>
+							 </div>
+							 <div class="col-sm-6">
+							 <div class="form-group">
+							  <label for="exampleInputEmail1">Company</label>
+								<select id="inputState" class="form-control">
+									<option>Select Company</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                               </div>
+                               </div>
+							   <div class="col-sm-6">
+							 <div class="form-group">
+							  <label for="exampleInputEmail1">Department</label>
+								<select id="inputState" class="form-control">
+									<option>Select Department</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                               </div>
+                               </div>
+							   <div class="col-sm-6">
+							    <div class="form-group">
+							  <label for="exampleInputEmail1">Role</label>
+								<select id="inputState" class="form-control">
+									<option>Select Role</option>
+									<option>Option 1</option>
+									<option>Option 2</option>
+									<option>Option 3</option>
+								</select>
+                               </div>
+                               </div>
+							   <div class="col-sm-6">
+                           <div class="form-group">
+                                <label for="name">Password</label>
+                                <input type="password" class="form-control" id="name" placeholder="Password"/>
+                            </div>
+                            </div>
+							<div class="col-sm-6">
+							  <div class="form-group">
+                                <label for="name">Confirm Password</label>
+                                <input type="password" class="form-control" id="name" placeholder="Confirm Password"/>
+                            </div>
+                            </div>
+							<div class="col-sm-6">
+							  <div class="form-group">
+                                <label for="name">Email</label>
+                                <input type="text" class="form-control" id="name" placeholder="Email"/>
+                            </div>
+                            </div>
+							  <div class="col-sm-6">
+							<div class="checkbox-success mb-2">
+                                        <input id="checkbox3" type="checkbox"/>
+										<label for="checkbox3">
+                                            Active
+                                        </label>
+                                        </div></div>
+  <div class="col-sm-6"><div class="form-group"></div></div>
 
+							<div class="col-sm-6">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                
+                            </div>
+                            </div>
+                           
+                            </div>
+                        </form>
+                    </div>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
