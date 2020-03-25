@@ -187,6 +187,7 @@ class UserPage extends Component {
     
     return (
       <React.Fragment>
+         {this.props.loading && <Loader />}
         <Modal
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}          
@@ -200,30 +201,47 @@ class UserPage extends Component {
           pageDropDown =  {pageDropDown}
        
         />
-        <div className="">
-          { /* preloader */}
-          {this.props.loading && <Loader />}
-          <Row></Row>
-          <Row class='hidden'>
-            <Col lg={12}>
-              <Row>
-                <Col xl={12}>
-                  <div style={{ float: "right" }}   >
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-            <Col lg={12}>
-              <Card>
-                <CardBody>
-                  <h1>User List</h1>
-                  <Button style={{ float: "right" }} variant="secondary" >
-                    + New User        </Button>
+  <div className="">
+     
+            <div class="row">
+              <div class="col-sm-8" >
+                <div class="page-title-box">
+                  <h4 class="page-title">User Managements</h4>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="text-sm-right custom-top">
+                  <form>
+                    <div class="form-group">
+                      <input type="search" class="form-control" id="inputPassword2" placeholder="Search User" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="text-sm-right custom-top" onClick={this.toggleNewUserModal}>
+                  <i class="mdi mdi-plus-circle mr-1"></i>Add User
+                </div>
+              </div>
 
-                    <MaterialTable style={{ border: "1px solid #dee2e6" }}
+
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card-box">
+
+             
+
+                <MaterialTable  
                      tableRef={this.tableRef}
           columns={[
-            { title: "First Name", field: "firstName" },
+            { title: "First Name", field: "firstName",  
+            headerStyle: {
+              color: '#aebbc5',
+              fontSize:'13px'
+
+            } },
             { title: "Last Name", field: "lastName" },
            
             { title: "Company", field: "companyName"  },
@@ -270,7 +288,7 @@ class UserPage extends Component {
                 })
             })
           }
-          title="Users  "
+       
           detailPanel={[     
             {
               icon: 'account_circle',
@@ -293,28 +311,60 @@ class UserPage extends Component {
             }
           ]}
           actions={[
-            {
-              icon: 'add_circle',
-              tooltip: 'Add User',
-             
-              isFreeAction: true,
-              onClick: (event) => this.toggleNewUserModal()
-            },
+           
             {
               icon: 'edit',
               tooltip: 'edit Show',
               onClick: (event, rowData) => this.toggleEditUserModal(rowData)
             }
           ]}
+          components={{
+            Action: props => (
+              <div id="navigation">
+             
+              <ul class="navigation-menu">
+  
+                  <li class="has-submenu">
+                      <a href="#"  style={{color:"#000"}}>
+                         <i class="mdi mdi-transit-connection"></i></a>
+                      <ul class="submenu">
+                          <li>
+                              <a href="index.html">Edit</a>
+                          </li>
+                         
+                      </ul>
+                  </li></ul></div>
+            ),
+          }}
           options={{
-            actionsColumnIndex: -1
+            search: false,
+            actionsColumnIndex: -1,
+          /*   rowStyle: {
+              backgroundColor: '#f1f5f7',
+            }, */ //tableData
+            rowStyle: rowData => ({
+              backgroundColor: (rowData.tableData.id % 2 == 0) ? '#f1f5f7' : '#FFF'
+            }),
+            headerStyle: {
+              color:"#aebbc5",
+              fontSize:"13px",
+              fontWeight: "bold"
+            },
+           
+             title:false
           }}
         />  
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+
+               
+            </div>
+
+
+
+          </div>
         </div>
+ 
+        </div>
+   
       </React.Fragment>
     )
   }

@@ -53,13 +53,14 @@ const routes = [
   { path: '/confirm', name: 'Confirm', component: ConfirmAccount, route: Route },
 
   // other pages
-  { path: '/dashboard', icon:'fe-airplay',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin', 'SuperAdmin'] },
-  { path: '/companies',icon:'fe-users',  name: 'Company', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
-  { path: '/users',icon:'fe-users',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/dashboard', icon:'mdi mdi-home',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin', 'SuperAdmin'] },
+  { path: '/users',icon:'mdi mdi-account-group',  name: 'User Management', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/companies',icon:'mdi mdi-city',  name: 'Company', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
+  { path: '/companies',icon:'mdi mdi-border-all',  name: 'Departments', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
 
-  { path: '/channels',icon:'fe-play-circle',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/channels',icon:'mdi mdi-play-circle-outline',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
 /*   { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
- */  {exact:true,  path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+ */  {exact:true,  path: '/shows',icon:'mdi mdi-play-box-outline',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   { path: '/episodes/:id',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   
 
