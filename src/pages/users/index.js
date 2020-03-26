@@ -98,7 +98,7 @@ class UserPage extends Component {
   }
 
   toggleNewUserModal = () => {
-    const {userModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;    
+    const {userModal : {show = false}, pageDropDown:{roleSource=[], availableCompany=[]}} = this.props;    
     const togg = { userModal: {
       show: !show,
       title: 'New User',
@@ -113,7 +113,7 @@ class UserPage extends Component {
         cemail: '',
         phone: '',
         role : '',
-        companyID:'',
+        companyID:availableCompany[0]['id'],
         roleSelected : ['Admin'],
         roles : ['Admin'],
         blocked:null
@@ -134,7 +134,7 @@ class UserPage extends Component {
           cemail: '',
           phone: '',
           role : '',
-          companyID:'',
+          companyID:availableCompany[0]['id'],
           roleSelected : ['Admin'],
           blocked:null,
           roles : ['Admin'],
@@ -146,6 +146,7 @@ class UserPage extends Component {
     this.props.actions.onclickModal(togg);   
   }
   toggleEditUserModal = (user) => {
+     console.log("user-->>", user);
     const {userModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;   
     const {roles, firstName= '',lastName= '',password= '',cpassword= '',email= '',cemail= '',
     phone= '',companyID='', id='', role='',blocked=null} = user   
@@ -187,7 +188,7 @@ class UserPage extends Component {
     
     return (
       <React.Fragment>
-         {this.props.loading && <Loader />}
+       
         <Modal
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}          
@@ -219,17 +220,21 @@ class UserPage extends Component {
                 </div>
               </div>
               <div class="col-sm-2">
-                <div class="text-sm-right custom-top" onClick={this.toggleNewUserModal}>
-                  <i class="mdi mdi-plus-circle mr-1"></i>Add User
+                <div class="text-sm-right custom-top" >
+                <span href="#custom-modal" onClick={this.toggleNewUserModal} class="btn btn-primary waves-effect waves-light"
+                                             data-animation="fadein" data-plugin="custommodal"
+                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                                                </i> Add New</span>
+                 
                 </div>
               </div>
 
 
             </div>
 
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card-box">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="card-box">
 
              
 
@@ -328,8 +333,9 @@ class UserPage extends Component {
                       <a href="#"  style={{color:"#000"}}>
                          <i class="mdi mdi-transit-connection"></i></a>
                       <ul class="submenu">
-                          <li>
-                              <a href="index.html">Edit</a>
+                          <li  onClick={(event) => props.action.onClick(event, props.data)}>
+                            
+                            Edit
                           </li>
                          
                       </ul>
@@ -337,7 +343,13 @@ class UserPage extends Component {
             ),
           }}
           options={{
+            loadingType :'overlay',
+            maxBodyHeight : 'auto',
             search: false,
+            showTitle :false,
+            tableLayout :"auto",
+            searchText:'A',
+            pageSize : 20,
             actionsColumnIndex: -1,
           /*   rowStyle: {
               backgroundColor: '#f1f5f7',

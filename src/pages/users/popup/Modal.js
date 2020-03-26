@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
-import { Modal } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Modal, Form } from 'react-bootstrap';
+
 import { Row, Col } from 'reactstrap';
+
 import Button from '@material-ui/core/Button';
-import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+
 import { makeStyles } from '@material-ui/core/styles';
-import { Checkbox } from '@material-ui/core';
+
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiTextField-root': {
@@ -19,32 +16,64 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-  
+
 
 function UserFormModal(props) {
-   console
-   .log("props--", props);
-  const classes = useStyles(); 
-  let {currentUsrAccess=1,mode='edit',
-    pageDropDown:{ availableCompany=[], roleSource=[]},
-    formData: {  roleSelected, firstName = '', lastName = '', username = '', password = '', 
-    cpassword = '', email = '', cemail = '', phone = '',  companyID='', blocked},
-    handleSubmit, handleChange, title, ...others } = props;
-    
-    const checkedStatus = blocked !== null ? {checked : false} :  {checked : true};
-    //Role Preselect 
-    let role = roleSource.findIndex(source => source === roleSelected[0]);
-    role = roleSource[role];
-    //COmpany Preselect
-   
+  console
+    .log("props--", props);
 
-    ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-       
-      if (value !== password) {
-          return false;
-      }
-      return true;
-  });
+  const [validated, setValidated] = useState(false);
+  let { currentUsrAccess = 1, mode = 'edit',
+    pageDropDown: { availableCompany = [], roleSource = [] },
+    formData: { roleSelected, firstName = '', lastName = '', username = '', password = '',
+      cpassword = '', email = '', cemail = '', phone = '', companyID = '', blocked },
+    handleSubmit, handleChange, title, ...others } = props;
+
+
+  const handleFormSubmit = (event) => {
+    const form = event.currentTarget;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }else{
+     
+
+      event.preventDefault();
+      event.stopPropagation();
+    
+        handleSubmit();
+    }
+    
+    setValidated(true);
+  
+  
+  };
+// handle storing the
+  // confirmed password in state   
+ const _handleConfirmedPassword = (event) => {
+     
+     const field = event.currentTarget;
+     const {formData : {password= "", cpassword= ""}} = props;
+     if(password !== cpassword){
+      field.setCustomValidity("Passwords Don't Match");
+      console.log("Not Matched");
+     }else{
+      field.setCustomValidity("");
+      field.setValidated = true;
+     } 
+}
+
+
+ 
+
+  const checkedStatus = blocked !== null ? { checked: false } : { checked: true };
+  //Role Preselect 
+  let role = roleSource.findIndex(source => source === roleSelected[0]);
+  role = roleSource[role];
+  //COmpany Preselect
+
+
   return (
     <Modal
       {...others}
@@ -54,8 +83,8 @@ function UserFormModal(props) {
           {title}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{backgroundColor:"#f5f6fa"}}>
-       {/*  <Row>
+      <Modal.Body style={{ backgroundColor: "#f5f6fa" }}>
+        {/*  <Row>
           <Col xl={12}>
             <div class="card">
               <div class="card-body">
@@ -196,7 +225,9 @@ function UserFormModal(props) {
 
 
                           <ul class="list-inline wizard mb-0">
-                            <input type="submit" value="Add" class="btn btn-secondary button-next float-right" />
+                            <input type="submit" value="Add"
+                             class="btn btn-secondary 
+                             button-next float-right" />
                           </ul>
                         </ValidatorForm>
                       </div>
@@ -210,95 +241,163 @@ function UserFormModal(props) {
         </Row>
 
  */}
-  <div class="custom-modal-text text-left">
-                        <form>
-						 <div class="row">
-                                <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="name">First Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="First name"/>
-                            </div>
-							 </div>
-							 <div class="col-sm-6">
-							  <div class="form-group">
-                                <label for="name">Last Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Last name"/>
-                            </div>
-							 </div>
-							 <div class="col-sm-6">
-							 <div class="form-group">
-							  <label for="exampleInputEmail1">Company</label>
-								<select id="inputState" class="form-control">
-									<option>Select Company</option>
-									<option>Option 1</option>
-									<option>Option 2</option>
-									<option>Option 3</option>
-								</select>
-                               </div>
-                               </div>
-							   <div class="col-sm-6">
-							 <div class="form-group">
-							  <label for="exampleInputEmail1">Department</label>
-								<select id="inputState" class="form-control">
-									<option>Select Department</option>
-									<option>Option 1</option>
-									<option>Option 2</option>
-									<option>Option 3</option>
-								</select>
-                               </div>
-                               </div>
-							   <div class="col-sm-6">
-							    <div class="form-group">
-							  <label for="exampleInputEmail1">Role</label>
-								<select id="inputState" class="form-control">
-									<option>Select Role</option>
-									<option>Option 1</option>
-									<option>Option 2</option>
-									<option>Option 3</option>
-								</select>
-                               </div>
-                               </div>
-							   <div class="col-sm-6">
-                           <div class="form-group">
-                                <label for="name">Password</label>
-                                <input type="password" class="form-control" id="name" placeholder="Password"/>
-                            </div>
-                            </div>
-							<div class="col-sm-6">
-							  <div class="form-group">
-                                <label for="name">Confirm Password</label>
-                                <input type="password" class="form-control" id="name" placeholder="Confirm Password"/>
-                            </div>
-                            </div>
-							<div class="col-sm-6">
-							  <div class="form-group">
-                                <label for="name">Email</label>
-                                <input type="text" class="form-control" id="name" placeholder="Email"/>
-                            </div>
-                            </div>
-							  <div class="col-sm-6">
-							<div class="checkbox-success mb-2">
-                                        <input id="checkbox3" type="checkbox"/>
-										<label for="checkbox3">
-                                            Active
-                                        </label>
-                                        </div></div>
-  <div class="col-sm-6"><div class="form-group"></div></div>
+        <div class="custom-modal-text text-left">
+          <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">First Name</label>
+                  <input type="text" class="form-control"
+                    label="First Name"
+                    required
+                    variant="outlined"
+                    onChange={handleChange}
+                    value={firstName} onChange={handleChange}
+                    name='firstName'
 
-							<div class="col-sm-6">
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                                
-                            </div>
-                            </div>
-                           
-                            </div>
-                        </form>
-                    </div>
+                    validators={['required']}
+                    errorMessages={['this field is required']}
+
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Last Name</label>
+                  <input type="text" class="form-control"
+                    required
+                    variant="outlined"
+                    value={lastName} onChange={handleChange}
+                    name="lastName"
+                    validators={['required']}
+                    errorMessages={['this field is required']}
+
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Company</label>
+                  <select id="inputState" class="form-control" variant="outlined"
+                    onChange={handleChange}
+                    name='companyID'
+                    required
+                    value={companyID}
+                    validators={['required']}
+                    default='0'
+                    errorMessages={['this field is required']}>
+                    {availableCompany.map((item) =>
+                      <option value={item.id}>{item.companyName}</option>)
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Department</label>
+                  <select id="inputState" class="form-control">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Role</label>
+                  <select id="inputState" class="form-control" onChange={handleChange}
+                    value={role}
+                    name='role'
+                    required
+                    options={roleSource}
+                    validators={['required']}
+                    errorMessages={['this field is required']}>
+                    {roleSource.map((item) =>
+                      <option value={item}>{item}</option>)
+                    }
+                  </select>
+                </div>
+              </div>
+              {mode !== 'edit'  ?  
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Email</label>
+                  <input type="text" class="form-control"
+                    value={email} onChange={handleChange}
+                    name='email'
+                    required
+                    validators={['required', 'isEmail']}
+                    errorMessages={['this field is required', 'email is not valid']}
+
+                  />
+                </div>
+              </div> : null }
+              {mode !== 'edit'  ?  
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Password</label>
+                  <input type="password" class="form-control"
+                    required
+                    onChange={handleChange}
+                    value={password}
+                    name='password'
+                    id='password'
+                    
+                    
+                    errorMessages={['this field is required']}
+                    placeholder="Password"
+
+
+                  />
+                </div>
+              </div> : null }
+              {mode !== 'edit'  ?  
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Confirm Password</label>
+                  <input type="password" class="form-control"
+                    label="Confirm Password"
+                   
+                    required
+                    value={cpassword} 
+                    onChange={handleChange}
+                    onBlur={_handleConfirmedPassword}
+                    name="cpassword"
+                     
+                    id="cpassword"
+                 
+                />
+                </div>
+              </div> : null }
+              <div class="col-sm-12">
+              <div class="col-sm-6">
+                <div class="checkbox-success mb-2">
+
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    label="switch to enable/disable the user"
+                    {...checkedStatus}
+                    size="small"
+                    name="blocked"
+                    onChange={handleChange}
+                  />
+                </div>
+                </div>
+
+
+              <div class="col-sm-12">
+                <div class="text-right">
+                  <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+
+                </div>
+              </div>
+              </div>   
+            </div>
+          </Form>
+        </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
+
     </Modal>
   );
 }

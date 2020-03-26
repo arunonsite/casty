@@ -11,7 +11,8 @@
 
 // Content start wrapper
 .wrapper {
-    padding: ($topbar-height + 60px) ($grid-gutter-width / 2) 0 ($grid-gutter-width / 2);
+    padding: ( 70px) ($grid-gutter-width / 2) 0 ($grid-gutter-width / 2);
+    
 }
 
 // Top header
@@ -338,6 +339,7 @@ Responsive Menu
 @media (max-width: 991px) {
     .wrapper {
         padding-top: $topbar-height;
+        al: 2;
     }
     
     #topnav {
@@ -524,6 +526,7 @@ Responsive Menu
         }
         .wrapper {
             padding: ($topbar-height + 80px) ($grid-gutter-width / 2) 0 ($grid-gutter-width / 2);
+            al: 1;
         }
     }
 }

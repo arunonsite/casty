@@ -30,9 +30,9 @@ export const loadCompanyListForChannalSuccess = (compnaies: {}) => ({
 
 
 
-export const loadChannel = (userId) => ({
+export const loadChannel = (info) => ({
     type: LOAD_CHANNEL,
-    payload: userId
+    payload: info
 });
 export const loadChannelSuccess = (channels: {}) => ({
     type: LOAD_CHANNEL_SUCCESS,

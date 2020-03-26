@@ -57,6 +57,9 @@ const fetchJSON = (url, options = {}) => {
  * @param {*} payload - username and password 
  */
 function* loadChannelList({payload={}}) {
+
+     console.log("payload---", payload);
+      const {currentUsrAccess, companyID} = payload;
     
     const options = {
         body: JSON.stringify(),
@@ -64,9 +67,24 @@ function* loadChannelList({payload={}}) {
         headers: { 'Content-Type': 'application/json' }
     };
     try {
+        let url = appSettings.API_ROUTE.MAIN_SITE; 
+        if(currentUsrAccess === 0){
+            url = url+'/api/Channels'   
+           let sera =  ' ';
+           let skp =  0;
+           let take = 20;
+           url += '/'+sera+'/SkipTake/' +skp;                        
+           url += '/' + 20  
+          }else{
+            url =  url+'/api/Channels/ByCompany/'+companyID 
+            let sera = ' ';
+            let skp =  0;
+            let take = 20;
+            url += '/'+sera+'/SkipTake/' +skp;                        
+            url += '/' + 20   
+          }
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
-        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-            .API_PATH.CHANNEL_LIST+'/'+payload+'?CreatedByUserId='+payload, options);
+        const response = yield call(fetchJSON, url, options);
         yield put(loadChannelSuccess(processSuccessResponse(response)));
     } catch (error) {
         let message;

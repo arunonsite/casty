@@ -1,8 +1,7 @@
-import React, { Component, useRef } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Container, Row, Col, Card, CardBody, Label, FormGroup, Alert } from 'reactstrap';
-import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, {  useRef , useState } from 'react';
+import { Modal, Form } from 'react-bootstrap';
+import {  Row, Col } from 'reactstrap';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -40,10 +39,30 @@ const useStyles = makeStyles(theme => ({
 
 
 function UserFormModal(props) {
+  const [validated, setValidated] = useState(false);
+  const handleFormSubmit = (event) => {
+    const form = event.currentTarget;
 
-  const {currentUsrAccess,
-    pageDropDown:{ availableCompany=[]},
-    formData: {name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined, companyId='' },
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }else{
+     
+
+      event.preventDefault();
+      event.stopPropagation();
+    
+        handleSubmit();
+    }
+    
+    setValidated(true);
+  
+  
+  };
+
+  const { currentUsrAccess,
+    pageDropDown: { availableCompany = [] },
+    formData: { name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined, companyId = '' },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 
 
@@ -81,17 +100,17 @@ function UserFormModal(props) {
           {title}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ backgroundColor: "#f5f6fa" }}>
 
-
+        {/* 
         <ValidatorForm
           className={classes.root}
           onSubmit={handleSubmit}
           onError={errors => console.log(errors)}
           ref={inputRef}
-        >
-          <Row>
-            <Col xl={12}>
+        > */}
+        <Row>
+          {/*  <Col xl={12}>
 
               <TextValidator
                 label="Name"
@@ -153,11 +172,88 @@ function UserFormModal(props) {
             </Col>
             <Col xl={12}>
 
-            </Col>
-          </Row>
-          <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
+            </Col> */}
 
-        </ValidatorForm>
+          <div class="custom-modal-text text-left col-12" >
+
+
+            <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+
+              <Col className="form-group">
+                <label for="name">Channel Name</label>
+
+                <input type="text"
+                required
+                  class="form-control"
+                  onChange={handleChange}
+                  name="name"
+                  value={name}
+                  validators={['required']}
+                  errorMessages={['this field is required']}
+                  placeholder="Chennel name" />
+
+
+              </Col>
+              <Col className="form-group">
+                <label for="name">Channel Description</label>
+
+                <input type="text"
+                required
+                  class="form-control"
+                  onChange={handleChange}
+                  multiline
+                  rows="4"
+                  name="description"
+                  value={description}
+
+
+                  validators={['required']}
+                  errorMessages={['this field is required']} />
+              </Col>
+              <Col className="form-group">
+                <label for="name">Company</label>
+                <select id="inputState" class="form-control"
+                  label="Company"
+                  required
+                  onChange={handleChange}
+                  name='companyId'
+                  value={companyId}
+                  validators={['required']}
+                  errorMessages={['this field is required']}>
+                  <option>Select Company</option>
+                  {availableCompany.map((item) =>
+                    <option value={item.id}>{item.companyName}</option>)
+                  }
+                </select>
+              </Col>
+              <Col  >
+                <label for="name">Channel Photo</label>
+                <FilePond
+                  allowFileEncode={true}
+                  ref={fileRef}
+                  onupdatefiles={(rowData) => changeChannelImage(rowData[0])}
+                  allowMultiple={false}
+                  maxFiles={1}
+                  name="channelImage"
+                  id="channelImage"
+                  allowFilePoster={true}
+                  allowImagePreview={true}
+                  {...(previewFile ? { files: previewFile } : {})}
+                  allowFileTypeValidation={true}
+                  acceptedFileTypes={['image/png', 'image/jpeg']}
+                  accept="image/*"
+                  labelIdle='Drag & Drop your Channel or <span class="filepond--label-action">Browse</span>'
+                  oninit={(rowData) => initialChannelImage(rowData)} />
+              </Col>
+              <Col xl={12}>
+              <button type="submit" class="btn btn-primary waves-effect waves-light">{buttonText}</button>
+              </Col>
+            </Form>
+          </div>
+        </Row>
+        
+      
+
 
 
 
