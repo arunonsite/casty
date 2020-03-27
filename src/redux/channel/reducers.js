@@ -33,8 +33,8 @@ const Channel = (state: State = INIT_STATE, action: AuthAction) => {
         case LOAD_CHANNEL_FAILED:
             return { ...state, error: action.payload, loading: false };
         case LOAD_CHANNEL_SUCCESS:
-            const { response = [] } = action.payload;
-            return { ...state, /* channels: response, */channelNotification: INIT_STATE.channelNotification, loading: false, error: null };
+            const { response : {data =[]} } = action.payload;
+            return { ...state,  channels: data, channelNotification: INIT_STATE.channelNotification, loading: false, error: null };
 
         case ONCLICK_MODAL:
             return { ...state, loading: true };
