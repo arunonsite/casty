@@ -245,14 +245,19 @@ class ChannelPage extends Component {
           <div class="row">
             <div class="col-12">
               <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                   <h4 >Channels</h4>
                 </div>
-                <div class="col-sm-6">
-                  <div class="text-sm-right" onClick={this.toggleChannelModal}>
-                    <i class="mdi mdi-plus-circle mr-1"></i> Add New
-                  </div>
+               
+                <div class="col-sm-4">
+                <div class="text-sm-right custom-top" >
+                <span href="#custom-modal" onClick={this.toggleChannelModal} class="btn btn-primary waves-effect waves-light"
+                                             data-animation="fadein" data-plugin="custommodal"
+                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                                                </i> Add New</span>
+                 
                 </div>
+              </div>
               </div>
               {allProcessedChannels.map((cols) => (
                 <Row className="row filterable-content">
@@ -260,7 +265,7 @@ class ChannelPage extends Component {
 
 
                     <Col className="col-sm-6 col-xl-3 filter-item all  ">
-                      <div class="gal-box">
+                      <div class="gal-box" style={{ height: "400px" }}>
                         <div class="gall-info" style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
                         <div id="navigation">
                           <ul class="navigation-menu">
@@ -268,21 +273,21 @@ class ChannelPage extends Component {
                             <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
                               <a href="#" style={{ color: "#000" }}>
                                 <i class="mdi mdi-transit-connection"></i></a>
-                              <ul class="submenu">
+                              <ul class="submenu submenu-channel">
                                 <li onClick={(colo) => this.toggleEditChannelModal(colo, col)}>
-                                  <i class="mdi mdi-square-edit-outline"></i> Edit 
+                                <a href="#" style={{padding:"0px !important"}}><i class="mdi mdi-square-edit-outline"></i> Edit</a> 
                                 </li>
                                 <li onClick={(colo) => this.this.deleteChannel(colo)}>
-                                   <i class="mdi mdi-delete"></i> Delete 
+                                <a href="#" style={{padding:"0px !important"}}><i class="mdi mdi-delete"></i> Delete </a>
                                 </li>
 
                               </ul>
                             </li></ul></div>
-                        <p style={{ paddingLeft: "15px" }}>Short Channel Description</p>
+                        <p style={{ paddingLeft: "15px" }}>{col.description.substring(0,30)}</p>
                         <img src={col.imageFullURL} class="img-fluid" alt="work-thumbnail" />
 
                         <div class="gall-info">
-                          <p>{col.description}</p>
+                          <p>{col.description.substring(0,100)}</p>
                           <p style={{ color: "#ff7a4c", fontSize: "12px", fontWeight: "bold" }}>See Shows</p>
                         </div>
                       </div>

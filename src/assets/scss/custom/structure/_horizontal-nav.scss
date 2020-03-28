@@ -201,9 +201,9 @@ Responsive Menu
                 top: 100%;
                 left: 0;
                 z-index: 1000;
-                padding: 10px 0;
+                padding: 10px;
                 list-style: none;
-                min-width: 200px;
+                min-width: 70px;
                 text-align: left;
                 visibility: hidden;
                 opacity: 0;
@@ -214,7 +214,7 @@ Responsive Menu
                 box-shadow: rgba($dark, 0.15) 0px 0px 40px 0px;
 
                 &:before {
-                    left: 16px;
+                    left: 0px;
                     top: -10px;
                     content: "";
                     display: block;
@@ -225,6 +225,8 @@ Responsive Menu
                     border-bottom: 12px solid $white;
                     z-index: 9999;
                 }
+
+               
 
                 li {
                     position: relative;
@@ -237,13 +239,15 @@ Responsive Menu
 
                     a {
                         display: block;
-                        padding: 9px 25px;
+                        //padding: 9px 25px;
+          
                         clear: both;
                         white-space: nowrap;
                         color: $dark;
 
                         &:hover {
-                            color: $primary;
+                           // color: $primary;
+                            color: #FF7C4C;
                         }
                     }
 
@@ -287,8 +291,14 @@ Responsive Menu
                     }
                 }
             }
+        .submenu-channel {
+            min-width: 85px;
         }
+        }
+
+        
     }
+    
 
     .navbar-toggle {
         display: none !important;

@@ -210,16 +210,8 @@ class UserPage extends Component {
                   <h4 class="page-title">User Managements</h4>
                 </div>
               </div>
-              <div class="col-sm-2">
-                <div class="text-sm-right custom-top">
-                  <form>
-                    <div class="form-group">
-                      <input type="search" class="form-control" id="inputPassword2" placeholder="Search User" />
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div class="col-sm-2">
+
+              <div class="col-sm-4">
                 <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleNewUserModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
@@ -248,6 +240,7 @@ class UserPage extends Component {
 
             } },
             { title: "Last Name", field: "lastName" },
+            { title: "Email", field: "email" },
            
             { title: "Company", field: "companyName"  },
             { title: "Status", field: "blocked", render: rowData => (rowData.blocked !== null ? <span class="badge badge-danger badge-pill">InActive</span> :<span  class="badge badge-success badge-pill">Active</span>) },
@@ -294,27 +287,27 @@ class UserPage extends Component {
             })
           }
        
-          detailPanel={[     
-            {
-              icon: 'account_circle',
-              tooltip: 'Show Surname',
-              render: rowData => {
-                return (
-                  <div
-                    style={{
-                      fontSize: 50,
-                      textAlign: 'center',
-                      color: 'white',
-                      backgroundColor: '#6c757d',
-                    }}
-                  >
-                   Hello !  {rowData.firstName}
+          // detailPanel={[     
+          //   {
+          //     icon: 'account_circle',
+          //     tooltip: 'Show Surname',
+          //     render: rowData => {
+          //       return (
+          //         <div
+          //           style={{
+          //             fontSize: 50,
+          //             textAlign: 'center',
+          //             color: 'white',
+          //             backgroundColor: '#6c757d',
+          //           }}
+          //         >
+          //          Hello !  {rowData.firstName}
                    
-                  </div>
-                )
-              },
-            }
-          ]}
+          //         </div>
+          //       )
+          //     },
+          //   }
+          // ]}
           actions={[
            
             {
@@ -332,10 +325,9 @@ class UserPage extends Component {
                   <li class="has-submenu">
                       <a href="#"  style={{color:"#000"}}>
                          <i class="mdi mdi-transit-connection"></i></a>
-                      <ul class="submenu">
+                      <ul class="submenu" >
                           <li  onClick={(event) => props.action.onClick(event, props.data)}>
-                            
-                            Edit
+                          <a href="#" style={{padding:"0px !important"}}><i class="mdi mdi-square-edit-outline"></i>Edit</a>
                           </li>
                          
                       </ul>
