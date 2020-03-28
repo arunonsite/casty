@@ -54,7 +54,7 @@ const routes = [
 
   // other pages
   { path: '/dashboard', icon:'mdi mdi-home',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin', 'SuperAdmin'] },
-  { path: '/users',icon:'mdi mdi-account-group',  name: 'User Management', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
+  { path: '/users',icon:'mdi mdi-account-group',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   { path: '/companies',icon:'mdi mdi-city',  name: 'Company', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
   { path: '/companies',icon:'mdi mdi-border-all',  name: 'Departments', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
 
