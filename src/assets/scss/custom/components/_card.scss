@@ -79,10 +79,12 @@
 // Custom card box
 .card-box {
     background-color: $white;
-    padding: $card-spacer-x;
+   // padding: $card-spacer-x;
+   padding: 1rem;
     box-shadow: $shadow-sm;
     margin-bottom: $grid-gutter-width;
     @include border-radius($card-border-radius);
+ 
 }
 
 .header-title {

@@ -10,7 +10,16 @@
     }
 }
 
-
+.MuiToolbar-regular{
+    min-height:10px !important;
+    
+}
+.MuiTable-root{
+overflow: hidden !important;
+}
+.MuiTableCell-root{
+    border: none  !important;
+}
 // Custom table components (Custom)
 .table {
     .table-user {

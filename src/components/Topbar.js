@@ -241,7 +241,7 @@ class Topbar extends Component {
                 </Link>
             </li>
 
-            {/*   <li className="d-none d-sm-block">
+            {   <li className="d-none d-sm-block">
                 <form className="app-search">
                   <div className="app-search-box">
                     <div className="input-group">
@@ -254,7 +254,7 @@ class Topbar extends Component {
                     </div>
                   </div>
                 </form>
-              </li> */}
+              </li> }
 
               <li>
                 <NotificationDropdown notifications={Notifications} />
