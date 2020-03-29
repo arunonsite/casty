@@ -42,6 +42,13 @@ export default{
          "EPISODE_DELETE" : 'api/Episodes/Delete/',
 
 
+
+         "DEPARTMENT_SAVE" : '/api/Departments/New',
+         "DEPARTMENT_UPDATE" : '/api/Departments/Update',
+         "DEPARTMENT_DELETE" : '/api/Departments/Delete',
+         "DEPARTMENT_LIST" : '/api/Departments/',
+         
+
          
         }
 }

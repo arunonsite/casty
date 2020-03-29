@@ -54,35 +54,36 @@ class ShowPage extends Component {
           draggable: true
           });
       }
-      this.tableRef.current.onQueryChange();
      this.props.actions.resetShowNotification(resetNotification);
-      // this.loadPageData();
+       this.loadPageData();
     } 
   }
 
 
   componentDidMount(){
-    const {user:{id='', companyID }, currentUsrAccess =1} = this.props;
-   // this.props.actions.loadChannelsByUser({id, currentUsrAccess});   
+    const {user:{id='', companyID }, currentUsrAccess =1} = this.props;   
     this.props.actions.loadCompanyListForShow({companyID, currentUsrAccess});
-    this.props.actions.loadChannelsListForShow({id, currentUsrAccess, companyID});
-    //this.loadPageData();    
+    this.props.actions.loadChannelsListForShow({id,  companyID, currentUsrAccess,});
+    this.loadPageData();    
   }
  
 
  loadPageData = () => {  //this.state.departments.push()
   const {user:{id='',companyID=''}, currentUsrAccess} = this.props;
-  this.props.actions.loadShows({id,companyID});
+  const channelId = this.props.match.params.id;
+  this.props.actions.loadShows({id,companyID, currentUsrAccess, channelId});
  }
  handleChange =  (event, field) => {
    const { newShowModalData: { formData = {} } } = this.state;
    const {user:{id='',companyID=''}, currentUsrAccess} = this.props;
    let proceddesData = {};
    proceddesData[event.target.name] = event.target.value;
-   if(event.target.name === 'companyId'){
-    this.props.actions.loadChannelsListForShow({id, currentUsrAccess, companyID : event.target.value});
+   if(event.target.name === 'companyID'){
+    this.props.actions.loadChannelsListForShow({id, companyID : event.target.value, currentUsrAccess:false});
     proceddesData[event.target.name] = event.target.value;
    }
+   // console.log("event.target.name--", event.target.name, event.target.value);
+
    this.setState({ newShowModalData: { formData: { ...formData, ...proceddesData } } });
  }
  handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
@@ -104,44 +105,47 @@ class ShowPage extends Component {
   }else{
     const newShowData = Object.assign({ ...formData }, { UserId: id, Id: uuidv4() });
     this.props.actions.newShow(newShowData);
+   // console.log("newShowData---", newShowData);
   }
+
+ 
  }  
  
- showEpisodesDetails = (sjow)=>{
+ showEpisodesDetails = (event, sjow)=>{
     const {id=''} = sjow;
    this.props.history.push('/episodes/'+id)
  }
  toggleShowModal = () => {
-   const {showModal : {show = false}, pageDropDown:{channelsByUser=[]},
+   const {showModal : {show = false}, pageDropDown:{availableCompany=[], availableChannel=[]},
    user:{companyID='', id=''},} = this.props; 
    const { newShowModalData:{formData={}}} = this.state;   
    const togg = { showModal: {
      show: !show,
-     title: 'New Show',
+     title: 'Add New Show',
      mode : 'add',
-     buttonText : 'Add Show',
+     buttonText : 'Save',
      formData:   {
        name :'',
        description:'', 
-       channelId:'',
-       channelName:'',
-       companyID
+       channelId: '0',//availableChannel[0]["id"],   
+       companyID :'0',//availableCompany[0]["id"] !== undefined  ? availableCompany[0]["id"] : companyID
 
      },
-     channelsByUser
+     
    }};  
    this.setState({newShowModalData: {
      formData : { 
        name :'',
        description:'', 
-       channelId:'',
-       channelName:'',
-       companyID
+       channelId:'0',//availableChannel[0]["id"],   
+       companyID :'0',//availableCompany[0]["id"] !== undefined  ? availableCompany[0]["id"] : companyID
    },
-   channelsByUser}});  
+   }});  
    this.props.actions.onclickModal(togg);
   }
-  toggleEditShowModal = (channel) => { 
+  toggleEditShowModal = (event , channel) => { 
+    console.log("channel---", channel);
+
     const {showModal : {show = false},user:{companyID='' }, pageDropDown:{availableChannel=[], channelsByUser=[]}} = this.props; 
      const {name = "Demo1",    description= "Demo 2", id='', channelId='',  imageFullURL = '', imageURL = '' } = channel;
 
@@ -171,6 +175,8 @@ class ShowPage extends Component {
       return channel.id === channelId;
   }); 
   const showCompanyId = (filteredchannel[0] !== undefined) ? filteredchannel[0].companyId : '';
+   console.log("showCompanyId", channelsByUser);
+   console.log("channelId--", channelId);
 
 
      const togg = { showModal: {
@@ -186,7 +192,7 @@ class ShowPage extends Component {
        imageFullURL,
        imageURL,
        previewFile,
-       companyId : showCompanyId
+       companyID : showCompanyId
        },
        channelsByUser
      }}; 
@@ -200,12 +206,14 @@ class ShowPage extends Component {
        imageFullURL,
        imageURL,
        previewFile,
-       companyId : showCompanyId
+       companyID : showCompanyId
        
      },}});     
      this.props.actions.onclickModal(togg);
   }
-  deleteShow = (show) => {
+  deleteShow = (event , show) => {
+
+    console.log("show---", event);
     const {user:{id=''}} = this.props;
     swal({
       title: "Are you sure?",
@@ -228,7 +236,7 @@ class ShowPage extends Component {
   render() { 
     //const {newShow:{name='', description='', cphoto=''}} = this.state;
     const {     newShowModalData={} } = this.state;
-    const { shows=[], 
+    const { shows=[], allProcessedShows=[],
     showModal={}, user:{companyID='', id=''}, currentUsrAccess,
     pageDropDown:{availableChannel=[], channelsByUser=[]}, pageDropDown={}
      } = this.props;
@@ -253,8 +261,72 @@ class ShowPage extends Component {
         <div className="">
           { /* preloader */}
           {this.props.loading && <Loader />}
-          <Row></Row>
-          <Row class='hidden'>
+
+
+
+          <Row>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
+                <div class="col-sm-6">
+                  <h4 >Shows</h4>
+                </div>
+                <div class="col-sm-6">
+                  <div class="text-sm-right" >
+                  <span href="#custom-modal" onClick={this.toggleShowModal} class="btn btn-primary waves-effect waves-light"
+                                             data-animation="fadein" data-plugin="custommodal"
+                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                                                </i> Add New</span>
+                  </div>
+                </div>
+              </div>
+              {allProcessedShows.map((cols) => (
+                <Row className="row filterable-content">
+                  {cols.map((col, indepos) => (
+
+
+                    <Col className="col-sm-6 col-xl-3 filter-item all  ">
+                      <div class="gal-box">
+                        <div class="gall-info"
+                         style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
+                        <div id="navigation">
+                          <ul class="navigation-menu">
+
+                            <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
+                              <a href="#" style={{ color: "#000" }}>
+                                <i class="mdi mdi-transit-connection"></i></a>
+                              <ul class="submenu">
+                                <li onClick={(colo) => this.toggleEditShowModal(colo, col)}>
+                                  <i class="mdi mdi-square-edit-outline"></i> Edit 
+                                </li>
+                                <li onClick={(colo) => this.deleteShow(colo, col)}>
+                                   <i class="mdi mdi-delete"></i> Delete 
+                                </li>
+
+                              </ul>
+                            </li></ul></div>
+                            <div>
+                        <img src={col.imageFullURL} class="img-fluid" alt="work-thumbnail" />
+                        </div>
+                        <div class="gall-info">
+                          <p>{col.description}</p>
+                          <p  onClick={(colo) => this.showEpisodesDetails(colo, col)} style={{ cursor:"pointer",  color: "#ff7a4c", fontSize: "12px", fontWeight: "bold" }}>View Episodes</p>
+                        </div>
+                      </div>
+                    </Col>
+
+
+
+                  ))}
+                </Row>
+              ))}
+
+
+            </div>
+          </div>
+          </Row>
+         {/*  <Row class='hidden'>
             <Col lg={12}>
               <Row>
                 <Col xl={12}>
@@ -369,14 +441,14 @@ class ShowPage extends Component {
           options={{
             actionsColumnIndex: -1
           }}
-        />
+        /> 
                 
                 </CardBody>
               </Card>
             </Col>
           </Row>
 
-
+ */}
         </div>
       </React.Fragment>
     )
@@ -391,7 +463,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-   
+
+  var showDemo = [], size = 4;
   const { ShowPageReducer : {showNotification,shows=[],
      loading=false, showModal={}, availableCompany=[], availableChannel=[]} ,  
 
@@ -404,7 +477,18 @@ const mapStateToProps = (state) => {
     channel.id == show.channelId)
      show[`channel`] =selectChan[0];
   }); 
-  return {currentUsrAccess,   user , shows,loading,
+
+  
+  let groupShows = [];
+  shows.map((epi, index) => {
+    groupShows.push(epi);
+    if ((index + 1) % 4 === 0 || shows.length === index + 1) {
+      showDemo.push(groupShows);
+      groupShows = [];
+    }
+
+  });
+  return {currentUsrAccess, allProcessedShows: showDemo,   user , shows,loading,
      showModal,showNotification, pageDropDown:{availableCompany, availableChannel} };
 };
 

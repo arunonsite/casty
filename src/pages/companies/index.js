@@ -155,7 +155,8 @@ class CompanyPage extends Component {
     });
     this.props.actions.onclickModal(togg);
   }
-  deleteCompany = (company) => {
+  deleteCompany = (event, company) => {
+  
     const { user: { id = '' } } = this.props;
     swal({
       title: "Are you sure?",
@@ -200,6 +201,32 @@ class CompanyPage extends Component {
           {this.props.loading && <Loader />}
           <Row>
 
+          
+              <div class="col-sm-8" >
+                <div class="page-title-box">
+                  <h4 class="page-title">Companies</h4>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="text-sm-right custom-top">
+                  <form>
+                    <div class="form-group">
+                      <input type="search" class="form-control" id="inputPassword2" placeholder="Search User" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="text-sm-right custom-top" >
+                <span href="#custom-modal" onClick={this.toggleCompanyModal} class="btn btn-primary waves-effect waves-light"
+                                             data-animation="fadein" data-plugin="custommodal"
+                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                                                </i> Add New</span>
+                 
+                </div>
+              </div>
+
+
             
           </Row>
           <Row class='hidden'>
@@ -214,9 +241,7 @@ class CompanyPage extends Component {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h1>Companies List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleCompanyModal}>
-                    + New User        </Button>
+                 
                   <MaterialTable
  tableRef={this.tableRef}
 
@@ -278,13 +303,7 @@ class CompanyPage extends Component {
                         },
                       }
                     ]}
-                    actions={[
-                      {
-                        icon: 'add_circle',
-                        tooltip: 'Add User',
-                        isFreeAction: true,
-                        onClick: (event) => this.toggleCompanyModal()
-                      },
+                   /*  actions={[
                       {
                         icon: 'edit',
                         tooltip: 'Edit Company',
@@ -296,9 +315,57 @@ class CompanyPage extends Component {
                         onClick: (event, rowData) => this.deleteCompany(rowData),
                         disabled: rowData.birthYear < 2000
                       })
+                    ]} */
+                    actions={[
+           
+                      {
+                        icon: 'edit',
+                        tooltip: 'edit Show',
+                        onClick: (event, rowData) => this.toggleEditUserModal(rowData)
+                      }
                     ]}
+                    components={{
+                      Action: props => (
+                        <div id="navigation">             
+                          <ul class="navigation-menu">  
+                            <li class="has-submenu">
+                                <a href="#"  style={{color:"#000"}}>
+                                   <i class="mdi mdi-transit-connection"></i></a>
+                                <ul class="submenu">
+                                    <li  onClick={(event) => props.action.onClick(event, props.data)}>                            
+                                      Edit
+                                    </li>  
+                                    <li  onClick={(event) => this.deleteCompany(event, props.data)}>                            
+                                      Delete
+                                    </li>                         
+                                </ul>
+                            </li>
+                          </ul>
+                        </div>
+                      ),
+                    }}
                     options={{
-                      actionsColumnIndex: -1
+                      loadingType :'overlay',
+            maxBodyHeight : 'auto',
+            search: false,
+            showTitle :false,
+            tableLayout :"auto",
+           
+            pageSize : 20,
+            actionsColumnIndex: -1,
+          /*   rowStyle: {
+              backgroundColor: '#f1f5f7',
+            }, */ //tableData
+            rowStyle: rowData => ({
+              backgroundColor: (rowData.tableData.id % 2 == 0) ? '#f1f5f7' : '#FFF'
+            }),
+            headerStyle: {
+              color:"#aebbc5",
+              fontSize:"13px",
+              fontWeight: "bold"
+            },
+           
+             title:false
                     }}
                   />
 

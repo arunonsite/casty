@@ -10,7 +10,8 @@ import {
     SAVE_USER_SUCCESS,SAVE_USER  ,SAVE_USER_FAILED,
     TOGGLE_USER_MODAL ,
     LOAD_COMPANY_BY_USER_FOR_USER,UPDATE_USER,
-    RESET_USER_NOTIFICATION
+    RESET_USER_NOTIFICATION,
+    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER
 } from '../../constants/actionTypes';
 
 
@@ -22,6 +23,7 @@ import {
     saveUserSuccess,
     saveUserFailed ,
     loadCompanyListSuccessForUser,
+    loadDepartmentListSuccessForUser,
     resetUserNotification
 } from './actions';
 
@@ -87,7 +89,7 @@ function* saveNewUser({payload={}}) {
      console
      .log("payload====", payload);
     const {firstName ='',roles,
-    lastName='',password='',email='',cemail='',phone='',role='',companyID='',UserId='',Id} = payload;
+    lastName='',password='',email='',cemail='',phone='',role='',companyID='',UserId='',Id, departmentId=''} = payload;
     const newUserData= {
         "Email": email,
         "Password": password,
@@ -96,11 +98,10 @@ function* saveNewUser({payload={}}) {
         "Roles": roles,
         "CompanyID": companyID,        
         Id,
-       
+        DepartmentID :departmentId       
     }
 
-     console
-     .log("newUserData---", newUserData);
+
   const options = {
       body: JSON.stringify(newUserData),
       method: 'POST',
@@ -183,6 +184,47 @@ function* loadCompanyForUser({payload={}}) {
    }
 }
 
+
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* loadDepartmentForUser({payload={}}) { 
+
+    const {currentUsrAccess, companyID=''} =  payload;
+
+ 
+   // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
+   const options = {
+       body: JSON.stringify(),
+       method: 'GET',
+       headers: { 'Content-Type': 'application/json' }
+   };
+   try {
+       //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
+       let response = {};
+     
+       response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+        .API_PATH.DEPARTMENT_LIST+'/'+companyID, options);  
+
+       if(response.data !== undefined){
+           yield put(loadDepartmentListSuccessForUser(processSuccessResponse(response.data)));
+       }else{
+           yield put(loadDepartmentListSuccessForUser(processSuccessResponse(response)));
+       }
+
+      
+
+       
+   } catch (error) {
+       let message;
+       switch (error.status) {
+           case 500: message = 'Internal Server Error'; break;
+           case 401: message = 'Invalid credentials'; break;
+           default: message = error;
+       }
+   }
+}
 /**
  * Updating the selected Channel
  * @param {*} payload - username and password 
@@ -190,7 +232,7 @@ function* loadCompanyForUser({payload={}}) {
 function* updateUser({payload={}}) {
     
     
-    const {firstName ='',
+    const {departmentId='', firstName ='',
     lastName='',password='',email='',cemail='',phone='',role='',companyID='',UserId='',roles, ID,blocked, BlockedBy} = payload;
     const newUserData= {
         "Email": email,
@@ -201,7 +243,9 @@ function* updateUser({payload={}}) {
         "CompanyID": companyID,        
         ID,
         Blocked :blocked,
-        BlockedBy :BlockedBy
+        BlockedBy :BlockedBy,
+     
+        DepartmentID  :departmentId
     }
   const options = {
       body: JSON.stringify(newUserData),
@@ -214,8 +258,7 @@ function* updateUser({payload={}}) {
           options );
 
            const {status = false, message=''} = processPutSuccessResponse(response, 'id');
-            console
-            .log("response---", response);
+
            if(status){
                let  newUser = Object.assign (
                    {...onUserSaveSuccess},
@@ -271,6 +314,12 @@ export function* watchSaveUser():any {
 export function* watchLoadComapnyForUser():any {
     yield takeEvery(LOAD_COMPANY_BY_USER_FOR_USER, loadCompanyForUser);
 }
+
+export function* watchLoadComapnyForDepartment():any {
+
+    yield takeEvery(LOAD_DEPARTMENT_BY_USER_FOR_USER, loadDepartmentForUser);
+}
+
 /* export function* watchResetNotificationShow():any {
     yield takeEvery(LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER, resetUserNotifications);
 } */
@@ -284,6 +333,7 @@ export function* watchResetNotificationShow():any {
 function* userSaga():any {
     yield all([
         fork(watchLoadComapnyForUser),
+        fork(watchLoadComapnyForDepartment),
         fork(watchLoadUser),
         fork(watchModalClick),
         fork(watchSaveUser),

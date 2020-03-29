@@ -24,9 +24,9 @@ function UserFormModal(props) {
 
   const [validated, setValidated] = useState(false);
   let { currentUsrAccess = 1, mode = 'edit',
-    pageDropDown: { availableCompany = [], roleSource = [] , availableDepartment=[]},
+    pageDropDown: { availableCompany = [], roleSource = [] },
     formData: { roleSelected, firstName = '', lastName = '', username = '', password = '',
-      cpassword = '', email = '', cemail = '', phone = '', companyID = '', blocked, departmentId='' },
+      cpassword = '', email = '', cemail = '', phone = '', companyID = '', blocked },
     handleSubmit, handleChange, title, ...others } = props;
 
 
@@ -286,7 +286,6 @@ function UserFormModal(props) {
                     validators={['required']}
                     default='0'
                     errorMessages={['this field is required']}>
-                      <option value=''>Select Companay</option>
                     {availableCompany.map((item) =>
                       <option value={item.id}>{item.companyName}</option>)
                     }
@@ -296,18 +295,10 @@ function UserFormModal(props) {
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Department</label>
-                  <select id="inputState" class="form-control" variant="outlined"
-                    onChange={handleChange}
-                    name='departmentId'
-                    required
-                    value={departmentId}
-                    validators={['required']}
-                    default='0'
-                    errorMessages={['this field is required']}>
-                       <option value=''>Select Department</option>
-                    {availableDepartment.map((item) =>
-                      <option value={item.id}>{item.name}</option>)
-                    }
+                  <select id="inputState" class="form-control">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
                   </select>
                 </div>
               </div>

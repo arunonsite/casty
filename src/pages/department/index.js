@@ -58,7 +58,6 @@ class UserPage extends Component {
     //this.loadPageData();   
     const {user:{id='', companyID }, currentUsrAccess } = this.props;
     this.props.actions.loadCompanyListForUser({companyID, currentUsrAccess});   
-      
   }
    loadPageData = () => {  //this.state.departments.push()
     const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d' }, currentUsrAccess} = this.props;
@@ -67,7 +66,6 @@ class UserPage extends Component {
   handleChange = (event, field) => {
     const {newUserModalData :{formData={}}} = this.state;
     const {user: { id = ''}} =  this.props;
-
     if(event.target.name ==='role'){
       formData['roleSelected'] = [event.target.value];
       formData['roles'] = [event.target.value];
@@ -79,13 +77,11 @@ class UserPage extends Component {
         formData['BlockedBy'] = id;       
       }
 
-    }else if(event.target.name === 'companyID'){
-      this.props.actions.loadDepartmentListForUser({ companyID : event.target.value, currentUsrAccess:false});
-      formData[event.target.name] = event.target.value;
-     }
-    else{
+    }else{
+       console
+       .log("event.target.name=", event.target.name, event.target.value);
     formData[event.target.name] = event.target.value;
-    } 
+    }
     this.setState({newUserModalData: {formData : formData}});
   }
   
@@ -97,8 +93,7 @@ class UserPage extends Component {
      this.props.actions.updateUser(uptCHannelData);
    } else {
      const newUserData = Object.assign({ ...formData }, {  UserId: id,  Id: uuidv4() });
-      console.log("newUserData-----", newUserData);
-    this.props.actions.newUser(newUserData);
+     this.props.actions.newUser(newUserData);
    }
   }
 
@@ -118,11 +113,10 @@ class UserPage extends Component {
         cemail: '',
         phone: '',
         role : '',
-        companyID:'',
+        companyID:availableCompany[0]['id'],
         roleSelected : ['Admin'],
         roles : ['Admin'],
-        blocked:null,
-        DepartmentID :''
+        blocked:null
       },
       constants: {roleSource}
     }};
@@ -140,11 +134,10 @@ class UserPage extends Component {
           cemail: '',
           phone: '',
           role : '',
-          companyID:'',
+          companyID:availableCompany[0]['id'],
           roleSelected : ['Admin'],
           blocked:null,
           roles : ['Admin'],
-          DepartmentID :''
         },
       }
     });
@@ -156,7 +149,7 @@ class UserPage extends Component {
      console.log("user-->>", user);
     const {userModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;   
     const {roles, firstName= '',lastName= '',password= '',cpassword= '',email= '',cemail= '',
-    phone= '',companyID='', id='', role='',blocked=null, departmentId=''} = user   
+    phone= '',companyID='', id='', role='',blocked=null} = user   
     let roleSelected = [];
   roleSource.map((rolev, ind)=>{
     const tempRole = roles.filter((roled) =>{
@@ -172,7 +165,7 @@ class UserPage extends Component {
       show: !show,
       title: 'Edit User',
       mode : 'edit',
-      data:   { ID :id,departmentId, 
+      data:   { ID :id, 
         roles,roleSelected, firstName,lastName,password,cpassword,email,cemail,phone ,companyID,blocked
       }
     }};
@@ -181,7 +174,7 @@ class UserPage extends Component {
    /* to save in loacal State */
    this.setState({
     newUserModalData: {
-       formData: { departmentId,blocked,ID :id, roles,roleSelected, firstName,lastName,password,cpassword,email,cemail,phone,companyID
+       formData: { blocked,ID :id, roles,roleSelected, firstName,lastName,password,cpassword,email,cemail,phone,companyID
        }
      }
    });
@@ -191,8 +184,7 @@ class UserPage extends Component {
 
   render() {
     const {  newUserModalData } = this.state;
-    const{users=[], userModal={},currentUsrAccess, user:{id='', companyID=''} , 
-     pageDropDown ={}} =this.props;
+    const{users=[], userModal={},currentUsrAccess, user:{id='', companyID=''} ,  pageDropDown ={}} =this.props;
     
     return (
       <React.Fragment>
@@ -218,8 +210,16 @@ class UserPage extends Component {
                   <h4 class="page-title">User Managements</h4>
                 </div>
               </div>
-
-              <div class="col-sm-4">
+              <div class="col-sm-2">
+                <div class="text-sm-right custom-top">
+                  <form>
+                    <div class="form-group">
+                      <input type="search" class="form-control" id="inputPassword2" placeholder="Search User" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-sm-2">
                 <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleNewUserModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
@@ -248,7 +248,6 @@ class UserPage extends Component {
 
             } },
             { title: "Last Name", field: "lastName" },
-            { title: "Email", field: "email" },
            
             { title: "Company", field: "companyName"  },
             { title: "Status", field: "blocked", render: rowData => (rowData.blocked !== null ? <span class="badge badge-danger badge-pill">InActive</span> :<span  class="badge badge-success badge-pill">Active</span>) },
@@ -295,27 +294,27 @@ class UserPage extends Component {
             })
           }
        
-          // detailPanel={[     
-          //   {
-          //     icon: 'account_circle',
-          //     tooltip: 'Show Surname',
-          //     render: rowData => {
-          //       return (
-          //         <div
-          //           style={{
-          //             fontSize: 50,
-          //             textAlign: 'center',
-          //             color: 'white',
-          //             backgroundColor: '#6c757d',
-          //           }}
-          //         >
-          //          Hello !  {rowData.firstName}
+          detailPanel={[     
+            {
+              icon: 'account_circle',
+              tooltip: 'Show Surname',
+              render: rowData => {
+                return (
+                  <div
+                    style={{
+                      fontSize: 50,
+                      textAlign: 'center',
+                      color: 'white',
+                      backgroundColor: '#6c757d',
+                    }}
+                  >
+                   Hello !  {rowData.firstName}
                    
-          //         </div>
-          //       )
-          //     },
-          //   }
-          // ]}
+                  </div>
+                )
+              },
+            }
+          ]}
           actions={[
            
             {
@@ -326,26 +325,27 @@ class UserPage extends Component {
           ]}
           components={{
             Action: props => (
-              <div id="navigation">             
-                <ul class="navigation-menu">  
+              <div id="navigation">
+             
+              <ul class="navigation-menu">
+  
                   <li class="has-submenu">
                       <a href="#"  style={{color:"#000"}}>
-
+                         <i class="mdi mdi-transit-connection"></i></a>
                       <ul class="submenu">
-                          <li  style={{padding:"0px !important"}} onClick={(event) => props.action.onClick(event, props.data)}>                            
+                          <li  onClick={(event) => props.action.onClick(event, props.data)}>
+                            
                             Edit
-                          </li>                         
-
+                          </li>
+                         
                       </ul>
-                  </li>
-                </ul>
-              </div>
+                  </li></ul></div>
             ),
           }}
           options={{
             loadingType :'overlay',
             maxBodyHeight : 'auto',
-            search: true,
+            search: false,
             showTitle :false,
             tableLayout :"auto",
             searchText:'A',
@@ -390,12 +390,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
- 
-   const {UserPageReducer: {availableDepartment=[], availableCompany=[],users=[], userModal={},loading=false,userNotification={}}, 
+   const {UserPageReducer: {availableCompany=[],users=[], userModal={},loading=false,userNotification={}}, 
    Auth:{user={},user:{roles=[]},  applicationDynamicConstants:{roleSource={}}} }= state;
    const currentUsrAccess =findTheAccess(roles);
-  return { users ,userModal,userNotification, loading,  user,currentUsrAccess, 
-     pageDropDown:{availableCompany, roleSource, availableDepartment}};
+  return { users ,userModal,userNotification, loading,  user,currentUsrAccess,  pageDropDown:{availableCompany, roleSource}};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

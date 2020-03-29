@@ -7,11 +7,11 @@ import NotFound from './components/NotFound';
 // lazy load all the views
 const Dashboard = React.lazy(() => import('./pages/dashboards/'));
 const Users = React.lazy(() => import('./pages/users/'));
-const Company = React.lazy(() => import('./pages/companies/'));
-const Departments = React.lazy(() => import('./pages/departments/'));
+const Company = React.lazy(() => import('./pages/companies/'));;
 const Channels = React.lazy(() => import('./pages/channels/'));
 const Episodes = React.lazy(() => import('./pages/episodes/'));
 const Shows = React.lazy(() => import('./pages/shows/'));
+const Departments = React.lazy(() => import('./pages/departments/'));
 
 // auth
 const Login = React.lazy(() => import('./pages/auth/Login'));
@@ -56,16 +56,16 @@ const routes = [
   { path: '/dashboard', icon:'mdi mdi-home',  name: 'Dashboard', component: Dashboard, route: PrivateRoute, roles: ['Admin', 'SuperAdmin'] },
   { path: '/users',icon:'mdi mdi-account-group',  name: 'Users', component: Users, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   { path: '/companies',icon:'mdi mdi-city',  name: 'Company', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
-  { path: '/companies',icon:'mdi mdi-border-all',  name: 'Departments', component: Company, route: PrivateRoute, roles: [ "SuperAdmin"] },
+  { path: '/departments',icon:'mdi mdi-border-all',  name: 'Departments', component: Departments, route: PrivateRoute, roles: [ "SuperAdmin"] },
 
   { path: '/channels',icon:'mdi mdi-play-circle-outline',  name: 'Channels', component: Channels, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
 /*   { path: '/shows',icon:'fe-film',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
  */  {exact:true,  path: '/shows',icon:'mdi mdi-play-box-outline',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   { path: '/episodes/:id',icon:'fe-grid',  name: 'Episodes', component: Episodes, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
   
+  { path: '/shows/:id',icon:'mdi mdi-play-box-outline',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
 
 
-  
 ]
 
  

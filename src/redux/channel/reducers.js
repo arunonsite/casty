@@ -8,6 +8,9 @@ import {
     SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED, SAVE_CHANNEL,
     UPDATE_CHANNEL_SUCCESS, UPDATE_CHANNEL_FAILED, UPDATE_CHANNEL,
     DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL,
+    LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_CHANNEL,
+  
+    
     LOAD_COMPANY_BY_USER_SUCCESS_FOR_CHANNEL, LOAD_COMPANY_BY_USER_FOR_CHANNEL, RESET_CHANNEL_NOTIFICATION
 } from '../../constants/actionTypes';
 
@@ -66,6 +69,18 @@ const Channel = (state: State = INIT_STATE, action: AuthAction) => {
             }
         case RESET_CHANNEL_NOTIFICATION:
             return { ...state, ...action.payload, loading: false };
+
+            case LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL:
+                return { ...state, loading: true };
+            case LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_CHANNEL:
+                 console
+                 .log("action--", action);
+                return {
+                    ...state, availableDepartment: action.payload.response !== undefined ? action.payload.response : [],
+                    channelNotification: INIT_STATE.channelNotification, loading: false, error: null
+                }
+
+
         default: return { ...state };
     }
 }

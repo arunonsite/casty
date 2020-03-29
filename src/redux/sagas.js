@@ -5,6 +5,7 @@ import userSaga from './user/saga';
 import showSaga from './show/saga';
 import episodeSaga from './episode/saga';
 import companySaga from './company/saga';
+import departmentSaga from './department/saga';
 
 
 export default function* rootSaga(getState) {
@@ -14,6 +15,7 @@ export default function* rootSaga(getState) {
         userSaga(),
         showSaga(),
         episodeSaga(),
-        companySaga()
+        companySaga(),
+        departmentSaga()
     ]);
 }

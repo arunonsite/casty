@@ -8,7 +8,8 @@ import {
     TOGGLE_USER_MODAL   ,
     LOAD_COMPANY_BY_USER_FOR_USER,LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER,
     UPDATE_USER,UPDATE_USER_SUCCESS,
-    RESET_USER_NOTIFICATION
+    RESET_USER_NOTIFICATION,
+    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER
 } from '../../constants/actionTypes';
 
 
@@ -74,4 +75,16 @@ export const resetUserNotification  = (resetNotification) => ({
     type: RESET_USER_NOTIFICATION,
     payload: resetNotification
 });
+
+
+
+export const loadDepartmentListForUser = (payload) => ({
+    type: LOAD_DEPARTMENT_BY_USER_FOR_USER,
+    payload: payload
+});
+export const loadDepartmentListSuccessForUser = (departments: {}) => ({
+    type: LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER,
+    payload: departments
+});
+
 

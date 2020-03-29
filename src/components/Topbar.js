@@ -75,8 +75,6 @@ const NavMenuContent = (props) => {
   const loggedInUser = getLoggedInUser();
   const { roles = [] } = loggedInUser;
 
-  console
-      .log("role--Current -", loggedInUser);
   // const role ='SuperAdmin';
   const dahs = {
       path: "/",
@@ -113,7 +111,7 @@ const NavMenuContent = (props) => {
   const onMenuClickCallback = props.onMenuClickCallback;
   let allowedRoutes = [];
   Object.keys(customRoutes).map((ind) => {
-      if (customRoutes[ind].roles !== undefined && customRoutes[ind].path !== '/episodes/:id') {
+      if (customRoutes[ind].roles !== undefined && customRoutes[ind].path !== '/shows/:id' && customRoutes[ind].path !== '/episodes/:id') {
           customRoutes[ind].roles.reduce((acc, role) => {
               if (roles && roles.indexOf(role) !== -1) {                                              // role not authorised so redirect to home page
 
@@ -171,8 +169,6 @@ class Topbar extends Component {
      */
     initMenu = () => {
       var links = document.getElementsByClassName('side-nav-link-ref');
-
-       console.log("links--", links);
       var matchingMenuItem = null;
       for (var i = 0; i < links.length; i++) {
           if (this.props.location.pathname === links[i].pathname) {
