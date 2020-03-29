@@ -14,8 +14,6 @@ const NavMenuContent = (props) => {
     const loggedInUser = getLoggedInUser();
     const { roles = [] } = loggedInUser;
 
-    console
-        .log("role--Current -", loggedInUser);
     // const role ='SuperAdmin';
     const dahs = {
         path: "/",

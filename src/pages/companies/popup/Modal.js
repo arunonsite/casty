@@ -1,8 +1,8 @@
-import React, { Component, useRef } from 'react';
-import { Modal } from 'react-bootstrap';
-import {  Row, Col } from 'reactstrap';
+import React, { useState, useRef } from 'react';
+import { Modal, Form } from 'react-bootstrap';
+import { Row, Col } from 'reactstrap';
 
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { TextValidator } from 'react-material-ui-form-validator';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -41,12 +41,12 @@ const useStyles = makeStyles(theme => ({
 
 
 function UserFormModal(props) {
-   console
-   .log("props---", props);
+  console
+    .log("props---", props);
   const {
-    formData: { companyName = '',  
-     address='', contact1='', contact2='', details='',
-    imageFullURL = '', imageURL = '', previewFile = undefined },
+    formData: { companyName = '',
+      address = '', contact1 = '', contact2 = '', details = '',
+      imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 
 
@@ -54,6 +54,26 @@ function UserFormModal(props) {
   const changeCompanyImage = (image) => {
     handleFileChange(JSON.parse(document.getElementsByName("companyImage")[0].value));
   }
+  const [validated, setValidated] = useState(false);
+  const handleFormSubmit = (event) => {
+    const form = event.currentTarget;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      handleSubmit();
+    }
+
+    setValidated(true);
+
+
+  };
   const initialCompanyImage = (image) => {
     let customrUrl = "http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png";
     getBese64Image(imageFullURL).then((succ) => {
@@ -84,20 +104,14 @@ function UserFormModal(props) {
           {title}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-
-
-        <ValidatorForm
-          className={classes.root}
-          onSubmit={handleSubmit}
-          onError={errors => console.log(errors)}
-          ref={inputRef}
-        >
-          <Row>
-            <Col xl={6}>
-              <TextValidator
+      <Modal.Body style={{ backgroundColor: "#f5f6fa" }}>
+        <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+          <Row class="row">
+            <Col sm={6}>
+              <label for="name">Company Name</label>
+              <input type="text" class="form-control"
                 label="Name"
-                label="Comapny Name"
+                label="Company Name"
                 variant="outlined"
                 onChange={handleChange}
                 name="companyName"
@@ -105,25 +119,23 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col xl={6}>
-              <TextValidator
+            <Col sm={6}>
+              <label for="name">Address</label>
+              <input type="text" class="form-control"
                 id="outlined-multiline-static"
                 label="Address"
                 placeholder="Address"
-                
-            
                 name="address"
                 value={address}
                 onChange={handleChange}
                 variant="outlined"
                 validators={['required']}
                 errorMessages={['this field is required']}
-              /></Col>           
-          </Row>
-          <Row>
-            <Col xl={6}>
-              <TextValidator
-                 placeholder="Contact 1"
+              /></Col>
+            <Col sm={6}>
+              <label for="name">Contact 1</label>
+              <input type="text" class="form-control"
+                placeholder="Contact 1"
                 label="Contact 1"
                 variant="outlined"
                 onChange={handleChange}
@@ -132,22 +144,20 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col xl={6}>
-              <TextValidator
+            <Col sm={6}>
+              <label for="name">Contact 2</label>
+              <input type="text" class="form-control"
                 id="outlined-multiline-static"
                 label="Contact 2"
                 placeholder="Contact 2"
-                
                 name="contact2"
                 value={contact2}
                 onChange={handleChange}
                 variant="outlined"
-              /></Col>           
-          </Row>
-
-          <Row>
-            <Col xl={12}>
-            <TextValidator
+              /></Col>
+            <Col sm={12}>
+              <label for="name">Details</label>
+              <input type="text" class="form-control"
                 id="outlined-multiline-static"
                 label="Details"
                 placeholder="Details"
@@ -158,20 +168,15 @@ function UserFormModal(props) {
                 onChange={handleChange}
                 variant="outlined"
               />
-              
-              
-              </Col>
-                     
+            </Col>
+            <Col sm={12}>
+              <div class="text-right">
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+              </div>
+            </Col>
           </Row>
-          <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
-
-        </ValidatorForm>
-
-
-
-
+        </Form>
       </Modal.Body>
-
     </Modal>
   );
 }

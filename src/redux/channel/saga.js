@@ -12,7 +12,8 @@ import {
     SAVE_CHANNEL,
     UPDATE_CHANNEL_SUCCESS,UPDATE_CHANNEL_FAILED,UPDATE_CHANNEL,
     DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL,
-    LOAD_COMPANY_BY_USER_FOR_CHANNEL,RESET_CHANNEL_NOTIFICATION
+    LOAD_COMPANY_BY_USER_FOR_CHANNEL,RESET_CHANNEL_NOTIFICATION,
+    LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
@@ -22,7 +23,8 @@ import {
     updateChannelSuccess,
     deleteChannelSuccess,
     loadCompanyListForChannalSuccess,
-    resetChannelNotification
+    resetChannelNotification,
+    loadDepartmentListSuccessForChannal
     
 } from './actions';
 
@@ -327,6 +329,46 @@ function* resetChannelNotifications({payload={}}) {
         }
     }
 }
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* loadDepartmentForChannel({payload={}}) { 
+
+    const {currentUsrAccess, companyID=''} =  payload;
+
+ 
+   // let payload = 'de8720ce-93f2-4b8a-bec8-c5ab5c7a2989'; 
+   const options = {
+       body: JSON.stringify(),
+       method: 'GET',
+       headers: { 'Content-Type': 'application/json' }
+   };
+   try {
+       //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
+       let response = {};
+     
+       response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+        .API_PATH.DEPARTMENT_LIST+'/'+companyID, options);  
+
+       if(response.data !== undefined){
+           yield put(loadDepartmentListSuccessForChannal(processSuccessResponse(response.data)));
+       }else{
+           yield put(loadDepartmentListSuccessForChannal(processSuccessResponse(response)));
+       }
+
+      
+
+       
+   } catch (error) {
+       let message;
+       switch (error.status) {
+           case 500: message = 'Internal Server Error'; break;
+           case 401: message = 'Invalid credentials'; break;
+           default: message = error;
+       }
+   }
+}
 export function* watchLoadChannel():any {
     yield takeEvery(LOAD_CHANNEL, loadChannelList);
 }
@@ -356,6 +398,10 @@ export function* watchResetNotificationShow():any {
 }
 
 
+export function* watchLoadDepartmentForChannel():any {
+
+    yield takeEvery(LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL, loadDepartmentForChannel);
+}
 function* channelSaga():any {
     yield all([
         fork(watchLoadChannel),
@@ -364,6 +410,7 @@ function* channelSaga():any {
         fork(watchUpdateChannel),
         fork(watchDeleteChannel),
         fork(watchLoadComapnyForChannel),
+        fork(watchLoadDepartmentForChannel),
     ]);
 }
 

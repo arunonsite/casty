@@ -56,15 +56,21 @@ class ChannelPage extends Component {
   }
 
   loadPageData = () => {  //this.state.departments.push()
-
     const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
+  
     this.props.actions.loadChannel({ id, currentUsrAccess, companyID });
   }
   handleChange = (event, field) => {
 
     const { newChannelModalData: { formData = {} } } = this.state;
     let proceddesData = {};
-    proceddesData[event.target.name] = event.target.value;
+   
+     if(event.target.name === 'companyId'){
+      this.props.actions.loadDepartmentListForChannal({ companyID : event.target.value, currentUsrAccess:false});
+      proceddesData[event.target.name] = event.target.value;
+     }else{
+        proceddesData[event.target.name] = event.target.value;
+     }
     this.setState({ newChannelModalData: { formData: { ...formData, ...proceddesData } } });
   }
   handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
@@ -106,7 +112,7 @@ class ChannelPage extends Component {
         formData: {
           name: '',
           description: '',
-          companyId: availableCompany[0]['id']
+          companyId: ''
         }
       }
     };
@@ -115,7 +121,7 @@ class ChannelPage extends Component {
         formData: {
           name: '',
           description: '',
-          companyId: availableCompany[0]['id']
+          companyId: ''
         },
       }
     });
@@ -186,7 +192,7 @@ class ChannelPage extends Component {
     });
     this.props.actions.onclickModal(togg);
   }
-  deleteChannel = (channel) => {
+  deleteChannel = (event, channel) => {
     const { user: { id = '' } } = this.props;
     swal({
       title: "Are you sure?",
@@ -206,7 +212,10 @@ class ChannelPage extends Component {
 
 
   }
-
+  showChannelDetails = (eve, sjow)=>{
+    const {id=''} = sjow;
+   this.props.history.push('/shows/'+id)
+ }
   render() {
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
@@ -228,20 +237,8 @@ class ChannelPage extends Component {
 
         />
         <div className="">
-          { /* preloader */}
-
-
-
-
-
-
-
-
-
-
-
-
-
+      
+         { /* preloader */}
           <div class="row">
             <div class="col-12">
               <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
@@ -249,16 +246,17 @@ class ChannelPage extends Component {
                   <h4 >Channels</h4>
                 </div>
                 <div class="col-sm-6">
-                  <div class="text-sm-right" onClick={this.toggleChannelModal}>
-                    <i class="mdi mdi-plus-circle mr-1"></i> Add New
+                  <div class="text-sm-right" >
+                  <span href="#custom-modal" onClick={this.toggleChannelModal} class="btn btn-primary waves-effect waves-light"
+                                             data-animation="fadein" data-plugin="custommodal"
+                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                                                </i> Add New</span>
                   </div>
                 </div>
               </div>
               {allProcessedChannels.map((cols) => (
                 <Row className="row filterable-content">
                   {cols.map((col, indepos) => (
-
-
                     <Col className="col-sm-6 col-xl-3 filter-item all  ">
                       <div class="gal-box">
                         <div class="gall-info" style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
@@ -272,7 +270,7 @@ class ChannelPage extends Component {
                                 <li onClick={(colo) => this.toggleEditChannelModal(colo, col)}>
                                   <i class="mdi mdi-square-edit-outline"></i> Edit 
                                 </li>
-                                <li onClick={(colo) => this.this.deleteChannel(colo)}>
+                                <li onClick={(colo) => this.deleteChannel(colo, col)}>
                                    <i class="mdi mdi-delete"></i> Delete 
                                 </li>
 
@@ -283,7 +281,7 @@ class ChannelPage extends Component {
 
                         <div class="gall-info">
                           <p>{col.description}</p>
-                          <p style={{ color: "#ff7a4c", fontSize: "12px", fontWeight: "bold" }}>See Shows</p>
+                          <p onClick={(colo) => this.showChannelDetails(colo, col)}   style={{ cursor:"pointer",  color: "#ff7a4c", fontSize: "12px", fontWeight: "bold" }}>See Shows</p>
                         </div>
                       </div>
                     </Col>
@@ -427,7 +425,7 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = (state) => {
   var channelDemo = [], size = 4;
 
-  const { ChannelPageReducer: { availableCompany = [], loading = false, channels = [], channelModal = {},
+  const { ChannelPageReducer: { availableCompany = [], availableDepartment=[], loading = false, channels = [], channelModal = {},
     channelNotification = {} },
     Auth: { user = {}, user: { roles = [] } } } = state;
   const currentUsrAccess = findTheAccess(roles);
@@ -442,7 +440,9 @@ const mapStateToProps = (state) => {
 
   });
 
-  return { channels, allProcessedChannels: channelDemo, user, channelModal, channelNotification, loading, currentUsrAccess, pageDropDown: { availableCompany } };
+  return { channels, allProcessedChannels: channelDemo, user,
+     channelModal, channelNotification, loading, currentUsrAccess,
+      pageDropDown: { availableCompany , availableDepartment} };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage);

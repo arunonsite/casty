@@ -132,8 +132,6 @@ class Login extends Component {
 
 
 const mapStateToProps = (state) => {
-    console
-    .log("state----", state);
     const { user, loading, error } = state.Auth;
     return { user, loading, error };
 };

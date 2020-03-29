@@ -61,7 +61,7 @@ function UserFormModal(props) {
   };
 
   const { currentUsrAccess,
-    pageDropDown: { availableCompany = [] },
+    pageDropDown: { availableCompany = [], availableDepartment=[] },
     formData: { name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined, companyId = '' },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 

@@ -40,9 +40,9 @@ const show = (state = INIT_STATE, action = {  }) => {
         case LOAD_SHOW_FAILED:
             return { ...state, error: action.payload, loading: false };
         case LOAD_SHOW_SUCCESS:
-            const { response = [] } = action.payload;
+            const { response : {data=[]}, response={} } = action.payload;
             return {
-                ...state, shows: response,
+                ...state, shows: data, data:response,   
                 showNotification: INIT_STATE.showNotification, loading: false, error: null
             };
         case ONCLICK_MODAL:

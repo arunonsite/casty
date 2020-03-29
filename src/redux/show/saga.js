@@ -64,45 +64,43 @@ const fetchJSON = (url, options = {}) => {
  * @param {*} payload - username and password 
  */
 function* loadShowList({ payload = {} }) {
-    const { currentUsrAccess } = payload;
+    const { id,companyID, currentUsrAccess, channelId=undefined,  } = payload;
     const options = {
         body: JSON.stringify(),
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
     try {
-        //LOAD_CHANNELS_FOR_SHOWS
-        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
 
-        let url = appSettings.API_ROUTE.MAIN_SITE + appSettings
-            .API_PATH.SH20OW_LIST + '/' + payload.id + '?CreatedByUserId=' + payload.id;
+        let url = appSettings.API_ROUTE.MAIN_SITE;    
+        let sera = ' ';
+        let skp =  0;
+        let take =  20;  
+        
         ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}
-        console
-            .log("currentUsrAccess--");
-        if (currentUsrAccess === 0) {
-            /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
-            url = appSettings.API_ROUTE.MAIN_SITE + appSettings
-                .API_PATH.SUPER_CHANNEL_LIST + '/';
-            let sera = ' ';
-            let skp = 5;
-            let take = 2;
-            url += '/' + sera + '/SkipTake/' + skp;
-            url += '/' + 20
-        } else {
-            url = appSettings.API_ROUTE.MAIN_SITE + appSettings
-                .API_PATH.SHOW_LIST + '/' + payload.id;
-            let sera = ' ';
-            let skp = 5;
-            let take = 2;
-            url += '/' + sera + '/SkipTake/' + skp;
-            url += '/' + 20
-        }
-
-
+        if(channelId !== undefined){
+            url = url+'/api/Shows/'+channelId 
+            
+        }else if(currentUsrAccess <= 0){
+         /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
+          url = url+'/api/Shows/'    
+          url += '/'+sera+'/SkipTake/' +skp;    ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}                    
+          url += '/' + 20 
+        }else{
+          url = url+'/api/Shows/ByCompany/'+companyID 
+          url += '/'+sera+'/' +skp;                        
+          url += '/' + 20
+        } 
         const response = yield call(fetchJSON, url, options);
 
+         if(response.data){
+            yield put(loadShowSuccess(processSuccessResponse(response)));
+         }else{
+            yield put(loadShowSuccess(processSuccessResponse({data : response})));
+         }
 
-        yield put(loadShowSuccess(processSuccessResponse(response)));
+
+       
     } catch (error) {
         let message;
         switch (error.status) {
@@ -127,16 +125,34 @@ function* loadChannelsListForShow({ payload = {} }) {
         headers: { 'Content-Type': 'application/json' }
     };
     try {
+
+/* 
         let url = appSettings.API_ROUTE.MAIN_SITE + appSettings.API_PATH.SHOW_ADMIN_LOAD_CHANNEL + companyID
        
         ///api/Channels/ByCompany/{CompanyId}/{SearchCriteria}/{Skip}/{Take}
         let sera = ' ';
         let take = '0';
         url += '/' + sera + '/' + take;
-        url += '/100'
+        url += '/100' */
+        let url = appSettings.API_ROUTE.MAIN_SITE; 
+         console.log("currentUsrAccess---", currentUsrAccess);
+        if(currentUsrAccess === 0){
+            url = url+'/api/Channels'   
+           let sera =  ' ';
+           let skp =  0;
+           let take = 100;
+           url += '/'+sera+'/SkipTake/' +skp;                        
+           url += '/' + 100  
+          }else{
+            url =  url+'/api/Channels/ByCompany/'+companyID 
+            let sera = ' ';
+            let skp =  0;
+            let take = 100;
+            url += '/'+sera+'/' +skp;                        
+            url += '/' + 100   
+          }
 
         let response = {};
-
 
         response = yield call(fetchJSON,
             url,

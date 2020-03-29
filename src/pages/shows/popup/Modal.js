@@ -1,10 +1,6 @@
-import React, { Component, useRef } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Container, Row, Col, Card, CardBody, Label, FormGroup, Alert } from 'reactstrap';
-import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { ValidatorForm, TextValidator, SelectValidator } from 'react-material-ui-form-validator';
+import React, { useRef , useState } from 'react';
+import { Modal, Form } from 'react-bootstrap';
+import {   Row, Col } from 'reactstrap';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,21 +35,39 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserFormModal(props) {
+  const [validated, setValidated] = useState(false);
 
-   console
-   .log("props--", props);
   const inputRef = useRef(null);
   const fileRef = useRef(null);
   const classes = useStyles();
   const {
-    formData: {companyId    ='', name = '', description = '', channelId = '', id = '',
+    formData: {companyID    ='', name = '', description = '', channelId = '', id = '',
      imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new',
      channelsByUser = [],pageDropDown:{availableChannel=[],availableCompany=[]}, ...others } = props;
   const changeShowImage = (image) => {
     handleFileChange(JSON.parse(document.getElementsByName("showImage")[0].value));
   }
+
+  const handleFormSubmit = (event) => {
+    const form = event.currentTarget;
+
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }else{
+     
+
+      event.preventDefault();
+      event.stopPropagation();
+    
+        handleSubmit();
+    }
+    
+    setValidated(true);
   
+  
+  };
   const initialShowImage = (image) => {
     let customrUrl = "http://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png";
     getBese64Image(imageFullURL).then((succ) => {
@@ -82,19 +96,16 @@ function UserFormModal(props) {
           {title}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body  style={{ backgroundColor: "#f5f6fa" }}>
 
-
-        <ValidatorForm
-          className={classes.root}
-          onSubmit={handleSubmit}
-          onError={errors => console.log(errors)}
-          ref={inputRef}
-        >
+      <div class="custom-modal-text text-left col-12" >
+      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
           <Row>
             <Col xl={12}>
+            <label for="name">Channel Name</label>
 
-              <TextValidator
+            <input type="text" required
+              class="form-control"
                 label="Name"
                 label="Show Name"
                 variant="outlined"
@@ -105,23 +116,31 @@ function UserFormModal(props) {
                 errorMessages={['this field is required']}
               /></Col>
   <Col xl={12}>
-              <SelectValidator
+  <label for="name">Comapny</label>
+
+  <select required
+    class="form-control"
                 label="Company"
                 label="Company"
                 variant="outlined"
                 onChange={handleChange}
-                name='companyId'
-                value={companyId}
+                name='companyID'
+                value={companyID}
                 validators={['required']}
                 errorMessages={['this field is required']}
               >
+                 <option value="" >Select Comapny</option>
                  {availableCompany.map((item) =>
-                  <MenuItem value={item.id}>{item.companyName}</MenuItem>)
+                  <option value={item.id}>{item.companyName}</option>)
                 } 
-              </SelectValidator>
+              </select>
             </Col>
             <Col xl={12}>
-              <SelectValidator
+            <label for="name">Channel</label>
+
+            <select
+            required
+              class="form-control"
                 label="Channel"
                 label="Channel"
                 variant="outlined"
@@ -131,13 +150,18 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               >
+                  <option value="" >Select Channel</option>
                  {availableChannel.map((item) =>
-                  <MenuItem value={item.id}>{item.name}</MenuItem>)
+                  <option value={item.id}>{item.name}</option>)
                 } 
-              </SelectValidator>
+              </select>
             </Col>
             <Col xl={12}>
-              <TextValidator
+            <label for="name">Description</label>
+
+         <input type="text"
+         required
+           class="form-control"
                 id="outlined-multiline-static"
                 label="Description"
                 placeholder="Show Description"
@@ -152,6 +176,7 @@ function UserFormModal(props) {
               /></Col>
             <Col xl={12}>
               <FilePond
+              required
                 allowFileEncode={true}
                 ref={fileRef}
                 onupdatefiles={(rowData) => changeShowImage(rowData[0])}
@@ -177,7 +202,9 @@ function UserFormModal(props) {
             </Col>
           </Row>
           <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
-        </ValidatorForm>
+        </Form>
+     
+        </div>
       </Modal.Body>
 
     </Modal>
