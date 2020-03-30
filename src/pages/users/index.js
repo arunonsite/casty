@@ -329,11 +329,12 @@ class UserPage extends Component {
               <div id="navigation">             
                 <ul class="navigation-menu">  
                   <li class="has-submenu">
-                      <a href="#"  style={{color:"#000"}}>
+                  <a href="#"  style={{color:"#000"}}>
+                         <i class="mdi mdi-transit-connection"></i></a>
 
                       <ul class="submenu">
                           <li  style={{padding:"0px !important"}} onClick={(event) => props.action.onClick(event, props.data)}>                            
-                            Edit
+                          <a href="#" style={{padding:"0px !important"}}><i class="mdi mdi-square-edit-outline"></i>Edit</a>
                           </li>                         
 
                       </ul>

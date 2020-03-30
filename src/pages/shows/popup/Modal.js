@@ -102,7 +102,7 @@ function UserFormModal(props) {
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
           <Row>
             <Col xl={12}>
-            <label for="name">Channel Name</label>
+            <label for="name">Show Name</label>
 
             <input type="text" required
               class="form-control"
@@ -201,7 +201,7 @@ function UserFormModal(props) {
 
             </Col>
           </Row>
-          <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
+          <input type="submit" value={buttonText} class="btn btn-primary waves-effect waves-light" />
         </Form>
      
         </div>

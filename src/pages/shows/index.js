@@ -286,8 +286,8 @@ class ShowPage extends Component {
                   {cols.map((col, indepos) => (
 
 
-                    <Col className="col-sm-6 col-xl-3 filter-item all  ">
-                      <div class="gal-box">
+                    <Col className="col-sm-12 col-xl-3 filter-item all  ">
+                      <div class="gal-box" style={{ height: "400px" }}>
                         <div class="gall-info"
                          style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
                         <div id="navigation">
@@ -296,7 +296,7 @@ class ShowPage extends Component {
                             <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
                               <a href="#" style={{ color: "#000" }}>
                                 <i class="mdi mdi-transit-connection"></i></a>
-                              <ul class="submenu">
+                              <ul class="submenu submenu-channel">
                                 <li onClick={(colo) => this.toggleEditShowModal(colo, col)}>
                                   <i class="mdi mdi-square-edit-outline"></i> Edit 
                                 </li>

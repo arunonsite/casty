@@ -242,12 +242,12 @@ class ChannelPage extends Component {
           <div class="row">
             <div class="col-12">
               <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                   <h4 >Channels</h4>
                 </div>
 
                 <div class="col-sm-6">
-                  <div class="text-sm-right" >
+                  <div class="text-sm-right custom-top" >
                   <span href="#custom-modal" onClick={this.toggleChannelModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
                                               data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
@@ -256,7 +256,7 @@ class ChannelPage extends Component {
 
                 </div>
               </div>
-              </div>
+              
               {allProcessedChannels.map((cols) => (
                 <Row className="row filterable-content">
                   {cols.map((col, indepos) => (
@@ -416,9 +416,9 @@ class ChannelPage extends Component {
               </Card>
             </Col> */}
           </Row>
+</div>
 
-
-        </div>
+       
       </React.Fragment>
     )
   }
