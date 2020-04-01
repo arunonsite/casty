@@ -113,7 +113,7 @@ function* onclickModal({payload={}}) {
  */
 function* saveNewChannel({payload={}}) {
     
-      const {name='', description='', UserId='', ImageBase64, ImageFileExtensionIncludingDot,
+      const {departmentId, name='', description='', UserId='', ImageBase64, ImageFileExtensionIncludingDot,
       companyId,Id} = payload;
       const newChannelData= {
        
@@ -126,7 +126,7 @@ function* saveNewChannel({payload={}}) {
     
         
         ImageBase64, ImageFileExtensionIncludingDot,
-        CompanyId : companyId,Id
+        CompanyId : companyId,Id, DepartmentId :departmentId
       }
     const options = {
         body: JSON.stringify(newChannelData),

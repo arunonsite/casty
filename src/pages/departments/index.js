@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { notifyMe} from '../../helpers/applicationUtils';
 import { v4 as uuidv4 } from 'uuid';
 import  * as departmentAction from '../../redux/department/actions';
-
+import swal from 'sweetalert'
 import { getLoggedInUser, findTheAccess  } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
@@ -42,21 +42,20 @@ class DepartmentPage extends Component {
         pauseOnHover: true,
         draggable: true
       });
-    //  this.loadPageData();.
-    this.tableRef.current.onQueryChange()
+      this.loadPageData();
     this.props.actions.resetDepartmentNotification(resetNotification);
     } 
    
   }
   componentDidMount(){
-    //this.loadPageData();   
+    this.loadPageData();   
     const {user:{id='', companyID }, currentUsrAccess } = this.props;
     //this.props.actions.loadCompanyListForUser({companyID, currentUsrAccess}); 
     this.props.actions.loadCompanyListForDepartment({companyID, currentUsrAccess});     
   }
    loadPageData = () => {  //this.state.departments.push()
     const {user:{CompanyID='02790222-8153-44e0-b17b-0ff24a3f4d4d' }, currentUsrAccess} = this.props;
-    this.props.actions.loadUsers({CompanyID,currentUsrAccess});
+    this.props.actions.loadDepartemnt({CompanyID,currentUsrAccess});
    }
   handleChange = (event, field) => {
     const {newDepartmentModalData :{formData={}}} = this.state;
@@ -93,7 +92,7 @@ class DepartmentPage extends Component {
    }
   }
 
-  toggleNewUserModal = () => {
+  toggleNewDepartmentModal = () => {
     const {departmentModal : {show = false}, pageDropDown:{roleSource=[], availableCompany=[]}} = this.props;    
     const togg = { departmentModal: {
       show: !show,
@@ -121,20 +120,20 @@ class DepartmentPage extends Component {
 
     this.props.actions.onclickModal(togg);   
   }
-  toggleEditUserModal = (user) => {
+  toggleEditDepartmentModal = (event, user) => {
     const {departmentModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;   
     const {  name = '',
     description= '',
     companyId='' , id=''   } = user   
 
      console
-     .log("toggleEditUserModal---", user);
+     .log("toggleEditDepartmentModal---", user);
 
 
     
     const togg = { departmentModal: {
       show: !show,
-      title: 'Edit User',
+      title: 'Edit Department',
       mode : 'edit',
       data:   {  name , 
       description  ,
@@ -159,11 +158,31 @@ class DepartmentPage extends Component {
    });
    this.props.actions.onclickModal(togg);
   }
-  
+  deleteDepartment = (event, dept) => {
+     console.log("channel---", dept);
+    const { user: { id = '' } } = this.props;
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this Channel file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.props.actions.deleteDepartment({ UserID: id, DepartmentId: dept.id });
+          this.loadPageData();
+        } else {
+          swal("Your Channel is safe!");
+        }
+      });
+
+
+  }
 
   render() {
     const {  newDepartmentModalData } = this.state;
-    const{users=[], departmentModal={},currentUsrAccess, user:{id='', companyID=''} ,  pageDropDown ={}} =this.props;
+    const{allProcessedDepartment=[], users=[], departmentModal={},currentUsrAccess, user:{id='', companyID=''} ,  pageDropDown ={}} =this.props;
     
     return (
       <React.Fragment>
@@ -171,7 +190,7 @@ class DepartmentPage extends Component {
         <Modal
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}          
-          handlehide={this.toggleNewUserModal}         
+          handlehide={this.toggleNewDepartmentModal}         
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -200,7 +219,7 @@ class DepartmentPage extends Component {
               </div>
               <div class="col-sm-2">
                 <div class="text-sm-right custom-top" >
-                <span href="#custom-modal" onClick={this.toggleNewUserModal} class="btn btn-primary waves-effect waves-light"
+                <span href="#custom-modal" onClick={this.toggleNewDepartmentModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
                                               data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
                                                 </i> Add New</span>
@@ -210,139 +229,53 @@ class DepartmentPage extends Component {
 
 
             </div>
+            <Row>
 
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="card-box">
+            {allProcessedDepartment.map((cols) => (
+                <div class="card-deck">
+                  {cols.map((col, indepos) => (
 
-             
+<div class="card">
+<img class="card-img-top img-fluid" src="http://localhost:3001/assets/images/small/img-4.jpg" alt="Card image cap" />
+<div class="card-body">
+    <h5 class="card-title">{col.name}</h5>
 
-                <MaterialTable  
-                     tableRef={this.tableRef}
-          columns={[
-            { title: "Name", field: "name",  
-            headerStyle: {
-              color: '#aebbc5',
-              fontSize:'13px'
+    <div>
+      <ul class="navigation-menu">
 
-            } },
-            { title: "Description", field: "description" }
-            
-           
-          ]}
-          data={query =>
-            new Promise((resolve, reject) => {
-              let url = appSettings.API_ROUTE.MAIN_SITE;
-              let comc = '1267d5ae-ca26-421c-837d-286c2c8c6818';
-              url =  url+'/api/Departments/'+comc
-                              
-              fetch(url)
-                .then(response => response.json())
-                .then(result => {
-                  if(result.data !== undefined){
-                    resolve({
-                      data: result.data,
-                      page: result.page - 1,
-                      totalCount: result.totalRecords,
-                      per_page:query.pageSize,
-                      "page":result.pageNumber-1,
-                    })
-                  }else{
-                    resolve({
-                      data  : result,
-                      totalCount: result.length,
-                      per_page:query.pageSize,
-                      page:query.page,
-                    })
-                  }              
-                })
-            })
-          }
-       
-          detailPanel={[     
-            {
-              icon: 'account_circle',
-              tooltip: 'Show Surname',
-              render: rowData => {
-                return (
-                  <div
-                    style={{
-                      fontSize: 50,
-                      textAlign: 'center',
-                      color: 'white',
-                      backgroundColor: '#6c757d',
-                    }}
-                  >
-                   Hello !  {rowData.firstName}
-                   
-                  </div>
-                )
-              },
-            }
-          ]}
-          actions={[
-           
-            {
-              icon: 'edit',
-              tooltip: 'edit Show',
-              onClick: (event, rowData) => this.toggleEditUserModal(rowData)
-            }
-          ]}
-          components={{
-            Action: props => (
-              <div id="navigation">
-             
-              <ul class="navigation-menu">
-  
-                  <li class="has-submenu">
-                      <a href="#"  style={{color:"#000"}}>
-                         <i class="mdi mdi-transit-connection"></i></a>
-                      <ul class="submenu">
-                          <li  onClick={(event) => props.action.onClick(event, props.data)}>
-                            
-                            Edit
-                          </li>
-                      {/*     <li  onClick={(event) => this.deleteCompany(event, props.data)}>                            
-                                      Delete
-                                    </li>   */}
-                         
-                      </ul>
-                  </li></ul></div>
-            ),
-          }}
-          options={{
-            loadingType :'overlay',
-            maxBodyHeight : 'auto',
-            search: false,
-            showTitle :false,
-            tableLayout :"auto",
-            searchText:'A',
-            pageSize : 20,
-            actionsColumnIndex: -1,
-          /*   rowStyle: {
-              backgroundColor: '#f1f5f7',
-            }, */ //tableData
-            rowStyle: rowData => ({
-              backgroundColor: (rowData.tableData.id % 2 == 0) ? '#f1f5f7' : '#FFF'
-            }),
-            headerStyle: {
-              color:"#aebbc5",
-              fontSize:"13px",
-              fontWeight: "bold"
-            },
-           
-             title:false
-          }}
-        />  
+                            <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
+                              <a href="#" style={{ color: "#000" }}>
+                                <i class="mdi mdi-transit-connection"></i></a>
+                              <ul class="submenu submenu-channel">
+                                <span onClick={(colo) => this.toggleEditDepartmentModal(colo, col)} style={{ cursor: "pointer", padding: "0px !important" }}  >
+                                  <i class="mdi mdi-square-edit-outline"></i> Edit
+                                </span>
+                                <br />
+                                <span style={{ cursor: "pointer" }}
+                                  onClick={(colo) => this.deleteDepartment(colo, col)}>
+                                  <i class="mdi mdi-delete"></i> Delete
 
-               
-            </div>
+                                </span>
+
+                              </ul>
+                            </li></ul></div>
+                       
+    <p class="card-text">{col.description}</p>
+     <a href="javascript:void(0);" class="btn btn-primary">GO TO CHANNELS</a>
+</div>
+</div>
+
+
+                  
 
 
 
-          </div>
-        </div>
- 
+                  ))}
+                </div>
+              ))}
+
+            </Row>
+        
         </div>
    
       </React.Fragment>
@@ -360,10 +293,28 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = (state) => {
    console
    .log("MAin Start == ", state);
-   const {DepartmentPageReducer: {availableCompany=[],users=[], departmentModal={},loading=false,departmentNotification={}}, 
-   Auth:{user={},user:{roles=[]},  applicationDynamicConstants:{roleSource={}}} }= state;
+   const {
+     DepartmentPageReducer: {departments=[], availableCompany=[],users=[], departmentModal={},
+     loading=false,departmentNotification={}}, 
+   Auth:{user={},user:{roles=[]}, 
+    applicationDynamicConstants:{roleSource={}}} }= state;
    const currentUsrAccess =findTheAccess(roles);
-  return { users ,departmentModal,departmentNotification, loading,  user,currentUsrAccess,  pageDropDown:{availableCompany, roleSource}};
+
+    console.log("departments---", departments);
+
+   var departmentDemo = [], size = 4;
+   let groupDepartment = [];
+   departments.map((epi, index) => {
+    groupDepartment.push(epi);
+    if ((index + 1) % 3 === 0 || departments.length === index + 1) {
+      departmentDemo.push(groupDepartment);
+      groupDepartment = [];
+    }
+
+  });
+
+
+  return {allProcessedDepartment: departmentDemo, departments, users ,departmentModal,departmentNotification, loading,  user,currentUsrAccess,  pageDropDown:{availableCompany, roleSource}};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DepartmentPage);
