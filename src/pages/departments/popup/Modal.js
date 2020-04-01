@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 function DepartmentFormModal(props) {
-  console
-    .log("props--", props);
-
   const [validated, setValidated] = useState(false);
   let { currentUsrAccess = 1, mode = 'edit',
   pageDropDown: { availableCompany = [] },
@@ -17,21 +13,15 @@ function DepartmentFormModal(props) {
 
   const handleFormSubmit = (event) => {
     const form = event.currentTarget;
-
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }else{
-     
-
+    }else{   
       event.preventDefault();
-      event.stopPropagation();
-    
-        handleSubmit();
-    }
-    
-    setValidated(true);
-  
+      event.stopPropagation();    
+      handleSubmit();
+    }    
+    setValidated(true); 
   
   };
 

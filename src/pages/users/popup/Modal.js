@@ -3,24 +3,13 @@ import { Modal, Form } from 'react-bootstrap';
 
 import { Row, Col } from 'reactstrap';
 
-import Button from '@material-ui/core/Button';
 
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 364,
-    },
-  },
-}));
 
 
 
 function UserFormModal(props) {
-  console
-    .log("props--", props);
+
 
   const [validated, setValidated] = useState(false);
   let { currentUsrAccess = 1, mode = 'edit',

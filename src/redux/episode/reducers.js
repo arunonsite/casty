@@ -19,6 +19,15 @@ const INIT_STATE = {
     newEpisode : {   name: '',    description : '',    cphoto : ''},
     episodes :[],
     episodeModal :{show: false,title: 'New Episode',mode : 'Add',data:   {name: '',description: '',cphoto : ''}},
+
+    playerModal: {
+        show: false,
+        title: 'New Episode',
+        mode: 'add',
+        buttonText: 'Add Episode',
+        
+      },
+
     episodeNotification : {notify:false, message:''}
 };
 

@@ -12,6 +12,7 @@ import { formatDate } from '../../helpers/applicationUtils';
 import Loader from '../../components/Loader';
 import BreadCrumb from '../../components/BreadCrumb';
 import Modal from './popup/Modal';
+import Player from './popup/Player';
 import { Redirect, Link } from 'react-router-dom'
 
 import { v4 as uuidv4 } from 'uuid';
@@ -29,6 +30,13 @@ class EpisodePage extends Component {
 
         }
       },
+      playerModal: {
+        show: false,
+        title: 'New Episode',
+        mode: 'add',
+        buttonText: 'Add Episode',
+        
+      }
 
     };
 
@@ -218,11 +226,25 @@ class EpisodePage extends Component {
 
   }
 
+  togglePlayerModal = () => {
+    const { playerModal: { show = false } } = this.state;
+    this.setState({
+      playerModal: {
+        show: !show,
+        title: 'New Episode',
+        mode: 'add',
+        buttonText: 'Add Episode',
+        
+      }
+    });
+    //this.props.actions.onclickModal(togg);
+  }
+
   render() {
 
     //match.params.id
     //const {newEpisode:{name='', description='', cphoto=''}} = this.state;
-    const { addNewUser = false, modalTitle, newEpisodeModalData = {} } = this.state;
+    const { addNewUser = false, modalTitle, newEpisodeModalData = {}, playerModal ={} } = this.state;
     const { episodes = [], episodeModal = {}, allProcessedEpisods = [] } = this.props;
 
 
@@ -242,13 +264,18 @@ class EpisodePage extends Component {
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
           handlehide={this.toggleEpisodeModal}
-          handleFileChange={this.handleFileChange}
-          size="l"
+          handleFileChange={this.handleFileChange}          
           aria-labelledby="contained-modal-title-vcenter"
           centered
-
           {...episodeModal}
           {...newEpisodeModalData}
+        />
+    <Player
+          handlehide={this.togglePlayerModal}
+          dialogClassName="modal-90w"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          {...playerModal}
         />
         {this.props.loading && <Loader />}
         <div class="row">
@@ -317,8 +344,8 @@ class EpisodePage extends Component {
               <div class="row align-items-center">
                 <div class="col-sm-6">
                   <div class="media">
-                    <img class="d-flex align-self-center mr-3" src="https://www.upsidelearning.com/blog/wp-content/uploads/2012/10/return-of-video-to-elearning.jpg" alt="Generic placeholder image" height="94" />
                     <div class="media-body">
+                      <span onClick={this.togglePlayerModal}> vov </span>
                       <p class="mb-1">Episodes #34</p>
             <h4 class="mt-0 mb-2 font-16">{cols.name}</h4>
             <p class="mb-0">{cols.description}</p>
@@ -394,7 +421,9 @@ class EpisodePage extends Component {
 
                       <div class="ribbon  ribbon-secondary  float-right" /* style={{ "background": '#DBDBDB'}} */>
                         <span onClick={() => this.toggleEditEpisodeModal(col.id)} class="ribbon-warning"
-                          style={{ "padding": '4px 3px 3px 10px', "margin": "0px 7px 0px 0px" }}> <i class="mdi   mdi-pencil mr-1"></i>  </span>
+                          style={{ "padding": '4px 3px 3px 10px', "margin": "0px 7px 0px 0px" }}> 
+                          <i class="mdi   mdi-pencil mr-1"></i> 
+                        </span>
                         <span onClick={() => this.deleteEpisode(col.id)} class="ribbon-danger" style={{ "padding": '4px 3px 3px 10px' }}><i class="mdi mdi-close mr-1"></i> </span>
                       </div>
                       <div class="card2">
@@ -414,15 +443,12 @@ class EpisodePage extends Component {
                           <div class="text-center">
                             {/*  <img src="assets/images/companies/amazon.png" 
                                 alt="logo" class="avatar-xl rounded-circle mb-3" /> */}
-
                             <h4 class="mb-1 font-20">Amazon Inc.</h4>
                             <p class="text-muted  font-14">Seattle, Washington</p>
                           </div>
-
                           <p class="font-14 text-center text-muted">
                             {col.description}
                           </p>
-
                           <div class="row mt-4 text-center">
                             <div class="col-6">
                               <a href="javascript:void(0);" class="btn btn-sm btn-light">Rating</a>
@@ -433,41 +459,9 @@ class EpisodePage extends Component {
                               <h4>{col.number}</h4>
                             </div>
                           </div>
-
-
-
-                          {/*  <div class="row mt-4 text-center">
-                                <div class="col-6">
-                                <button type="button"   class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-close"></i>Delete</button>
-                                </div>
-                                <div class="col-6">
-                                <button type="button" class="btn btn-blue waves-effect waves-light"><i class="mdi mdi-pencil"></i>Edit</button>
-                                </div>
-                            </div> */}
-
-
                         </div>
-
-
                       </div>
                     </div>
-
-                    {/*  <div class="card">
-                      <div class="card-box">
-                <h4 class="header-title">{col.name}</h4>
-                <p class="sub-header">Episode Number <code>{col.number}</code></p>
-                          <div class=" card-img-top img-fluid embed-responsive embed-responsive-21by9">
-                         
-                               <img class="embed-responsive-item" src='https://www.upsidelearning.com/blog/wp-content/uploads/2012/10/return-of-video-to-elearning.jpg' />
-                          </div>
-                          <div class="card-body">
-                              <h5 class="card-title">Details</h5>
-                <p class="card-text">{col.description}</p>
-                              <a href="javascript:void(0);" class="btn btn-primary waves-effect waves-light">Button</a>
-                          </div>
-                          </div>
-                      </div>  */}
-
                   </Col>
                 ))}
               </Row>

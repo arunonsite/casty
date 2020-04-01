@@ -57,20 +57,20 @@ class ChannelPage extends Component {
 
   loadPageData = () => {  //this.state.departments.push()
     const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
-  
+
     this.props.actions.loadChannel({ id, currentUsrAccess, companyID });
   }
   handleChange = (event, field) => {
 
     const { newChannelModalData: { formData = {} } } = this.state;
     let proceddesData = {};
-   
-     if(event.target.name === 'companyId'){
-      this.props.actions.loadDepartmentListForChannal({ companyID : event.target.value, currentUsrAccess:false});
+
+    if (event.target.name === 'companyId') {
+      this.props.actions.loadDepartmentListForChannal({ companyID: event.target.value, currentUsrAccess: false });
       proceddesData[event.target.name] = event.target.value;
-     }else{
-        proceddesData[event.target.name] = event.target.value;
-     }
+    } else {
+      proceddesData[event.target.name] = event.target.value;
+    }
     this.setState({ newChannelModalData: { formData: { ...formData, ...proceddesData } } });
   }
   handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
@@ -83,6 +83,8 @@ class ChannelPage extends Component {
       previewFile: undefined, "ImageBase64": data,
       "ImageFileExtensionIncludingDot": '.' + ext
     };
+     console
+     .log("imageStruc---", imageStruc);
     this.setState({ newChannelModalData: { formData: { ...formData, ...imageStruc } } });
   }
   handleSubmit = () => {
@@ -100,7 +102,7 @@ class ChannelPage extends Component {
     // this.props.actions.newChannel(newCHannelData);
   }
   toggleChannelModal = () => {
-    const { channelModal: { show = false },  pageDropDown: { availableCompany=[] } } = this.props;
+    const { channelModal: { show = false }, pageDropDown: { availableCompany = [] } } = this.props;
     const { newChannelModalData: { formData = {} } } = this.state;
 
     const togg = {
@@ -129,12 +131,15 @@ class ChannelPage extends Component {
   }
   toggleEditChannelModal = (channel1, channel) => {
 
-    console.log("channel--",channel);
+    console.log("channel--", channel);
     const { channelModal: { show = false } } = this.props;
     console
       .log("channel--", channel);
     const { companyId = '', name = "Demo1", description = "Demo 2", id = '',
-      imageFullURL = '', imageURL = '' } = channel;
+      imageFullURL = '', imageURL = '', departmentId = '' } = channel;
+
+    this.props.actions.loadDepartmentListForChannal({ companyID: companyId, currentUsrAccess: false });
+
 
     let previewFile = [];
     previewFile.push({
@@ -172,7 +177,8 @@ class ChannelPage extends Component {
           imageFullURL,
           imageURL,
           previewFile,
-          companyId
+          companyId,
+          departmentId
         },
       }
     };
@@ -186,7 +192,8 @@ class ChannelPage extends Component {
           imageFullURL,
           imageURL,
           previewFile,
-          companyId
+          companyId,
+          departmentId
         },
       }
     });
@@ -212,10 +219,10 @@ class ChannelPage extends Component {
 
 
   }
-  showChannelDetails = (eve, sjow)=>{
-    const {id=''} = sjow;
-   this.props.history.push('/shows/'+id)
- }
+  showChannelDetails = (eve, sjow) => {
+    const { id = '' } = sjow;
+    this.props.history.push('/shows/' + id)
+  }
   render() {
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
@@ -237,8 +244,9 @@ class ChannelPage extends Component {
 
         />
         <div className="">
-      
-         { /* preloader */}
+
+          { /* preloader */}
+          {this.state.isLoading && <Loader />}
           <div class="row">
             <div class="col-12">
               <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
@@ -248,15 +256,15 @@ class ChannelPage extends Component {
 
                 <div class="col-sm-6">
                   <div class="text-sm-right custom-top" >
-                  <span href="#custom-modal" onClick={this.toggleChannelModal} class="btn btn-primary waves-effect waves-light"
-                                             data-animation="fadein" data-plugin="custommodal"
-                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
-                                                </i> Add New</span>
+                    <span href="#custom-modal" onClick={this.toggleChannelModal} class="btn btn-primary waves-effect waves-light"
+                      data-animation="fadein" data-plugin="custommodal"
+                      data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                      </i> Add New</span>
                   </div>
 
                 </div>
               </div>
-              
+
               {allProcessedChannels.map((cols) => (
                 <Row className="row filterable-content">
                   {cols.map((col, indepos) => (
@@ -270,25 +278,25 @@ class ChannelPage extends Component {
                               <a href="#" style={{ color: "#000" }}>
                                 <i class="mdi mdi-transit-connection"></i></a>
                               <ul class="submenu submenu-channel">
-                                <li onClick={(colo) => this.toggleEditChannelModal(colo, col)}>
-                                <a href="#" style={{padding:"0px !important"}}><i class="mdi mdi-square-edit-outline"></i> Edit</a> 
-                                </li>
+                                <span onClick={(colo) => this.toggleEditChannelModal(colo, col)} style={{ cursor: "pointer", padding: "0px !important" }}  >
+                                  <i class="mdi mdi-square-edit-outline"></i> Edit
+                                </span>
+                                <br />
+                                <span style={{ cursor: "pointer" }}
+                                  onClick={(colo) => this.deleteChannel(colo, col)}>
+                                  <i class="mdi mdi-delete"></i> Delete
 
-
-                                <li onClick={(colo) => this.this.deleteChannel(colo)}>
-                               <i class="mdi mdi-delete"></i> Delete
-
-                                </li>
+                                </span>
 
                               </ul>
                             </li></ul></div>
-                        <p style={{ paddingLeft: "15px" }}>{col.description.substring(0,30)}</p>
+                        <p style={{ paddingLeft: "15px" }}>{col.description.substring(0, 30)}</p>
                         <img src={col.imageFullURL} class="img-fluid" alt="work-thumbnail" />
 
                         <div class="gall-info">
 
-                          <p>{col.description.substring(0,100)}</p>
-                                                    <p onClick={(colo) => this.showChannelDetails(colo, col)}   style={{ cursor:"pointer",  color: "#ff7a4c", fontSize: "12px", fontWeight: "bold" }}>See Shows</p>
+                          <p>{col.description.substring(0, 100)}</p>
+                          <p onClick={(colo) => this.showChannelDetails(colo, col)} style={{ cursor: "pointer", color: "#ff7a4c", fontSize: "12px", fontWeight: "bold" }}>See Shows</p>
 
 
                         </div>
@@ -416,9 +424,9 @@ class ChannelPage extends Component {
               </Card>
             </Col> */}
           </Row>
-</div>
+        </div>
 
-       
+
       </React.Fragment>
     )
   }
@@ -434,7 +442,7 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = (state) => {
   var channelDemo = [], size = 4;
 
-  const { ChannelPageReducer: { availableCompany = [], availableDepartment=[], loading = false, channels = [], channelModal = {},
+  const { ChannelPageReducer: { availableCompany = [], availableDepartment = [], loading = false, channels = [], channelModal = {},
     channelNotification = {} },
     Auth: { user = {}, user: { roles = [] } } } = state;
   const currentUsrAccess = findTheAccess(roles);
@@ -449,9 +457,11 @@ const mapStateToProps = (state) => {
 
   });
 
-  return { channels, allProcessedChannels: channelDemo, user,
-     channelModal, channelNotification, loading, currentUsrAccess,
-      pageDropDown: { availableCompany , availableDepartment} };
+  return {
+    channels, allProcessedChannels: channelDemo, user,
+    channelModal, channelNotification, loading, currentUsrAccess,
+    pageDropDown: { availableCompany, availableDepartment }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage);

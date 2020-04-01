@@ -2,7 +2,6 @@ import React, {  useRef , useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import {  Row, Col } from 'reactstrap';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 
 // Import React FilePond
@@ -25,14 +24,6 @@ registerPlugin(FilePondPluginFilePoster,
   FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 364,
-    },
-  },
-}));
 
 
 
@@ -62,7 +53,7 @@ function UserFormModal(props) {
 
   const { currentUsrAccess,
     pageDropDown: { availableCompany = [], availableDepartment=[] },
-    formData: { name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined, companyId = '' },
+    formData: {departmentId,  name = '', description = '', imageFullURL = '', imageURL = '', previewFile = undefined, companyId = '' },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 
 
@@ -87,10 +78,8 @@ function UserFormModal(props) {
 
 
   }
-  const inputRef = useRef(null);
 
 
-  const classes = useStyles();
   return (
     <Modal
       {...others}
@@ -226,24 +215,40 @@ function UserFormModal(props) {
                   }
                 </select>
               </Col>
+              <Col className="form-group">
+                <label for="name">Department</label>
+                <select id="inputState" class="form-control"
+                  label="Company"
+                  required
+                  onChange={handleChange}
+                  name='departmentId'
+                  value={departmentId}
+                  validators={['required']}
+                  errorMessages={['this field is required']}>
+                  <option>Select Department</option>
+                  {availableDepartment.map((item) =>
+                    <option value={item.id}>{item.name}</option>)
+                  }
+                </select>
+              </Col>
               <Col  >
                 <label for="name">Channel Photo</label>
                 <FilePond
-                  allowFileEncode={true}
-                  ref={fileRef}
-                  onupdatefiles={(rowData) => changeChannelImage(rowData[0])}
-                  allowMultiple={false}
-                  maxFiles={1}
-                  name="channelImage"
-                  id="channelImage"
-                  allowFilePoster={true}
-                  allowImagePreview={true}
-                  {...(previewFile ? { files: previewFile } : {})}
-                  allowFileTypeValidation={true}
-                  acceptedFileTypes={['image/png', 'image/jpeg']}
-                  accept="image/*"
-                  labelIdle='Drag & Drop your Channel or <span class="filepond--label-action">Browse</span>'
-                  oninit={(rowData) => initialChannelImage(rowData)} />
+                allowFileEncode={true}
+                ref={fileRef}
+                onupdatefiles={(rowData) => changeChannelImage(rowData[0])}
+                allowMultiple={false}
+                maxFiles={1}
+                name="channelImage"
+                id="channelImage"
+                allowFilePoster={true}
+                allowImagePreview={true}
+                {...(previewFile ? { files: previewFile } : {})}
+                allowFileTypeValidation={true}
+                acceptedFileTypes={['image/png', 'image/jpeg']}
+                accept="image/*"
+                labelIdle='Drag & Drop your Channel or <span class="filepond--label-action">Browse</span>'
+                oninit={(rowData) => initialChannelImage(rowData)}              />
               </Col>
               <Col xl={12}>
               <button type="submit" class="btn btn-primary waves-effect waves-light">{buttonText}</button>

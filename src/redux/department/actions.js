@@ -1,15 +1,25 @@
 // @flow
 import {
+    LOAD_DEPARTMENT, LOAD_DEPARTMENT_SUCCESS, 
     TOGGLE_DEPARTMENT_MODAL , ONCLICK_DEPARTMENT_MODAL,
     SAVE_DEPARTMENT_SUCCESS,SAVE_DEPARTMENT  ,SAVE_DEPARTMENT_FAILED,
     LOAD_COMPANY_BY_DEPARTMENT_FOR_DEPARTMENT,LOAD_COMPANY_BY_DEPARTMENT_SUCCESS_FOR_DEPARTMENT,
-    UPDATE_DEPARTMENT,UPDATE_DEPARTMENT_SUCCESS,
-    RESET_DEPARTMENT_NOTIFICATION
+    UPDATE_DEPARTMENT,UPDATE_DEPARTMENT_SUCCESS,LOAD_DEPARTMENT_FAILED,
+    RESET_DEPARTMENT_NOTIFICATION,
+    DELETE_DEPARTMENT, DELETE_DEPARTMENT_SUCCESS
 } from '../../constants/actionTypes';
 
 
 
-;
+
+export const loadDepartemnt = (companies: {}) => ({
+    type: LOAD_DEPARTMENT,
+    payload: companies
+});
+export const loadDepartemntSuccess = (companies: {}) => ({
+    type: LOAD_DEPARTMENT_SUCCESS,
+    payload: companies
+});
 
 export const loadCompanyListForDepartmentSuccess = (companies: {}) => ({
     type: LOAD_COMPANY_BY_DEPARTMENT_SUCCESS_FOR_DEPARTMENT,
@@ -64,5 +74,15 @@ export const updateChannelSuccess  = (updatDepartment) => ({
 export const resetDepartmentNotification  = (resetNotification) => ({
     type: RESET_DEPARTMENT_NOTIFICATION,
     payload: resetNotification
+});
+
+
+export const deleteDepartment  = (deleteChananl) => ({
+    type: DELETE_DEPARTMENT,
+    payload: deleteChananl
+});
+export const deleteDepartmentSuccess  = (deleteChananl) => ({
+    type: DELETE_DEPARTMENT_SUCCESS,
+    payload: deleteChananl
 });
 

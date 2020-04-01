@@ -1,9 +1,6 @@
 import React, { useRef , useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import {   Row, Col } from 'reactstrap';
-import MenuItem from '@material-ui/core/MenuItem';
-
-import { makeStyles } from '@material-ui/core/styles';
 
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
@@ -25,21 +22,14 @@ registerPlugin(FilePondPluginFilePoster,
   FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 364,
-    },
-  },
-}));
+
 
 function UserFormModal(props) {
   const [validated, setValidated] = useState(false);
 
   const inputRef = useRef(null);
   const fileRef = useRef(null);
-  const classes = useStyles();
+ 
   const {
     formData: {companyID    ='', name = '', description = '', channelId = '', id = '',
      imageFullURL = '', imageURL = '', previewFile = undefined },

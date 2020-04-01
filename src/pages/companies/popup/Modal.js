@@ -4,7 +4,6 @@ import { Row, Col } from 'reactstrap';
 
 import { TextValidator } from 'react-material-ui-form-validator';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 
 // Import React FilePond
@@ -27,14 +26,6 @@ registerPlugin(FilePondPluginFilePoster,
   FilePondPluginImagePreview, FilePondPluginFileValidateType);
 
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 364,
-    },
-  },
-}));
 
 
 
@@ -91,10 +82,7 @@ function UserFormModal(props) {
 
 
   }
-  const inputRef = useRef(null);
 
-
-  const classes = useStyles();
   return (
     <Modal
       {...others}
