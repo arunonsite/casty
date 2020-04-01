@@ -173,7 +173,7 @@ class DepartmentPage extends Component {
           this.props.actions.deleteDepartment({ UserID: id, DepartmentId: dept.id });
           this.loadPageData();
         } else {
-          swal("Your Channel is safe!");
+          swal("Your Department is safe!");
         }
       });
 
@@ -208,16 +208,8 @@ class DepartmentPage extends Component {
                   <h4 class="page-title">Departments</h4>
                 </div>
               </div>
-              <div class="col-sm-2">
-                <div class="text-sm-right custom-top">
-                  <form>
-                    <div class="form-group">
-                      <input type="search" class="form-control" id="inputPassword2" placeholder="Search User" />
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div class="col-sm-2">
+        
+              <div class="col-sm-4">
                 <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleNewDepartmentModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
@@ -236,11 +228,8 @@ class DepartmentPage extends Component {
                   {cols.map((col, indepos) => (
 
 <div class="card">
-<img class="card-img-top img-fluid" src="http://localhost:3001/assets/images/small/img-4.jpg" alt="Card image cap" />
-<div class="card-body">
-    <h5 class="card-title">{col.name}</h5>
-
-    <div>
+<div class="gall-info" style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
+<div>
       <ul class="navigation-menu">
 
                             <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
@@ -258,10 +247,14 @@ class DepartmentPage extends Component {
                                 </span>
 
                               </ul>
-                            </li></ul></div>
-                       
+                            </li></ul>
+                            
+      </div>
+<img class="card-img-top img-fluid" src="https://casty.azurewebsites.net/images/Channels/383fdfa7-a91e-4ce9-888d-962446738786.jpg" alt="Card image cap" />
+<div class="card-body">
+               
     <p class="card-text">{col.description}</p>
-     <a href="javascript:void(0);" class="btn btn-primary">GO TO CHANNELS</a>
+   
 </div>
 </div>
 

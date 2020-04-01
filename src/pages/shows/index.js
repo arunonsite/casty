@@ -291,20 +291,24 @@ class ShowPage extends Component {
                         <div class="gall-info"
                          style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
                         <div id="navigation">
-                          <ul class="navigation-menu">
+                        <ul class="navigation-menu">
 
-                            <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
-                              <a href="#" style={{ color: "#000" }}>
-                                <i class="mdi mdi-transit-connection"></i></a>
-                              <ul class="submenu submenu-channel">
-                                <li onClick={(colo) => this.toggleEditShowModal(colo, col)}>
-                                  <i class="mdi mdi-square-edit-outline"></i> Edit 
-                                </li>
-                                <li onClick={(colo) => this.deleteShow(colo, col)}>
-                                   <i class="mdi mdi-delete"></i> Delete 
-                                </li>
+<li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
+  <a href="#" style={{ color: "#000" }}>
+    <i class="mdi mdi-transit-connection"></i></a>
+  <ul class="submenu submenu-channel">
+    <span onClick={(colo) => this.toggleEditShowModal(colo, col)} style={{ cursor: "pointer", padding: "0px !important" }}  >
+      <i class="mdi mdi-square-edit-outline"></i> Edit
+    </span>
+    <br />
+    <span style={{ cursor: "pointer" }}
+      onClick={(colo) => this.deleteShow(colo, col)}>
+      <i class="mdi mdi-delete"></i> Delete
 
-                              </ul>
+    </span>
+
+  </ul>
+
                             </li></ul></div>
                             <div>
                         <img src={col.imageFullURL} class="img-fluid" alt="work-thumbnail" />

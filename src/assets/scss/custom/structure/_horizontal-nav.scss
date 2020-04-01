@@ -101,8 +101,7 @@
             }
             .submenu {
                 li.active>a {
-                    //color: $primary;
-                    color: #ff7a4c;
+                    color: $primary;
                 }
             }
         }
@@ -200,7 +199,7 @@ Responsive Menu
             .submenu {
                 position: absolute;
                 top: 100%;
-                left: 0;
+                right: 0;
                 z-index: 1000;
                 padding: 10px;
                 list-style: none;
@@ -215,7 +214,7 @@ Responsive Menu
                 box-shadow: rgba($dark, 0.15) 0px 0px 40px 0px;
 
                 &:before {
-                    left: 0px;
+                    left: 35px;
                     top: -10px;
                     content: "";
                     display: block;
@@ -251,6 +250,7 @@ Responsive Menu
                             color: #FF7C4C;
                         }
                     }
+                   
 
                     &.has-submenu {
                         >a {
@@ -295,6 +295,7 @@ Responsive Menu
         .submenu-channel {
             min-width: 85px;
         }
+        span:hover{color:#FF7C4C;}
         }
 
         
