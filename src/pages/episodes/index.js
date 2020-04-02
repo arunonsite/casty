@@ -344,8 +344,8 @@ class EpisodePage extends Component {
               <div class="row align-items-center">
                 <div class="col-sm-6">
                   <div class="media">
-                    <div class="media-body">
-                      <span onClick={this.togglePlayerModal}> vov </span>
+                      <span onClick={this.togglePlayerModal}> <img class="d-flex align-self-center mr-3" src="https://casty.azurewebsites.net/images/Channels/383fdfa7-a91e-4ce9-888d-962446738786.jpg" alt="Generic placeholder image" height="94"></img> </span>
+                      <div class="media-body">
                       <p class="mb-1">Episodes #34</p>
             <h4 class="mt-0 mb-2 font-16">{cols.name}</h4>
             <p class="mb-0">{cols.description}</p>

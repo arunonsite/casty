@@ -264,7 +264,7 @@ class ShowPage extends Component {
 
 
 
-          <Row>
+        
 
           <div class="row">
             <div class="col-12">
@@ -311,7 +311,7 @@ class ShowPage extends Component {
 
                             </li></ul></div>
                             <div>
-                        <img src={col.imageFullURL} class="img-fluid" alt="work-thumbnail" />
+                        <img src={col.imageFullURL} class="img-fluid img-w" alt="work-thumbnail" />
                         </div>
                         <div class="gall-info">
                           <p>{col.description}</p>
@@ -329,7 +329,7 @@ class ShowPage extends Component {
 
             </div>
           </div>
-          </Row>
+          
          {/*  <Row class='hidden'>
             <Col lg={12}>
               <Row>

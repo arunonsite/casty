@@ -51,7 +51,7 @@ function UserFormModal(props) {
           <Row>
             <Col xl={12}>
             <label for="name">Episode Name</label>
-                  <input type="text" class="form-control"
+                  <input type="text" required class="form-control"
                 label="Name"
                 label="Episode Name"
                 variant="outlined"
@@ -63,7 +63,7 @@ function UserFormModal(props) {
               /></Col>
             <Col xl={12}>
             <label for="name">Episode Description</label>
-                  <input type="text" class="form-control"
+                  <input type="text" required class="form-control"
                 id="outlined-multiline-static"
                 label="Description"
                 placeholder="Episode Description"
@@ -81,7 +81,8 @@ function UserFormModal(props) {
 
             </Col>
           </Row>
-          <input type="submit" value={buttonText} class="btn btn-secondary button-next float-right" />
+          <br></br>
+          <input type="submit" value={buttonText} class="btn btn-primary waves-effect waves-light" />
 
         </Form>
 

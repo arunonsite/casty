@@ -291,7 +291,7 @@ class ChannelPage extends Component {
                               </ul>
                             </li></ul></div>
                         <p style={{ paddingLeft: "15px" }}>{col.description.substring(0, 30)}</p>
-                        <img src={col.imageFullURL} class="img-fluid" alt="work-thumbnail" />
+                        <img src={col.imageFullURL} class="img-fluid img-w"  alt="work-thumbnail" />
 
                         <div class="gall-info">
 

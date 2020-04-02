@@ -91,7 +91,19 @@
     font-size: 1rem;
     margin: 0 0 7px 0;
 }
-
+.custon-btn{
+    color:#4a39d6;
+    font-weight: bold;
+    }
+    .button-list span:hover{
+        color:#FFF;
+        font-weight: bold;
+        background-color:#4a39d6 !important;
+        }
+        .btn-light span:hover{
+        background-color:#4a39d6 !important;
+        
+        }
 .sub-header {
     font-size: 0.875rem;
     margin-bottom: $grid-gutter-width;
