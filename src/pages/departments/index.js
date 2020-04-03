@@ -342,8 +342,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-  console
-    .log("MAin Start == ", state);
+
   const {
     DepartmentPageReducer: { departments = [], availableCompany = [], users = [], departmentModal = {},
       loading = false, departmentNotification = {} },
@@ -351,7 +350,6 @@ const mapStateToProps = (state) => {
       applicationDynamicConstants: { roleSource = {} } } } = state;
   const currentUsrAccess = findTheAccess(roles);
 
-  console.log("departments---", departments);
 
   var departmentDemo = [], size = 4;
   let groupDepartment = [];
