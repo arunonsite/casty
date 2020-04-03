@@ -252,7 +252,7 @@ function* loadDepartmentList({payload={}}) {
         yield put(loadDepartemntSuccess(processSuccessResponse(response.data)));
     } else {
         // console.log("---response----", processSuccessResponse(response));
-        yield put(loadDepartemntSuccess( {response : {data : response }}));
+        yield put(loadDepartemntSuccess( {response  }));
 
     }
    } catch (error) {
