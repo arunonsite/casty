@@ -41,9 +41,8 @@ const Department = (state:State = INIT_STATE, action: UserAction) => {
         case LOAD_DEPARTMENT_FAILED:
             return { ...state, error: action.payload, loading: false };
         case LOAD_DEPARTMENT_SUCCESS:
-             const {response={}}  =action.payload;
-              console.log("response-action----->>>", action.payload);
-            return { ...state, departments: response.data,departmentNotification :INIT_STATE.departmentNotification, loading: false, error: null };
+             const {response=[]}  =action.payload; 
+            return { ...state, departments: response,departmentNotification :INIT_STATE.departmentNotification, loading: false, error: null };
         
 
         
