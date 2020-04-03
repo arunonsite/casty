@@ -65,7 +65,14 @@ const routes = [
   
   { path: '/shows/:id',icon:'mdi mdi-play-box-outline',  name: 'Shows', component: Shows, route: PrivateRoute, roles: ['Admin', "SuperAdmin"] },
 
-
+{
+    path: "/",
+    exact: true,
+    component: () => <Redirect to="/dashboard" />,
+    route: PrivateRoute,
+    roles: ['Admin', "SuperAdmin"]
+  },
+  
 ]
 
  
