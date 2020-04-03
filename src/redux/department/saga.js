@@ -21,7 +21,8 @@ import {
     saveDepartmentSuccess,
     saveDepartmentFailed ,
     loadCompanyListSuccessForDepartment,
-    resetDepartmentNotification
+    resetDepartmentNotification,
+    searchDepartmentSuccess
 } from './actions';
 
 
@@ -325,7 +326,7 @@ function* deleteDepartment({payload={}}) {
  */
 function* searchDepartment({ payload = {} }) {
 
-    console.log("searchChannel -- payload---", payload);
+
 
 
 
@@ -367,12 +368,12 @@ function* searchDepartment({ payload = {} }) {
                    return poetName.indexOf(
                      poetFilter.toLowerCase()) !== -1 && show.channelId === channelId
                  });
-                 yield put(loadDepartemntSuccess({response : {data : episodefilterd,  ...others}}));
+                 yield put(searchDepartmentSuccess({response : {data : episodefilterd,  ...others}}));
             }else{
-                yield put(loadDepartemntSuccess(processSuccessResponse(response)));
+                yield put(searchDepartmentSuccess(processSuccessResponse(response)));
             }
         } else {
-            yield put(loadDepartemntSuccess(processSuccessResponse({ data: response })));
+            yield put(searchDepartmentSuccess(processSuccessResponse({ data: response })));
         }
     } catch (error) {
         let message;

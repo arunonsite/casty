@@ -7,7 +7,7 @@ import {
     UPDATE_DEPARTMENT,UPDATE_DEPARTMENT_SUCCESS,
     RESET_DEPARTMENT_NOTIFICATION,
     DELETE_DEPARTMENT, DELETE_DEPARTMENT_SUCCESS,
-    SEARCH_DEPARTMENT
+    SEARCH_DEPARTMENT, SEARCH_DEPARTMENT_SUCCESS
 } from '../../constants/actionTypes';
 
 
@@ -80,6 +80,14 @@ const Department = (state:State = INIT_STATE, action: UserAction) => {
             return { ...state, ...action.payload, loading: false, error: null };
             case SEARCH_DEPARTMENT:
                 return { ...state, loading: true };
+
+                case SEARCH_DEPARTMENT_SUCCESS:
+                     console.log("---", action.payload);
+                    const {response:{data = []}}  =action.payload; 
+                   return { ...state, departments: data,departmentNotification :INIT_STATE.departmentNotification, loading: false, error: null };
+               
+       
+               
         default: return { ...state };
     }
 }
