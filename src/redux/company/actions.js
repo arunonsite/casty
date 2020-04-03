@@ -8,7 +8,10 @@ TOGGLE_COMPANY_MODAL,
 SAVE_COMPANY_SUCCESS, SAVE_COMPANY_FAILED,SAVE_COMPANY,
 UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
 DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY,
-RESET_COMPANY_NOTIFICATION
+RESET_COMPANY_NOTIFICATION,
+SEARCH_COMPANY,
+HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT
+
 
 
 
@@ -70,4 +73,19 @@ export const deleteCompany  = (deleteChananl) => ({
 export const deleteCompanySuccess  = (deleteChananl) => ({
     type: DELETE_COMPANY_SUCCESS,
     payload: deleteChananl
+});
+export const searchCompany  = (searchEpisode) => ({
+    type: SEARCH_COMPANY,
+    payload: searchEpisode
+});
+
+
+export const handleSearchText = (search) => ({
+    type: HANDLE_COMPANY_SEARCH_TEXT,
+    payload: search
+});
+
+export const updateSearchText  = (searchEpisode) => ({
+    type: UPDATE_COMPANY_SEARCH_TEXT,
+    payload: searchEpisode
 });

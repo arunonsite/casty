@@ -5,16 +5,14 @@ import {
     LOAD_CHANNEL_SUCCESS,
     ONCLICK_MODAL,
     TOGGLE_CHANNEL_MODAL,
-    SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL_FAILED, SAVE_CHANNEL,
-    UPDATE_CHANNEL_SUCCESS, UPDATE_CHANNEL_FAILED, UPDATE_CHANNEL,
+    SAVE_CHANNEL_SUCCESS, SAVE_CHANNEL,
+    UPDATE_CHANNEL_SUCCESS, UPDATE_CHANNEL,
     DELETE_CHANNEL_SUCCESS, DELETE_CHANNEL_FAILED, DELETE_CHANNEL,
     LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_CHANNEL,
-  
-    
+    SEARCH_CHANNEL, SEARCH_CHANNEL_SUCCESS,
     LOAD_COMPANY_BY_USER_SUCCESS_FOR_CHANNEL, LOAD_COMPANY_BY_USER_FOR_CHANNEL, RESET_CHANNEL_NOTIFICATION
 } from '../../constants/actionTypes';
 
-import { getLoggedInUser } from '../../helpers/authUtils';
 
 const INIT_STATE = {
     channels: [],
@@ -36,8 +34,8 @@ const Channel = (state: State = INIT_STATE, action: AuthAction) => {
         case LOAD_CHANNEL_FAILED:
             return { ...state, error: action.payload, loading: false };
         case LOAD_CHANNEL_SUCCESS:
-            const { response : {data =[]} } = action.payload;
-            return { ...state,  channels: data, channelNotification: INIT_STATE.channelNotification, loading: false, error: null };
+            const { response: { data = [] } } = action.payload;
+            return { ...state, channels: data, channelNotification: INIT_STATE.channelNotification, loading: false, error: null };
 
         case ONCLICK_MODAL:
             return { ...state, loading: true };
@@ -70,15 +68,18 @@ const Channel = (state: State = INIT_STATE, action: AuthAction) => {
         case RESET_CHANNEL_NOTIFICATION:
             return { ...state, ...action.payload, loading: false };
 
-            case LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL:
-                return { ...state, loading: true };
-            case LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_CHANNEL:
-                 console
-                 .log("action--", action);
-                return {
-                    ...state, availableDepartment: action.payload.response !== undefined ? action.payload.response : [],
-                    channelNotification: INIT_STATE.channelNotification, loading: false, error: null
-                }
+        case LOAD_DEPARTMENT_BY_USER_FOR_CHANNEL:
+            return { ...state, loading: true };
+        case LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_CHANNEL:
+            return {
+                ...state, availableDepartment: action.payload.response !== undefined ? action.payload.response : [],
+                channelNotification: INIT_STATE.channelNotification, loading: false, error: null
+            }
+
+        case SEARCH_CHANNEL:
+            return { ...state, loading: true };
+        case SEARCH_CHANNEL_SUCCESS:
+            return { ...state, channels: [...action.payload], loading: false, error: null };
 
 
         default: return { ...state };

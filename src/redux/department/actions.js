@@ -6,7 +6,8 @@ import {
     LOAD_COMPANY_BY_DEPARTMENT_FOR_DEPARTMENT,LOAD_COMPANY_BY_DEPARTMENT_SUCCESS_FOR_DEPARTMENT,
     UPDATE_DEPARTMENT,UPDATE_DEPARTMENT_SUCCESS,LOAD_DEPARTMENT_FAILED,
     RESET_DEPARTMENT_NOTIFICATION,
-    DELETE_DEPARTMENT, DELETE_DEPARTMENT_SUCCESS
+    DELETE_DEPARTMENT, DELETE_DEPARTMENT_SUCCESS,
+    SEARCH_DEPARTMENT
 } from '../../constants/actionTypes';
 
 
@@ -86,3 +87,7 @@ export const deleteDepartmentSuccess  = (deleteChananl) => ({
     payload: deleteChananl
 });
 
+export const searchDepartment  = (searchEpisode) => ({
+    type: SEARCH_DEPARTMENT,
+    payload: searchEpisode
+});

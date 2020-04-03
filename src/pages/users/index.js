@@ -18,6 +18,7 @@ const resetNotification  = {userNotification : {notify:false,mode:0,  message:''
 class UserPage extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       newUserModalData :{
         formData : {
@@ -97,7 +98,6 @@ class UserPage extends Component {
      this.props.actions.updateUser(uptCHannelData);
    } else {
      const newUserData = Object.assign({ ...formData }, {  UserId: id,  Id: uuidv4() });
-      console.log("newUserData-----", newUserData);
     this.props.actions.newUser(newUserData);
    }
   }
@@ -188,11 +188,22 @@ class UserPage extends Component {
    this.props.actions.onclickModal(togg);
   }
   
-
+  handleFilterTextChange = (event, field) => {
+    this.setState({ filterText: event.target.value });
+    if (event.target.value === '') {
+      this.props.actions.handleSearchText({ filterText: " " });
+      this.tableRef.current.onQueryChange();
+    }
+  }
+  handleSearch = (event, field) => {
+    const { filterText } = this.state;
+    this.props.actions.handleSearchText({ filterText });
+    this.tableRef.current.onQueryChange('show');
+  }
   render() {
     const {  newUserModalData } = this.state;
     const{users=[], userModal={},currentUsrAccess, user:{id='', companyID=''} , 
-     pageDropDown ={}} =this.props;
+     pageDropDown ={}, filterText} =this.props;
     
     return (
       <React.Fragment>
@@ -218,8 +229,23 @@ class UserPage extends Component {
                   <h4 class="page-title">User Managements</h4>
                 </div>
               </div>
-
-              <div class="col-sm-4">
+              <div class="col-sm-2 text-sm-right custom-top">
+              <div className="app-search">
+                <div className="app-search-box">
+                  <div className="input-group">
+                    <input type="search" className="form-control"
+                      onChange={(event) => this.handleFilterTextChange(event)}
+                      placeholder="Search..." />
+                    <div className="input-group-append">
+                      <button className="btn" onClick={(event) => this.handleSearch(event)} >
+                        <i className="fe-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="col-sm-2">
                 <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleNewUserModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
@@ -259,14 +285,14 @@ class UserPage extends Component {
               let url = appSettings.API_ROUTE.MAIN_SITE;
                if(currentUsrAccess === 0){
                 url = url+'/api/Users'   
-               let sera = query.search !== '' ? query.search : ' ';
-               let skp =  query.pageSize*query.page;
+                let sera = query.search !== '' ? query.search : filterText !== '' ? filterText : " ";
+                let skp =  query.pageSize*query.page;
                let take =  query.pageSize*query.page + query.pageSize;
                url += '/'+sera+'/SkipTake/' +skp;                        
                url += '/' + query.pageSize   
               }else{
                 url =  url+'/api/Users/ByCompany/'+companyID 
-                let sera = query.search !== '' ? query.search : ' ';
+                let sera = query.search !== '' ? query.search : filterText !== '' ? filterText : " ";
                 let skp =  query.pageSize*query.page;
                 let take =  query.pageSize*query.page + query.pageSize;
                 url += '/'+sera+'/' +skp;                        
@@ -294,28 +320,6 @@ class UserPage extends Component {
                 })
             })
           }
-       
-          // detailPanel={[     
-          //   {
-          //     icon: 'account_circle',
-          //     tooltip: 'Show Surname',
-          //     render: rowData => {
-          //       return (
-          //         <div
-          //           style={{
-          //             fontSize: 50,
-          //             textAlign: 'center',
-          //             color: 'white',
-          //             backgroundColor: '#6c757d',
-          //           }}
-          //         >
-          //          Hello !  {rowData.firstName}
-                   
-          //         </div>
-          //       )
-          //     },
-          //   }
-          // ]}
           actions={[
            
             {
@@ -346,11 +350,11 @@ class UserPage extends Component {
           options={{
             loadingType :'overlay',
             maxBodyHeight : 'auto',
-            search: true,
+            search: false,
             showTitle :false,
             tableLayout :"auto",
-            searchText:'A',
-            pageSize : 20,
+           
+            pageSize : 10,
             actionsColumnIndex: -1,
           /*   rowStyle: {
               backgroundColor: '#f1f5f7',
@@ -392,10 +396,10 @@ function mapDispatchToProps(dispatch) {
 }
 const mapStateToProps = (state) => {
  
-   const {UserPageReducer: {availableDepartment=[], availableCompany=[],users=[], userModal={},loading=false,userNotification={}}, 
+   const {UserPageReducer: {filterText = '',availableDepartment=[], availableCompany=[],users=[], userModal={},loading=false,userNotification={}}, 
    Auth:{user={},user:{roles=[]},  applicationDynamicConstants:{roleSource={}}} }= state;
    const currentUsrAccess =findTheAccess(roles);
-  return { users ,userModal,userNotification, loading,  user,currentUsrAccess, 
+  return { filterText,users ,userModal,userNotification, loading,  user,currentUsrAccess, 
      pageDropDown:{availableCompany, roleSource, availableDepartment}};
 };
 

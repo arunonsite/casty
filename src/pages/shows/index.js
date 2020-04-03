@@ -233,6 +233,28 @@ class ShowPage extends Component {
    
   
    }
+
+   handleFilterTextChange = (event, field) => {
+  
+    console.log("Demo---", event.target.value);
+    this.setState({filterText :event.target.value });
+    if(event.target.value === ''){
+      const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
+      const  filterText  = " "; 
+      this.props.actions.searchShow({ userId : id,currentUsrAccess,  companyID, filterText  })
+    }
+    
+  }
+
+  
+  handleShowSearch = (event, field) => {
+    const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
+    const { filterText } = this.state;
+    const channelId = this.props.match.params.id;
+    this.props.actions.searchShow({ userId : id,currentUsrAccess,  companyID, filterText ,channelId });
+  }
+
+
   render() { 
     //const {newShow:{name='', description='', cphoto=''}} = this.state;
     const {     newShowModalData={} } = this.state;
@@ -264,15 +286,27 @@ class ShowPage extends Component {
 
 
 
-        
-
-          <div class="row">
-            <div class="col-12">
-              <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
-                <div class="col-sm-6">
+          <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
+                <div class="col-sm-8">
                   <h4 >Shows</h4>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-2">
+                <div className="app-search">
+                  <div className="app-search-box">
+                    <div className="input-group">
+                      <input type="search" className="form-control" 
+                        onChange={(event)=> this.handleFilterTextChange(event)} 
+                          placeholder="Search..." />
+                      <div className="input-group-append">
+                        <button className="btn" onClick={(event)=> this.handleShowSearch(event)} >
+                          <i className="fe-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <div class="col-sm-2">
                   <div class="text-sm-right" >
                   <span href="#custom-modal" onClick={this.toggleShowModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
@@ -281,6 +315,10 @@ class ShowPage extends Component {
                   </div>
                 </div>
               </div>
+
+          <div class="row">
+            <div class="col-12">
+              
               {allProcessedShows.map((cols) => (
                 <Row className="row filterable-content">
                   {cols.map((col, indepos) => (
@@ -310,7 +348,7 @@ class ShowPage extends Component {
   </ul>
 
                             </li></ul></div>
-                            <div>
+                            <div style={{"textAlign": "center"}}>
                         <img src={col.imageFullURL} class="img-fluid img-w" alt="work-thumbnail" />
                         </div>
                         <div class="gall-info">

@@ -158,7 +158,6 @@ class Topbar extends Component {
   constructor(props) {
     super(props);
     this.initMenu = this.initMenu.bind(this);
-
     this.state = {};
   }
   componentDidMount = () => {
@@ -222,6 +221,11 @@ class Topbar extends Component {
       } else if (nextEl) { nextEl.classList.remove('open'); }
       return false;
   }
+  getTypeOnSearch=(event)=> {
+
+    this.props.typeOnSearch(event.target.value)
+  }
+
   render() {
 
     const {user:{firstName='', lastName=''}} = this.props;
@@ -241,20 +245,6 @@ class Topbar extends Component {
                 </Link>
             </li>
 
-            {   <li className="d-none d-sm-block">
-                <form className="app-search">
-                  <div className="app-search-box">
-                    <div className="input-group">
-                      <input type="text" className="form-control" placeholder="Search..." />
-                      <div className="input-group-append">
-                        <button className="btn" type="submit">
-                          <i className="fe-search"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </li> }
 
               <li>
                 <NotificationDropdown notifications={Notifications} />
@@ -263,13 +253,6 @@ class Topbar extends Component {
               <li>
                 <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={firstName+', '+lastName} firstName={firstName} />
               </li>
-
-{/* 
-              <li className="dropdown notification-list">
-                <button className="btn btn-link nav-link right-bar-toggle waves-effect waves-light" onClick={this.props.rightSidebarToggle}>
-                  <i className="fe-settings noti-icon"></i>
-                </button>
-              </li> */}
             </ul>
 
             <div className="logo-box">

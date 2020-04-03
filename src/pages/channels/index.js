@@ -6,12 +6,10 @@ import swal from 'sweetalert'
 import * as channelActions from '../../redux/channel/actions';
 import { bindActionCreators } from 'redux';
 import { toast } from 'react-toastify';
-import MaterialTable from "material-table";
 
 import { getLoggedInUser, findTheAccess } from '../../helpers/authUtils';
-import Loader from '../../assets/images/small/img-1.jpg';
+import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
-import appSettings from '../../App.Settings';
 import { v4 as uuidv4 } from 'uuid';
 const resetNotification = { channelNotification: { notify: false, mode: 0, message: '' } };
 
@@ -48,16 +46,14 @@ class ChannelPage extends Component {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true
-      });
+      });   
       this.loadPageData();
       this.props.actions.resetChannelNotification(resetNotification);
     }
-
   }
 
   loadPageData = () => {  //this.state.departments.push()
     const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
-
     this.props.actions.loadChannel({ id, currentUsrAccess, companyID });
   }
   handleChange = (event, field) => {
@@ -83,8 +79,6 @@ class ChannelPage extends Component {
       previewFile: undefined, "ImageBase64": data,
       "ImageFileExtensionIncludingDot": '.' + ext
     };
-     console
-     .log("imageStruc---", imageStruc);
     this.setState({ newChannelModalData: { formData: { ...formData, ...imageStruc } } });
   }
   handleSubmit = () => {
@@ -130,17 +124,10 @@ class ChannelPage extends Component {
     this.props.actions.onclickModal(togg);
   }
   toggleEditChannelModal = (channel1, channel) => {
-
-    console.log("channel--", channel);
     const { channelModal: { show = false } } = this.props;
-    console
-      .log("channel--", channel);
     const { companyId = '', name = "Demo1", description = "Demo 2", id = '',
       imageFullURL = '', imageURL = '', departmentId = '' } = channel;
-
     this.props.actions.loadDepartmentListForChannal({ companyID: companyId, currentUsrAccess: false });
-
-
     let previewFile = [];
     previewFile.push({
       // the server file reference
@@ -160,10 +147,6 @@ class ChannelPage extends Component {
         }
       }
     });
-
-
-
-
     const togg = {
       channelModal: {
         show: !show,
@@ -216,17 +199,32 @@ class ChannelPage extends Component {
           swal("Your Channel is safe!");
         }
       });
-
-
   }
   showChannelDetails = (eve, sjow) => {
     const { id = '' } = sjow;
     this.props.history.push('/shows/' + id)
   }
+  handleFilterTextChange = (event, field) => {
+    this.setState({filterText :event.target.value });
+    if(event.target.value === ''){
+      const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
+      const  filterText  = " "; 
+      this.props.actions.searchChannel({ userId : id,currentUsrAccess,  companyID, filterText  })
+    }
+  }
+
+  
+  handleChannelSearch = (event, field) => {
+    const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
+    const { filterText } = this.state;
+    this.props.actions.searchChannel({ userId : id,currentUsrAccess,  companyID, filterText  });
+  }
   render() {
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
     const { allProcessedChannels, channels = [], channelModal = {}, currentUsrAccess, user: { id = '', companyID = '' }, pageDropDown = {} } = this.props;
+
+     console.log("THIS.props---", this.props);
     return (
       <React.Fragment>
         <Modal
@@ -246,15 +244,30 @@ class ChannelPage extends Component {
         <div className="">
 
           { /* preloader */}
-          {this.state.isLoading && <Loader />}
+          {this.props.loading && <Loader />}
           <div class="row">
             <div class="col-12">
               <div class="row" style={{ paddingTop: "20px", paddingBottom: "20px" }}>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                   <h4 >Channels</h4>
                 </div>
-
-                <div class="col-sm-6">
+                <div class="col-sm-2">
+                <div className="app-search">
+                  <div className="app-search-box">
+                    <div className="input-group">
+                      <input type="search" className="form-control" 
+                        onChange={(event)=> this.handleFilterTextChange(event)} 
+                          placeholder="Search..." />
+                      <div className="input-group-append">
+                        <button className="btn" onClick={(event)=> this.handleChannelSearch(event)} >
+                          <i className="fe-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <div class="col-sm-2">
                   <div class="text-sm-right custom-top" >
                     <span href="#custom-modal" onClick={this.toggleChannelModal} class="btn btn-primary waves-effect waves-light"
                       data-animation="fadein" data-plugin="custommodal"
@@ -291,8 +304,9 @@ class ChannelPage extends Component {
                               </ul>
                             </li></ul></div>
                         <p style={{ paddingLeft: "15px" }}>{col.description.substring(0, 30)}</p>
+                        <div style={{"textAlign": "center"}}>
                         <img src={col.imageFullURL} class="img-fluid img-w"  alt="work-thumbnail" />
-
+                        </div>
                         <div class="gall-info">
 
                           <p>{col.description.substring(0, 100)}</p>

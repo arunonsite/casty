@@ -8,7 +8,8 @@ import {
     LOAD_COMPANY_BY_USER_FOR_USER, LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER,
     UPDATE_USER, UPDATE_USER_SUCCESS,
     RESET_USER_NOTIFICATION,
-    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER
+    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER,
+    UPDATE_USER_SEARCH_TEXT, HANDLE_USER_SEARCH_TEXT
 } from '../../constants/actionTypes';
 
 
@@ -85,6 +86,11 @@ const User = (state: State = INIT_STATE, action: UserAction) => {
                     ...state, availableDepartment: action.payload.response !== undefined ? action.payload.response : [],
                     userNotification: INIT_STATE.userNotification, loading: false, error: null
                 }
+                case HANDLE_USER_SEARCH_TEXT:
+                    return { ...state, loading: true };
+
+                    case UPDATE_USER_SEARCH_TEXT:
+                        return { ...state, filterText: action.payload.filterText, loading: false };
 
         default: return { ...state };
     }

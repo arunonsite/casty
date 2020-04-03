@@ -28,6 +28,8 @@ export default{
          "CHANNEL_DELETE" : 'api/Channels/Delete/',         
          "LOAD_CHANNEL_BY_USER" : 'api/Channels/CreatedByUserId/',
          "CHANNEL_LOAD_COMPANIES" : '/api/Companies/GetById/',
+         "SUPER_SEARCH_CHANNEL" : "/api/Channels/",
+         "ADMIN_SEARCH_CHANNEL" : "​/api​/Channels​/ByCompany​/",
 
          "USER_SAVE" : '/api/Users/Register/',
 

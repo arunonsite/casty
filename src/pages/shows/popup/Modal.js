@@ -1,8 +1,8 @@
 import React, { useRef , useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import {   Row, Col } from 'reactstrap';
-
-// Import React FilePond
+import { getBese64Image } from '../../../helpers/applicationUtils';             
+/* // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 import { getBese64Image } from '../../../helpers/applicationUtils';
 // Import FilePond styles
@@ -19,13 +19,15 @@ import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 registerPlugin(FilePondPluginFilePoster,
   FilePondPluginFileEncode,
   FilePondPluginImageExifOrientation,
-  FilePondPluginImagePreview, FilePondPluginFileValidateType);
+  FilePondPluginImagePreview, FilePondPluginFileValidateType); */
 
-
+  import Files from 'react-files'
 
 
 function UserFormModal(props) {
   const [validated, setValidated] = useState(false);
+   const [isFileReplaceInitiated, setIsFileReplaceInitiated] = useState(false);
+  const [channelfile, setChannelFile] = useState([]);
 
   const inputRef = useRef(null);
   const fileRef = useRef(null);
@@ -39,6 +41,14 @@ function UserFormModal(props) {
     handleFileChange(JSON.parse(document.getElementsByName("showImage")[0].value));
   }
 
+  if (imageFullURL !== '' && channelfile.length === 0 && !isFileReplaceInitiated) {
+    const initialPreview = { preview: { type: 'image', url: imageFullURL } };
+
+    setChannelFile([initialPreview]);
+    getBese64Image(imageFullURL).then((succ2) => {
+      handleFileChange({ name: imageURL, data: succ2 });
+    });
+  }
   const handleFormSubmit = (event) => {
     const form = event.currentTarget;
 
@@ -77,6 +87,36 @@ function UserFormModal(props) {
   }
 
 
+  const onFilesChange = (image) => {
+    setChannelFile(false);
+    setChannelFile(
+      image)
+    getBese64Image(image[0].preview.url).then(function (imageBase64) {
+      const processeImage = Object.assign({ ...image[0] }, { data: imageBase64 });
+      handleFileChange(processeImage)
+    });
+  }
+
+  const onFilesError = (error, file) => {
+    console.log('error code ' + error.code + ': ' + error.message)
+  }
+
+  const filesRemoveOne = (file) => {
+    //this.refs.channelfile.removeFile(file)
+    setChannelFile([]);
+  }
+
+  const filesRemoveAll = () => {
+
+    setChannelFile([]);
+    setIsFileReplaceInitiated(true);
+    // this.refs.channelfile.removeFiles()
+  }
+
+  const filesUpload = () => {
+    const formData = new FormData()
+
+  }
   return (
     <Modal
       {...others}
@@ -164,7 +204,7 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col xl={12}>
+            {/* <Col xl={12}>
               <FilePond
               required
                 allowFileEncode={true}
@@ -185,11 +225,66 @@ function UserFormModal(props) {
                  oninit={(rowData) => initialShowImage(rowData)} 
               />
 
-            </Col>
+            </Col> */}
            
-            <Col xl={12}>
+            <Col>
+                <label for="name">Show Image</label>
+                {
+                  channelfile.length > 0 ?
+                    <button type="button" class="dropify-clear" onClick={filesRemoveAll} >Remove</button>
+                    : null}
+                <div class="dropify-wrapper">
 
-            </Col>
+                  <div class="dropify-loader"></div>
+                  <div class="dropify-errors-container">
+                    <ul></ul>
+                  </div>
+                  <Files
+                    ref={fileRef}
+                    className='files-dropzone-list'
+                    style={{ height: '100px' }}
+                    onChange={onFilesChange}
+                    onError={onFilesError}
+                    multiple={false}
+                    name="showImage"
+                    id="showImage"
+                    clickable
+                  >
+                    <div class="dz-message needsclick">
+
+                      <h3>Upload Channel File Here.</h3>
+                    </div>
+                  </Files>
+
+                  <div class="dropify-preview" style={{ display: channelfile.length > 0 ? "block" : "none " }}  >
+
+                    <div class="dropify-render">
+                      {
+                        channelfile.length > 0
+                          ?
+                          <div className='files-list' style={{ border: "1px solid red" }}>
+                            <div>{channelfile.map((file) =>
+                              <div className='files-list-item' key={file.id}>
+                                <div className='files-list-item-preview'>
+                                  {file.preview.type === 'image'
+                                    ? <img className='files-list-item-preview-image' src={file.preview.url} />
+                                    : <div className='files-list-item-preview-extension'>{file.extension}</div>}
+                                </div>
+
+
+                              </div>
+                            )}</div>
+
+                          </div>
+                          : null
+                      }
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </Col>
           </Row>
           <input type="submit" value={buttonText} class="btn btn-primary waves-effect waves-light" />
         </Form>
