@@ -13,20 +13,22 @@ import Loader from '../../components/Loader';
 import Modal from './popup/Modal';
 
 import { v4 as uuidv4 } from 'uuid';
-const resetNotification  = {companyNotification : {notify:false,mode:0,  message:''}};
+const resetNotification = { companyNotification: { notify: false, mode: 0, message: '' } };
 class CompanyPage extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       user: getLoggedInUser(),
+
       newCompanyModalData: {
         formData:
         {
           name: '',
           description: '',
           cphoto: '',
-          address:'', contact1:'', contact2:'', details:'',
+          address: '', contact1: '', contact2: '', details: '',
         }
       },
 
@@ -34,11 +36,11 @@ class CompanyPage extends Component {
     this.tableRef = React.createRef();
   }
   componentDidMount() {
-
-   // this.loadPageData();
+    console.log("DOICIC");
+    //this.tableRef.current.onQueryChange('show');
+    // this.loadPageData();
   }
   componentDidUpdate() {
-   
 
     const { companyNotification: { notify = false, message = 'Success' } } = this.props;
     if (notify) {
@@ -50,9 +52,9 @@ class CompanyPage extends Component {
         pauseOnHover: true,
         draggable: true
       });
-    //  this.loadPageData();.
-    this.props.actions.resetCompanyNotification(resetNotification);
-    this.tableRef.current.onQueryChange()
+      //  this.loadPageData();.
+      this.props.actions.resetCompanyNotification(resetNotification);
+      this.tableRef.current.onQueryChange()
     }
   }
 
@@ -61,7 +63,6 @@ class CompanyPage extends Component {
     this.props.actions.loadCompany(id);
   }
   handleChange = (event, field) => {
-
     const { newCompanyModalData: { formData = {} } } = this.state;
     let proceddesData = {};
     proceddesData[event.target.name] = event.target.value;
@@ -70,9 +71,7 @@ class CompanyPage extends Component {
   handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
     var re = /(?:\.([^.]+))?$/;
     var ext = re.exec(name)[1];
-
     const { newCompanyModalData: { formData = {} } } = this.state;
-
     const imageStruc = {
       previewFile: undefined, "ImageBase64": data,
       "ImageFileExtensionIncludingDot": '.' + ext
@@ -82,8 +81,6 @@ class CompanyPage extends Component {
   handleSubmit = () => {
     const { user: { id = '' }, companyModal: { mode = "edit" } } = this.props;
     const { newCompanyModalData: { formData = {} } } = this.state;
-
-
     if (mode === 'edit') {
       const uptCHannelData = Object.assign({ ...formData }, { UserId: id });
       this.props.actions.updateCompany(uptCHannelData);
@@ -96,7 +93,6 @@ class CompanyPage extends Component {
   toggleCompanyModal = () => {
     const { companyModal: { show = false } } = this.props;
     const { newCompanyModalData: { formData = {} } } = this.state;
-
     const togg = {
       companyModal: {
         show: !show,
@@ -105,8 +101,7 @@ class CompanyPage extends Component {
         buttonText: 'Add Company',
         formData: {
           companyName: '',
-     
-          address:'', contact1:'', contact2:'', details:'',
+          address: '', contact1: '', contact2: '', details: '',
         }
       }
     };
@@ -114,23 +109,16 @@ class CompanyPage extends Component {
       newCompanyModalData: {
         formData: {
           companyName: '',
-          address:'', contact1:'', contact2:'', details:'',
+          address: '', contact1: '', contact2: '', details: '',
         },
       }
     });
     this.props.actions.onclickModal(togg);
   }
   toggleEditCompanyModal = (company) => {
-     console
-     .log("company---", company);
     const { companyModal: { show = false } } = this.props;
-    const {  id = '', 
-    companyName='', address='', contact1='', contact2='', details='' } = company;
-
-
-
-
-
+    const { id = '',
+      companyName = '', address = '', contact1 = '', contact2 = '', details = '' } = company;
     const togg = {
       companyModal: {
         show: !show,
@@ -138,8 +126,8 @@ class CompanyPage extends Component {
         mode: 'edit',
         buttonText: 'Update Company',
         formData: {
-         
-        
+
+
           id,
           address, contact1, contact2, details,
         },
@@ -148,15 +136,15 @@ class CompanyPage extends Component {
     /* to save in loacal State */
     this.setState({
       newCompanyModalData: {
-        formData: {          
-          id,companyName,address, contact1, contact2, details,
+        formData: {
+          id, companyName, address, contact1, contact2, details,
         },
       }
     });
     this.props.actions.onclickModal(togg);
   }
   deleteCompany = (event, company) => {
-  
+
     const { user: { id = '' } } = this.props;
     swal({
       title: "Are you sure?",
@@ -167,7 +155,7 @@ class CompanyPage extends Component {
     })
       .then((willDelete) => {
         if (willDelete) {
-           //console.log("company---", company,id );
+          //console.log("company---", company,id );
           this.props.actions.deleteCompany({ UserID: id, CompanyID: company.id });
           this.loadPageData();
         } else {
@@ -177,11 +165,35 @@ class CompanyPage extends Component {
 
 
   }
+  handleCompanyChange = (event, field) => {
+    this.setState({ filterText: event.target.value });
+    if (event.target.value === '') {
+      const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;
+      const filterText = " ";
+      // this.props.actions.searchCompany({ userId : id,currentUsrAccess,  companyID, filterText  })
+    }
 
+  }
+  handleFilterTextChange = (event, field) => {
+    this.setState({ filterText: event.target.value });
+    if (event.target.value === '') {
+      this.props.actions.handleSearchText({ filterText: " " });
+      this.tableRef.current.onQueryChange();
+    }
+  }
+  handleSearch = (event, field) => {
+    const { filterText } = this.state;
+    this.props.actions.handleSearchText({ filterText });
+    this.tableRef.current.onQueryChange('show');
+  }
   render() {
     //const {newCompany:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newCompanyModalData = {} } = this.state;
-    const { companies = [], companyModal = {} ,currentUsrAccess} = this.props;
+
+    const { companies = [], companyModal = {}, currentUsrAccess, filterText } = this.props;
+
+    console
+      .log("Props filterText---", filterText);
     return (
       <React.Fragment>
         <Modal
@@ -200,34 +212,39 @@ class CompanyPage extends Component {
           { /* preloader */}
           {this.props.loading && <Loader />}
           <Row>
-
-          
-              <div class="col-sm-8" >
-                <div class="page-title-box">
-                  <h4 class="page-title">Companies</h4>
-                </div>
+            <Col class="col-sm-10" >
+              <div class="page-title-box">
+                <h4 class="page-title">Companies</h4>
               </div>
-              <div class="col-sm-2">
-                <div class="text-sm-right custom-top">
-                  <form>
-                    <div class="form-group">
-                      <input type="search" class="form-control" id="inputPassword2" placeholder="Search User" />
+            </Col>
+            <div class="col-sm-2 text-sm-right custom-top">
+              <div className="app-search">
+                <div className="app-search-box">
+                  <div className="input-group">
+                    <input type="search" className="form-control"
+                      onChange={(event) => this.handleFilterTextChange(event)}
+                      placeholder="Search..." />
+                    <div className="input-group-append">
+                      <button className="btn" onClick={(event) => this.handleSearch(event)} >
+                        <i className="fe-search"></i>
+                      </button>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
-              <div class="col-sm-2">
-                <div class="text-sm-right custom-top" >
+            </div>
+            <div class="col-sm-2">
+              <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleCompanyModal} class="btn btn-primary waves-effect waves-light"
-                                             data-animation="fadein" data-plugin="custommodal"
-                                              data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
-                                                </i> Add New</span>
-                 
-                </div>
+                  data-animation="fadein" data-plugin="custommodal"
+                  data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
+                  </i> Add New</span>
+
               </div>
+            </div>
 
 
-            
+
           </Row>
           <Row class='hidden'>
             <Col lg={12}>
@@ -241,29 +258,28 @@ class CompanyPage extends Component {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                 
+
                   <MaterialTable
- tableRef={this.tableRef}
+                    tableRef={this.tableRef}
 
                     columns={[
-                        { title: "Name", field: "companyName" },
+                      { title: "Name", field: "companyName" },
                       { title: "Address", field: "address" },
                       { title: "Contact", field: "contact1" }
-                      
 
                     ]}
                     data={query =>
                       new Promise((resolve, reject) => {
-                        let url = 'https://casty.azurewebsites.net/api/Companies/Full/'    
-                         if(currentUsrAccess === 0){
-                           url = 'https://casty.azurewebsites.net/api/Companies/Full/'   
-                          let sera = query.search !== '' ? query.search : ' ';
-                          let skp =  query.pageSize*query.page;
-                          let take =  query.pageSize*query.page + query.pageSize;
-                          url +=  sera+'/SkipTake/' +skp;                        
-                          url += '/' + query.pageSize   
-                         }
-                                            
+                        let url = 'https://casty.azurewebsites.net/api/Companies/Full/'
+                        if (currentUsrAccess === 0) {
+                          url = 'https://casty.azurewebsites.net/api/Companies/Full/'
+                          let sera = query.search !== '' ? query.search : filterText !== '' ? filterText : " ";
+                          let skp = query.pageSize * query.page;
+                          let take = query.pageSize * query.page + query.pageSize;
+                          url += sera + '/SkipTake/' + skp;
+                          url += '/' + query.pageSize
+                        }
+
                         fetch(url)
                           .then(response => response.json())
                           .then(result => {
@@ -271,13 +287,9 @@ class CompanyPage extends Component {
                               data: result.data,
                               page: result.page - 1,
                               totalCount: result.totalRecords,
-                              per_page:query.pageSize,
-                              "page":result.pageNumber-1,
+                              per_page: query.pageSize,
+                              "page": result.pageNumber - 1,
                             });
-                           // 
-                         //  this.tableRef.current.onQueryChange()
-                        //   console.log("componentDidUpdate");
-                           
                           })
                       })
                     }
@@ -303,21 +315,8 @@ class CompanyPage extends Component {
                         },
                       }
                     ]}
-                   /*  actions={[
-                      {
-                        icon: 'edit',
-                        tooltip: 'Edit Company',
-                        onClick: (event, rowData) => this.toggleEditCompanyModal(rowData)
-                      },
-                      rowData => ({
-                        icon: 'delete',
-                        tooltip: 'Delete Company',
-                        onClick: (event, rowData) => this.deleteCompany(rowData),
-                        disabled: rowData.birthYear < 2000
-                      })
-                    ]} */
                     actions={[
-           
+
                       {
                         icon: 'edit',
                         tooltip: 'edit Show',
@@ -326,46 +325,47 @@ class CompanyPage extends Component {
                     ]}
                     components={{
                       Action: props => (
-                        <div id="navigation">             
-                          <ul class="navigation-menu">  
+                        <div id="navigation">
+                          <ul class="navigation-menu">
                             <li class="has-submenu">
-                                <a href="#"  style={{color:"#000"}}>
-                                   <i class="mdi mdi-transit-connection"></i></a>
-                                <ul class="submenu">
-                                    <li  onClick={(event) => props.action.onClick(event, props.data)}>                            
-                                      Edit
-                                    </li>  
-                                    <li  onClick={(event) => this.deleteCompany(event, props.data)}>                            
-                                      Delete
-                                    </li>                         
-                                </ul>
+                              <a href="#" style={{ color: "#000" }}>
+                                <i class="mdi mdi-transit-connection"></i></a>
+                              <ul class="submenu">
+                                <li onClick={(event) => props.action.onClick(event, props.data)}>
+                                  Edit
+                                    </li>
+                                <li onClick={(event) => this.deleteCompany(event, props.data)}>
+                                  Delete
+                                    </li>
+                              </ul>
                             </li>
                           </ul>
                         </div>
                       ),
                     }}
+                    /*   icons={{
+                        Search : ""
+                      }} */
                     options={{
-                      loadingType :'overlay',
-            maxBodyHeight : 'auto',
-            search: false,
-            showTitle :false,
-            tableLayout :"auto",
-           
-            pageSize : 20,
-            actionsColumnIndex: -1,
-          /*   rowStyle: {
-              backgroundColor: '#f1f5f7',
-            }, */ //tableData
-            rowStyle: rowData => ({
-              backgroundColor: (rowData.tableData.id % 2 == 0) ? '#f1f5f7' : '#FFF'
-            }),
-            headerStyle: {
-              color:"#aebbc5",
-              fontSize:"13px",
-              fontWeight: "bold"
-            },
-           
-             title:false
+                      loadingType: 'overlay',
+                      maxBodyHeight: 'auto',
+                      search: false,
+                      searchFieldStyle: { border: "1px solid #ced4da" },
+                      searchFieldAlignment: 'left',
+                      showTitle: false,
+                      tableLayout: "auto",
+                      pageSize: 10,
+                      actionsColumnIndex: -1,
+                      rowStyle: rowData => ({
+                        backgroundColor: (rowData.tableData.id % 2 == 0) ? '#f1f5f7' : '#FFF'
+                      }),
+                      headerStyle: {
+                        color: "#aebbc5",
+                        fontSize: "13px",
+                        fontWeight: "bold"
+                      },
+
+                      title: false
                     }}
                   />
 
@@ -390,12 +390,14 @@ function mapDispatchToProps(dispatch) {
 }
 const mapStateToProps = (state) => {
 
+  console.log("state---", state);
 
-  const { CompanyPageReducer: { loading = false, companies = [], companyModal = {}, 
-  companyNotification = {} },
-  Auth:{user={},user:{roles=[]}} }= state;
-  const currentUsrAccess =findTheAccess(roles);
-  return { companies, user, companyModal, companyNotification, loading ,currentUsrAccess};
+
+  const { CompanyPageReducer: { filterText = '', loading = false, companies = [], companyModal = {},
+    companyNotification = {} },
+    Auth: { user = {}, user: { roles = [] } } } = state;
+  const currentUsrAccess = findTheAccess(roles);
+  return { filterText, companies, user, companyModal, companyNotification, loading, currentUsrAccess };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyPage);

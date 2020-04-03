@@ -6,7 +6,8 @@ import {
     LOAD_COMPANY_BY_DEPARTMENT_FOR_DEPARTMENT,LOAD_COMPANY_BY_DEPARTMENT_SUCCESS_FOR_DEPARTMENT,
     UPDATE_DEPARTMENT,UPDATE_DEPARTMENT_SUCCESS,
     RESET_DEPARTMENT_NOTIFICATION,
-    DELETE_DEPARTMENT, DELETE_DEPARTMENT_SUCCESS
+    DELETE_DEPARTMENT, DELETE_DEPARTMENT_SUCCESS,
+    SEARCH_DEPARTMENT
 } from '../../constants/actionTypes';
 
 
@@ -16,7 +17,7 @@ import {
 
 const INIT_STATE = {
     
-    users:[],
+    departments:[],
     loading: false,
     departmentModal :{show: false,title: 'New Deprt',mode : 'Add',
     data:   {
@@ -40,7 +41,8 @@ const Department = (state:State = INIT_STATE, action: UserAction) => {
         case LOAD_DEPARTMENT_FAILED:
             return { ...state, error: action.payload, loading: false };
         case LOAD_DEPARTMENT_SUCCESS:
-             const {response=[]}  =action.payload;
+             const {response={}}  =action.payload;
+              console.log("response-action----->>>", action.payload);
             return { ...state, departments: response.data,departmentNotification :INIT_STATE.departmentNotification, loading: false, error: null };
         
 
@@ -77,6 +79,8 @@ const Department = (state:State = INIT_STATE, action: UserAction) => {
             return { ...state, loading: true };
         case DELETE_DEPARTMENT_SUCCESS:
             return { ...state, ...action.payload, loading: false, error: null };
+            case SEARCH_DEPARTMENT:
+                return { ...state, loading: true };
         default: return { ...state };
     }
 }

@@ -37,8 +37,12 @@ class AuthLayout extends Component {
         this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
         this.state = {
-            isMenuOpened: false
+            isMenuOpened: false,
+            onSearchContent : ''
+
         }
+         console
+         .log("props--><><>>-", this.props);
     }
 
     signOut(e) {
@@ -60,24 +64,22 @@ class AuthLayout extends Component {
     toggleRightSidebar = () => {
         document.body.classList.toggle("right-bar-enabled");
     }
+    getTypeOnSearch = (value) => {;
+         this.setState({onSearchContent: value});
+    }
 
     render() {
         // get the child view which we would like to render
-        const children = this.props.children || null;
+        const children = Object.assign({...this.props.children}, {props: {...this.props.children.props, onSearchContent: this.state.onSearchContent}} ) || null;
         return (
             <div className="app">
                 <header id="topnav">
                     <Suspense fallback={loading()}>
-                        <Topbar rightSidebarToggle={this.toggleRightSidebar} menuToggle={this.toggleMenu} isMenuOpened={this.state.isMenuOpened} />
+                        <Topbar typeOnSearch={this.getTypeOnSearch} rightSidebarToggle={this.toggleRightSidebar} menuToggle={this.toggleMenu} isMenuOpened={this.state.isMenuOpened} />
                         <Navbar isMenuOpened={this.state.isMenuOpened} />
                     </Suspense>
-                   
-             
                 </header>
-
                 <div className="wrapper">
-                <Container fluid>
-                </Container>
                     <Container fluid>
                     <ToastContainer />
                         <Suspense fallback={loading()}>   
@@ -86,11 +88,8 @@ class AuthLayout extends Component {
                             </div>
                         </Suspense>
                     </Container>
-                 
                 </div>
-                
                 <Footer />
-
                 <RightSidebar title={"Settings"}>
                     <RightSidebarContent user={this.props.user} />
                 </RightSidebar>
@@ -101,7 +100,8 @@ class AuthLayout extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.Auth.user
+        user: state.Auth.user,
+        yusuff: 'Demo'
     }
 }
 export default connect(mapStateToProps, null)(AuthLayout);

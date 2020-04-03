@@ -11,6 +11,7 @@ import {
     DELETE_SHOW_FAILED, DELETE_SHOW_SUCCESS, DELETE_SHOW,
     LOAD_COMPANY_BY_USER_FOR_SHOWS, LOAD_COMPANY_BY_USER_SUCCESS_FOR_SHOWS, LOAD_COMPANY_BY_USER_FAILED_FOR_SHOWS,
     LOAD_CHANNELS_FOR_SHOWS_SUCCESS, LOAD_CHANNELS_FOR_SHOWS
+    ,SEARCH_SHOW
 
 } from '../../constants/actionTypes';
 
@@ -84,7 +85,8 @@ const show = (state = INIT_STATE, action = {  }) => {
                                 ...state, availableChannel: action.payload.response !== undefined ? action.payload.response : [],
                                 showNotification: INIT_STATE.showNotification, loading: false, error: null
                             };
-
+                            case SEARCH_SHOW:
+                                return { ...state, loading: true };
         default: return { ...state };
     }
 }

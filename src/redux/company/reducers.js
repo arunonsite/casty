@@ -8,12 +8,16 @@ import {
     SAVE_COMPANY_SUCCESS, SAVE_COMPANY_FAILED,SAVE_COMPANY,
     UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
     DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY,
-    RESET_COMPANY_NOTIFICATION
+    RESET_COMPANY_NOTIFICATION, SEARCH_COMPANY,
+    HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT
+
+    
 } from '../../constants/actionTypes';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 
-const INIT_STATE = {    
+const INIT_STATE = {   
+    filterText : "", 
     companies:[],
     loading: false,
     newComapny : {   name: '',    description : '',    cphoto : '',address:'', contact1:'', contact2:'', details:'',},
@@ -61,6 +65,14 @@ const Comapny = (state:State = INIT_STATE, action: AuthAction) => {
                 return { ...state, ...action.payload,loading: false };   
                 case RESET_COMPANY_NOTIFICATION:
                     return { ...state, ...action.payload, loading: false };
+
+                    case SEARCH_COMPANY:
+                        return { ...state, loading: true };
+                        case HANDLE_COMPANY_SEARCH_TEXT:
+                            return { ...state, loading: true };
+
+                            case UPDATE_COMPANY_SEARCH_TEXT:
+                                return { ...state, filterText: action.payload.filterText, loading: false };
         default: return { ...state };
     }
 }

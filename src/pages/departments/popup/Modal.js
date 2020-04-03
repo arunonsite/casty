@@ -1,37 +1,64 @@
-import React, { useState } from 'react';
+import React, { useRef , useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
-
+import { getBese64Image } from '../../../helpers/applicationUtils';   
+import {   Row, Col } from 'reactstrap';
+import Files from 'react-files';
 
 function DepartmentFormModal(props) {
   const [validated, setValidated] = useState(false);
-  let { currentUsrAccess = 1, mode = 'edit',
-  pageDropDown: { availableCompany = [] },
-    formData: {  name=  '',
-    description= '', companyID},
-    handleSubmit, handleChange, title, ...others } = props;
 
+  const [isFileReplaceInitiated, setIsFileReplaceInitiated] = useState(false);
+  const [departmentfile, setDepartmentFile] = useState([]);
+  const fileRef = useRef(null);
+  let { currentUsrAccess = 1, mode = 'edit',
+    pageDropDown: { availableCompany = [] },
+    formData: { name = '',
+      description = '', companyID,
+      imageFullURL = '', imageURL = '', previewFile = undefined },
+    handleSubmit,handleFileChange,
+     handleChange, title, ...others } = props;
+    
+  if (imageFullURL !== '' && departmentfile.length === 0 && !isFileReplaceInitiated) {
+    const initialPreview = { preview: { type: 'image', url: imageFullURL } };
+
+    setDepartmentFile([initialPreview]);
+    getBese64Image(imageFullURL).then((succ2) => {
+      handleFileChange({ name: imageURL, data: succ2 });
+    });
+  }
 
   const handleFormSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }else{   
+    } else {
       event.preventDefault();
-      event.stopPropagation();    
+      event.stopPropagation();
       handleSubmit();
-    }    
-    setValidated(true); 
-  
+    }
+    setValidated(true);
+
   };
+  const onFilesChange = (image) => {
+    
+    setDepartmentFile(false);
+    setDepartmentFile(
+      image)
+    getBese64Image(image[0].preview.url).then(function (imageBase64) {
+      const processeImage = Object.assign({ ...image[0] }, { data: imageBase64 });
+      handleFileChange(processeImage)
+    });
+  }
+  const onFilesError = (error, file) => {
+    console.log('error code ' + error.code + ': ' + error.message)
+  }
 
-
-
- 
-
- 
-  //COmpany Preselect
-
+  const filesRemoveAll = () => {
+    setDepartmentFile([]);
+    setIsFileReplaceInitiated(true);
+    // this.refs.departmentfile.removeFiles()
+  }
 
   return (
     <Modal
@@ -43,7 +70,7 @@ function DepartmentFormModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#f5f6fa" }}>
-    
+
         <div class="custom-modal-text text-left">
           <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
             <div class="row">
@@ -89,25 +116,70 @@ function DepartmentFormModal(props) {
                     validators={['required']}
                     default='0'
                     errorMessages={['this field is required']}>
-                      <option value="">Select Company</option>
+                    <option value="">Select Company</option>
                     {availableCompany.map((item) =>
                       <option value={item.id}>{item.companyName}</option>)
                     }
                   </select>
                 </div>
               </div>
-             
-              <div class="col-sm-12">
-   
+              <Col>
+                <label for="name">Department Photo</label>
+                {
+                  departmentfile.length > 0 ?
+                    <button type="button" class="dropify-clear" onClick={filesRemoveAll} >Remove</button>
+                    : null}
+                <div class="dropify-wrapper">
+                  <div class="dropify-loader"></div>
+                  <div class="dropify-errors-container">
+                    <ul></ul>
+                  </div>
+                  <Files
+                    ref={fileRef}
+                    className='files-dropzone-list'
+                    style={{ height: '100px' }}
+                    onChange={onFilesChange}
+                    onError={onFilesError}
+                    multiple={false}
+
+                    clickable
+                  >
+                    <div class="dz-message needsclick">
+                      <h3>Upload Department File Here.</h3>
+                    </div>
+                  </Files>
+                  <div class="dropify-preview" style={{ display: departmentfile.length > 0 ? "block" : "none " }}  >
+
+                    <div class="dropify-render">
+                      {
+                        departmentfile.length > 0
+                          ?
+                          <div className='files-list' style={{ border: "1px solid red" }}>
+                            <div>{departmentfile.map((file) =>
+                              <div className='files-list-item' key={file.id}>
+                                <div className='files-list-item-preview'>
+                                  {file.preview.type === 'image'
+                                    ? <img className='files-list-item-preview-image' src={file.preview.url} />
+                                    : <div className='files-list-item-preview-extension'>{file.extension}</div>}
+                                </div>
 
 
+                              </div>
+                            )}</div>
+
+                          </div>
+                          : null
+                      }
+                    </div>
+                  </div>
+                </div>
+              </Col>
               <div class="col-sm-12">
                 <div class="text-right">
                   <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
 
                 </div>
               </div>
-              </div>   
             </div>
           </Form>
         </div>

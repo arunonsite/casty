@@ -4,14 +4,13 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { processSuccessResponse, processPutSuccessResponse} from '../../helpers/applicationUtils';
 
 import {
-    LOAD_COMPANY_SUCCESS,    
-    LOAD_COMPANY_FAILED,
     LOAD_COMPANY,
      ONCLICK_MODAL,
-    TOGGLE_COMPANY_MODAL,
     SAVE_COMPANY,
-    UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
-    DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY
+    UPDATE_COMPANY,
+    DELETE_COMPANY,
+    HANDLE_COMPANY_SEARCH_TEXT
+
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
 import {
@@ -19,7 +18,8 @@ import {
     toggleCompanyModal,
     saveCompanySuccess,
     updateCompanySuccess,
-    deleteCompanySuccess
+    deleteCompanySuccess,
+    updateSearchText
 } from './actions';
 
  const onCompanySaveSuccess = {
@@ -240,7 +240,22 @@ function* deleteCompany({payload={}}) {
       }
   }
 }
-
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* companySearchTextUpdate({payload={}}) {  
+    try {
+        yield put(updateSearchText(payload));
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
 
 export function* watchLoadCompany():any {
     yield takeEvery(LOAD_COMPANY, loadCompanyList);
@@ -262,7 +277,9 @@ export function* watchDeleteCompany():any {
     yield takeEvery(DELETE_COMPANY, deleteCompany);
 }
 
-
+export function* watchCompanySearchTextUpdate():any {
+    yield takeEvery(HANDLE_COMPANY_SEARCH_TEXT, companySearchTextUpdate);
+}
 
 function* companySaga():any {
     yield all([
@@ -271,6 +288,7 @@ function* companySaga():any {
         fork(watchSaveCompany),
         fork(watchUpdateCompany),
         fork(watchDeleteCompany),
+        fork(watchCompanySearchTextUpdate),
     ]);
 }
 

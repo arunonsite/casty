@@ -4,14 +4,10 @@ import { processSuccessResponse, fetchJSON, processPutSuccessResponse} from '../
 
 import {
     LOAD_USERS,
-    LOAD_USERS_FAILED,
-    LOAD_USERS_SUCCESS,
-    ONCLICK_MODAL,
-    SAVE_USER_SUCCESS,SAVE_USER  ,SAVE_USER_FAILED,
-    TOGGLE_USER_MODAL ,
+    ONCLICK_MODAL,SAVE_USER  ,
     LOAD_COMPANY_BY_USER_FOR_USER,UPDATE_USER,
     RESET_USER_NOTIFICATION,
-    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER
+    LOAD_DEPARTMENT_BY_USER_FOR_USER, HANDLE_USER_SEARCH_TEXT
 } from '../../constants/actionTypes';
 
 
@@ -24,7 +20,8 @@ import {
     saveUserFailed ,
     loadCompanyListSuccessForUser,
     loadDepartmentListSuccessForUser,
-    resetUserNotification
+    resetUserNotification,
+    updateSearchText
 } from './actions';
 
 
@@ -294,6 +291,23 @@ function* resetUserNotifications({payload={}}) {
         }
     }
 }
+
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* userSearchTextUpdate({payload={}}) {  
+    try {
+        yield put(updateSearchText(payload));
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
 /**
  * Load the CHannnel lsit
  * @param {*} payload - username and password 
@@ -330,6 +344,10 @@ export function* watchResetNotificationShow():any {
     yield takeEvery(RESET_USER_NOTIFICATION, resetUserNotifications);
 }
 
+export function* watchUserSearchTextUpdate():any {
+    yield takeEvery(HANDLE_USER_SEARCH_TEXT, userSearchTextUpdate);
+}
+
 function* userSaga():any {
     yield all([
         fork(watchLoadComapnyForUser),
@@ -338,6 +356,7 @@ function* userSaga():any {
         fork(watchModalClick),
         fork(watchSaveUser),
         fork(watchUpdateUser),
+        fork(watchUserSearchTextUpdate),
     ]);
 }
 

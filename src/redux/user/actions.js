@@ -9,7 +9,8 @@ import {
     LOAD_COMPANY_BY_USER_FOR_USER,LOAD_COMPANY_BY_USER_SUCCESS_FOR_USER,
     UPDATE_USER,UPDATE_USER_SUCCESS,
     RESET_USER_NOTIFICATION,
-    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER
+    LOAD_DEPARTMENT_BY_USER_FOR_USER, LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER,
+    UPDATE_USER_SEARCH_TEXT, HANDLE_USER_SEARCH_TEXT
 } from '../../constants/actionTypes';
 
 
@@ -88,3 +89,13 @@ export const loadDepartmentListSuccessForUser = (departments: {}) => ({
 });
 
 
+
+export const handleSearchText = (search) => ({
+    type: HANDLE_USER_SEARCH_TEXT,
+    payload: search
+});
+
+export const updateSearchText  = (searchEpisode) => ({
+    type: UPDATE_USER_SEARCH_TEXT,
+    payload: searchEpisode
+});

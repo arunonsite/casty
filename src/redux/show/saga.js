@@ -12,7 +12,8 @@ import {
     RESET_SHOW_NOTIFICATION,
     DELETE_SHOW,
     LOAD_COMPANY_BY_USER_FOR_SHOWS,
-    LOAD_CHANNELS_FOR_SHOWS, LOAD_CHANNELS_FOR_SHOWS_SUCCESS, LOAD_CHANNELS_FOR_SHOWS_FAILED
+    LOAD_CHANNELS_FOR_SHOWS, LOAD_CHANNELS_FOR_SHOWS_SUCCESS, LOAD_CHANNELS_FOR_SHOWS_FAILED,
+    SEARCH_SHOW
 
 
 } from '../../constants/actionTypes';
@@ -64,7 +65,7 @@ const fetchJSON = (url, options = {}) => {
  * @param {*} payload - username and password 
  */
 function* loadShowList({ payload = {} }) {
-    const { id,companyID, currentUsrAccess, channelId=undefined,  } = payload;
+    const { id, companyID, currentUsrAccess, channelId = undefined, } = payload;
     const options = {
         body: JSON.stringify(),
         method: 'GET',
@@ -72,35 +73,35 @@ function* loadShowList({ payload = {} }) {
     };
     try {
 
-        let url = appSettings.API_ROUTE.MAIN_SITE;    
+        let url = appSettings.API_ROUTE.MAIN_SITE;
         let sera = ' ';
-        let skp =  0;
-        let take =  20;  
-        
+        let skp = 0;
+        let take = 20;
+
         ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}
-        if(channelId !== undefined){
-            url = url+'/api/Shows/'+channelId 
-            
-        }else if(currentUsrAccess <= 0){
-         /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
-          url = url+'/api/Shows/'    
-          url += '/'+sera+'/SkipTake/' +skp;    ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}                    
-          url += '/' + 20 
-        }else{
-          url = url+'/api/Shows/ByCompany/'+companyID 
-          url += '/'+sera+'/' +skp;                        
-          url += '/' + 20
-        } 
+        if (channelId !== undefined) {
+            url = url + '/api/Shows/' + channelId
+
+        } else if (currentUsrAccess <= 0) {
+            /// url = 'https://casty.azurewebsites.net/api/Shows/ByCompany/'+companyID+'/'     
+            url = url + '/api/Shows/'
+            url += '/' + sera + '/SkipTake/' + skp;    ///api/Shows/{SearchCriteria}/SkipTake/{Skip}/{Take}                    
+            url += '/' + 20
+        } else {
+            url = url + '/api/Shows/ByCompany/' + companyID
+            url += '/' + sera + '/' + skp;
+            url += '/' + 20
+        }
         const response = yield call(fetchJSON, url, options);
 
-         if(response.data){
+        if (response.data) {
             yield put(loadShowSuccess(processSuccessResponse(response)));
-         }else{
-            yield put(loadShowSuccess(processSuccessResponse({data : response})));
-         }
+        } else {
+            yield put(loadShowSuccess(processSuccessResponse({ data: response })));
+        }
 
 
-       
+
     } catch (error) {
         let message;
         switch (error.status) {
@@ -125,32 +126,22 @@ function* loadChannelsListForShow({ payload = {} }) {
         headers: { 'Content-Type': 'application/json' }
     };
     try {
-
-/* 
-        let url = appSettings.API_ROUTE.MAIN_SITE + appSettings.API_PATH.SHOW_ADMIN_LOAD_CHANNEL + companyID
-       
-        ///api/Channels/ByCompany/{CompanyId}/{SearchCriteria}/{Skip}/{Take}
-        let sera = ' ';
-        let take = '0';
-        url += '/' + sera + '/' + take;
-        url += '/100' */
-        let url = appSettings.API_ROUTE.MAIN_SITE; 
-         console.log("currentUsrAccess---", currentUsrAccess);
-        if(currentUsrAccess === 0){
-            url = url+'/api/Channels'   
-           let sera =  ' ';
-           let skp =  0;
-           let take = 100;
-           url += '/'+sera+'/SkipTake/' +skp;                        
-           url += '/' + 100  
-          }else{
-            url =  url+'/api/Channels/ByCompany/'+companyID 
+        let url = appSettings.API_ROUTE.MAIN_SITE;
+        if (currentUsrAccess === 0) {
+            url = url + '/api/Channels'
             let sera = ' ';
-            let skp =  0;
+            let skp = 0;
             let take = 100;
-            url += '/'+sera+'/' +skp;                        
-            url += '/' + 100   
-          }
+            url += '/' + sera + '/SkipTake/' + skp;
+            url += '/' + 100
+        } else {
+            url = url + '/api/Channels/ByCompany/' + companyID
+            let sera = ' ';
+            let skp = 0;
+            let take = 100;
+            url += '/' + sera + '/' + skp;
+            url += '/' + 100
+        }
 
         let response = {};
 
@@ -162,11 +153,6 @@ function* loadChannelsListForShow({ payload = {} }) {
         } else {
             yield put(loadChannelsListForShowSuccess(processSuccessResponse(response)));
         }
-        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
-        /*    const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
-               .API_PATH.LOAD_CHANNEL_BY_USER+'/CreatedBy='+id, options); */
-
-
     } catch (error) {
         let message;
         switch (error.status) {
@@ -408,10 +394,77 @@ function* loadCompanyListForShow({ payload = {} }) {
         } else {
             yield put(loadCompanyListForShowSuccess(processSuccessResponse(response)));
         }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
+
+
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* searchShow({ payload = {} }) {
+
+    console.log("searchChannel -- payload---", payload);
 
 
 
+    const { userId = '', currentUsrAccess = 0, companyID = "", filterText = " ", channelId = false } = payload;
+    const options = {
+        body: JSON.stringify(),
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    try {
 
+        let url = appSettings.API_ROUTE.MAIN_SITE;
+        if (currentUsrAccess === 0) {
+            url = url + '/api/Shows/'
+            let sera = filterText;
+            let skp = 0;
+            let take = 100;
+            url += '/' + sera + '/SkipTake/' + skp;
+            url += '/' + 100
+        } else {
+            url = url + '/api/Shows/ByCompany/' + companyID
+            let sera = filterText;
+            let skp = 0;
+            let take = 100;
+            url += '/' + sera + '/' + skp;
+            url += '/' + 100
+        }
+        const response = yield call(fetchJSON, url, options);
+    
+        if (response.data) {
+            if(channelId){
+
+                let poetFilter = filterText.toLowerCase();
+                const {response:{data=[], ...others}} =processSuccessResponse(response);
+                let episodefilterd = data.filter(show => {
+                     console
+                     .log("episode-->>", show);
+                   let poetName = show.name.toLowerCase();
+                   return poetName.indexOf(
+                     poetFilter.toLowerCase()) !== -1 && show.channelId === channelId
+                 });
+                  console.log("----", processSuccessResponse(response));
+                   console.log({data : episodefilterd,  ...others});
+                 yield put(loadShowSuccess({response : {data : episodefilterd,  ...others}}));
+            }else{
+                yield put(loadShowSuccess(processSuccessResponse(response)));
+            }
+            
+
+           
+        } else {
+            yield put(loadShowSuccess(processSuccessResponse({ data: response })));
+        }
     } catch (error) {
         let message;
         switch (error.status) {
@@ -451,7 +504,9 @@ export function* watchLoadCompanyForShow(): any {
     yield takeEvery(LOAD_COMPANY_BY_USER_FOR_SHOWS, loadCompanyListForShow);
 }
 
-
+export function* watchSearchShow(): any {
+    yield takeEvery(SEARCH_SHOW, searchShow);
+}
 
 
 function* showSaga(): any {
@@ -462,7 +517,8 @@ function* showSaga(): any {
         fork(watchUpdateShow),
         fork(watchLoadChannelsOfUser),
         fork(watchDeleteShow),
-        fork(watchLoadCompanyForShow)
+        fork(watchLoadCompanyForShow),
+        fork(watchSearchShow),
     ]);
 }
 

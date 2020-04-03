@@ -7,7 +7,8 @@ import {
     SAVE_DEPARTMENT_SUCCESS,SAVE_DEPARTMENT  ,SAVE_DEPARTMENT_FAILED,
     LOAD_COMPANY_BY_DEPARTMENT_FOR_DEPARTMENT,LOAD_COMPANY_BY_DEPARTMENT_SUCCESS_FOR_DEPARTMENT,
     UPDATE_DEPARTMENT,UPDATE_DEPARTMENT_SUCCESS,
-    RESET_DEPARTMENT_NOTIFICATION, DELETE_DEPARTMENT
+    RESET_DEPARTMENT_NOTIFICATION, DELETE_DEPARTMENT,
+    SEARCH_DEPARTMENT
 } from '../../constants/actionTypes';
 
 
@@ -43,14 +44,14 @@ function* saveNewDepartment({payload={}}) {
     const {name = "",
     description = "",
     companyID = "",
-   
+    ImageBase64, ImageFileExtensionIncludingDot,
     Id = ""} = payload;
     const newUserData= {
         "Id": Id,
   "Name": name,
   "CompanyId": companyID,
-  "Description": description
-       
+  "Description": description,
+  ImageBase64, ImageFileExtensionIncludingDot,
     }
 
   const options = {
@@ -142,36 +143,21 @@ function* loadCompanyListForDepartment({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* updateDepartment({payload={}}) {
-     console.log("payload---", payload);
     const {name = "",
     description = "",
     companyID = "",
     departmentId='',
-    UserId
-   
+    UserId,
+    ImageBase64, ImageFileExtensionIncludingDot,
      } = payload;
     const newUserData= {
         "Id": departmentId,
   "Name": name,
   "CompanyId": companyID,
-  "Description": description
-       
+  "Description": description,
+  ImageBase64, ImageFileExtensionIncludingDot,
     }
     
-    /* 
-    const {firstName ='',
-    lastName='',password='',email='',cemail='',phone='',role='',companyID='',UserId='',roles, ID,blocked, BlockedBy} = payload;
-    const newUserData= {
-        "Email": email,
-        "Password": password,
-        "FirstName": firstName,
-        "LastName": lastName,
-        "Roles": roles,
-        "CompanyID": companyID,        
-        ID,
-        Blocked :blocked,
-        BlockedBy :BlockedBy
-    } */
   const options = {
       body: JSON.stringify(newUserData),
       method: 'POST',
@@ -230,9 +216,9 @@ function* resetDepartmentNotifications({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* loadDepartmentList({payload={}}) {
+     console.log("payload---", payload);
 
-    console.log("payload---", payload);
-     const {currentUsrAccess, companyID} = payload;
+     const {currentUsrAccess, CompanyID} = payload;
    
    const options = {
        body: JSON.stringify(),
@@ -241,6 +227,8 @@ function* loadDepartmentList({payload={}}) {
    };
    try {
        let url = appSettings.API_ROUTE.MAIN_SITE; 
+        console
+        .log("currentUsrAccess--", currentUsrAccess);
        if(currentUsrAccess === 0){
            url = url+'/api/Departments/ByCompany/'  
           let sera =  ' ';
@@ -249,17 +237,24 @@ function* loadDepartmentList({payload={}}) {
           url += '/'+sera+'/SkipTake/' +skp;                        
           url += '/' + take  
          }else{
-            url = url+'/api/Departments/'+companyID   
+            url = url+'/api/Departments/'+CompanyID   
            let sera = ' ';
            let skp =  0;
            let take = 20;
-           url += '/'+sera+'/SkipTake/' +skp;                        
-           url += '/' + 20   
+           //url += '/'+sera+'/SkipTake/' +skp;                        
+           //url += '/' + 20   
          }
-          console.log("url---", url);
        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
        const response = yield call(fetchJSON, url, options);
-       yield put(loadDepartemntSuccess(processSuccessResponse(response)));
+
+
+       if (response.data !== undefined) {
+        yield put(loadDepartemntSuccess(processSuccessResponse(response.data)));
+    } else {
+        // console.log("---response----", processSuccessResponse(response));
+        yield put(loadDepartemntSuccess( {response : {data : response }}));
+
+    }
    } catch (error) {
        let message;
        switch (error.status) {
@@ -321,6 +316,74 @@ function* deleteDepartment({payload={}}) {
         }
     }
   }
+
+
+  
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* searchDepartment({ payload = {} }) {
+
+    console.log("searchChannel -- payload---", payload);
+
+
+
+    const { userId = '', currentUsrAccess = 0, companyID = "", filterText = " ", channelId = false } = payload;
+    const options = {
+        body: JSON.stringify(),
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    try {
+
+        let url = appSettings.API_ROUTE.MAIN_SITE;
+        if (currentUsrAccess === 0) {
+            url = url + '/api/Departments/ByCompany/'
+            let sera = filterText;
+            let skp = 0;
+            let take = 100;
+            url += '/' + sera + '/SkipTake/' + skp;
+            url += '/' + 100
+        } else {
+            url = url + '/api/Shows/ByCompany/' + companyID
+            let sera = filterText;
+            let skp = 0;
+            let take = 100;
+            url += '/' + sera + '/' + skp;
+            url += '/' + 100
+        }
+        const response = yield call(fetchJSON, url, options);
+    
+        if (response.data) {
+            if(channelId){
+
+                let poetFilter = filterText.toLowerCase();
+                const {response:{data=[], ...others}} =processSuccessResponse(response);
+                let episodefilterd = data.filter(show => {
+                     console
+                     .log("episode-->>", show);
+                   let poetName = show.name.toLowerCase();
+                   return poetName.indexOf(
+                     poetFilter.toLowerCase()) !== -1 && show.channelId === channelId
+                 });
+                 yield put(loadDepartemntSuccess({response : {data : episodefilterd,  ...others}}));
+            }else{
+                yield put(loadDepartemntSuccess(processSuccessResponse(response)));
+            }
+        } else {
+            yield put(loadDepartemntSuccess(processSuccessResponse({ data: response })));
+        }
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
+
 /**
  * Load the CHannnel lsit
  * @param {*} payload - username and password 
@@ -354,6 +417,11 @@ export function* watchDeleteChannel():any {
     yield takeEvery(DELETE_DEPARTMENT, deleteDepartment);
 }
 
+export function* watchSearchDepartment(): any {
+    yield takeEvery(SEARCH_DEPARTMENT, searchDepartment);
+}
+
+
 function* departmentSaga():any {
     yield all([
         fork(watchLoadDepartment),
@@ -363,6 +431,7 @@ function* departmentSaga():any {
         fork(watchSaveUser),
         fork(watchUpdateUser),
         fork(watchDeleteChannel),
+        fork(watchSearchDepartment),
     ]);
 }
 
