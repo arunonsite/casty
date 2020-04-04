@@ -231,7 +231,7 @@ function UserFormModal(props) {
                 <label for="name">Show Image</label>
                 {
                   channelfile.length > 0 ?
-                    <button type="button" class="dropify-clear" onClick={filesRemoveAll} >Remove</button>
+                    <button type="button"  style={{ float: 'right' }} class="dropify-clear btn btn-primary btn-sm waves-effect waves-light" onClick={filesRemoveAll} >X</button>
                     : null}
                 <div class="dropify-wrapper">
 
@@ -252,7 +252,7 @@ function UserFormModal(props) {
                   >
                     <div class="dz-message needsclick">
 
-                      <h3>Upload Channel File Here.</h3>
+                      <h3>Upload Show Image Here.</h3>
                     </div>
                   </Files>
 
@@ -262,7 +262,7 @@ function UserFormModal(props) {
                       {
                         channelfile.length > 0
                           ?
-                          <div className='files-list' style={{ border: "1px solid red" }}>
+                          <div className='files-list'>
                             <div>{channelfile.map((file) =>
                               <div className='files-list-item' key={file.id}>
                                 <div className='files-list-item-preview'>

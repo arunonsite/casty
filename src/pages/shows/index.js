@@ -290,14 +290,14 @@ class ShowPage extends Component {
                 <div class="col-sm-8">
                   <h4 >Shows</h4>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                 <div className="app-search">
                   <div className="app-search-box">
                     <div className="input-group">
                       <input type="search" className="form-control" 
                         onChange={(event)=> this.handleFilterTextChange(event)} 
                           placeholder="Search..." />
-                      <div className="input-group-append">
+                      <div className="input-group-append custom-search">
                         <button className="btn" onClick={(event)=> this.handleShowSearch(event)} >
                           <i className="fe-search"></i>
                         </button>
@@ -306,12 +306,12 @@ class ShowPage extends Component {
                   </div>
                 </div>
               </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1.5">
                   <div class="text-sm-right" >
                   <span href="#custom-modal" onClick={this.toggleShowModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
                                               data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
-                                                </i> Add New</span>
+                                                </i> Add</span>
                   </div>
                 </div>
               </div>
@@ -327,7 +327,7 @@ class ShowPage extends Component {
                     <Col className="col-sm-12 col-xl-3 filter-item all  ">
                       <div class="gal-box" style={{ height: "400px" }}>
                         <div class="gall-info"
-                         style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
+                         style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-14 mt-0">{col.name} </h4></div>
                         <div id="navigation">
                         <ul class="navigation-menu">
 

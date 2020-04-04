@@ -254,14 +254,14 @@ class DepartmentPage extends Component {
                 <h4 class="page-title">Departments</h4>
               </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
               <div className="app-search text-sm-right custom-top">
                 <div className="app-search-box">
                   <div className="input-group">
                     <input type="search" className="form-control"
                       onChange={(event) => this.handleFilterTextChange(event)}
                       placeholder="Search..." />
-                    <div className="input-group-append">
+                    <div className="input-group-append custom-search">
                       <button className="btn" onClick={(event) => this.handleSearch(event)} >
                         <i className="fe-search"></i>
                       </button>
@@ -270,12 +270,12 @@ class DepartmentPage extends Component {
                 </div>
               </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1.5">
               <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleNewDepartmentModal} class="btn btn-primary waves-effect waves-light"
                   data-animation="fadein" data-plugin="custommodal"
                   data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
-                  </i> Add New</span>
+                  </i> Add</span>
 
               </div>
             </div>
@@ -284,11 +284,11 @@ class DepartmentPage extends Component {
 
 
           {allProcessedDepartment.map((cols) => (
-            <div class=" row  card-deck">
+            <div class="row card-deck custom-break">
               {cols.map((col, indepos) => (
 
                 <div class="card  col-md-4">
-                  <div class="gall-info" style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-16 mt-0">{col.name} </h4></div>
+                  <div class="gall-info" style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-14 mt-0">{col.name} </h4></div>
                   <div>
                     <ul class="navigation-menu">
                       <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
@@ -308,8 +308,8 @@ class DepartmentPage extends Component {
                       </li></ul>
 
                   </div>
-                  <img class="card-img-top img-fluid" src={col.imageFullURL} alt="Card image cap" />
-                  <div class="card-body">
+                  <img class="card-img-top img-fluid img-w-dept" src={col.imageFullURL} alt="Card image cap" />
+                  <div class="card-body" style={{ padding: "1rem"}}>
 
                     <p class="card-text">{col.description}</p>
 

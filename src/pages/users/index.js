@@ -229,14 +229,14 @@ class UserPage extends Component {
                   <h4 class="page-title">User Managements</h4>
                 </div>
               </div>
-              <div class="col-sm-2 text-sm-right custom-top">
+              <div class="col-sm-3 text-sm-right custom-top">
               <div className="app-search">
                 <div className="app-search-box">
                   <div className="input-group">
                     <input type="search" className="form-control"
                       onChange={(event) => this.handleFilterTextChange(event)}
                       placeholder="Search..." />
-                    <div className="input-group-append">
+                    <div className="input-group-append custom-search">
                       <button className="btn" onClick={(event) => this.handleSearch(event)} >
                         <i className="fe-search"></i>
                       </button>
@@ -245,12 +245,12 @@ class UserPage extends Component {
                 </div>
               </div>
             </div>
-              <div class="col-sm-2">
+              <div class="col-sm-1.5">
                 <div class="text-sm-right custom-top" >
                 <span href="#custom-modal" onClick={this.toggleNewUserModal} class="btn btn-primary waves-effect waves-light"
                                              data-animation="fadein" data-plugin="custommodal"
                                               data-overlayColor="#38414a"><i class="mdi mdi-plus-circle mr-1">
-                                                </i> Add New</span>
+                                                </i> Add</span>
                  
                 </div>
               </div>
@@ -364,7 +364,7 @@ class UserPage extends Component {
             }),
             headerStyle: {
               color:"#aebbc5",
-              fontSize:"13px",
+              fontSize:"12px",
               fontWeight: "bold"
             },
            
