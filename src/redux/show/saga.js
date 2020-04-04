@@ -242,6 +242,9 @@ function* updateShow({ payload = {} }) {
 
 
     }
+
+     console
+     .log("nuptShowData----", nuptShowData);
     const options = {
         body: JSON.stringify(nuptShowData),
         method: 'POST',

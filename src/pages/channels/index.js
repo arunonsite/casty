@@ -305,7 +305,7 @@ class ChannelPage extends Component {
                             </li></ul></div>
                         <p style={{ paddingLeft: "15px" }}>{col.description.substring(0, 30)}</p>
                         <div style={{"textAlign": "center"}}>
-                        <img src={col.imageFullURL} class="img-fluid img-w"  alt="work-thumbnail" />
+                        <img src={`${col.imageFullURL}?${Date.now()}`} class="img-fluid img-w"  alt="work-thumbnail" />
                         </div>
                         <div class="gall-info">
 
@@ -340,103 +340,7 @@ class ChannelPage extends Component {
                 </Col>
               </Row>
             </Col>
-            {/*  <Col lg={12}>
-              <Card>
-                <CardBody>
-                  <h1>Channels List</h1>
-                  <Button style={{ float: "right" }} variant="primary" onClick={this.toggleChannelModal}>
-                    + New User        </Button>
-                  <MaterialTable
-                   tableRef={this.tableRef}
-                    columns={[
-                      { title: " Name", field: "name" },
-                      { title: " Description", field: "description" },
-                      {
-                        title: "Image", field: "birthYear", type: "imageFullURL",
-                        render: rowData => <img src={rowData.imageFullURL} style={{ width: 50, borderRadius: '50%' }} />
-                      },
-
-                    ]}
-                    data={query =>
-                      new Promise((resolve, reject) => {
-                        let url = appSettings.API_ROUTE.MAIN_SITE;     
-                         if(currentUsrAccess === 0){
-                           url = url+'/api/Channels'   
-                          let sera = query.search !== '' ? query.search : ' ';
-                          let skp =  query.pageSize*query.page;
-                          let take =  query.pageSize*query.page + query.pageSize;
-                          url += '/'+sera+'/SkipTake/' +skp;                        
-                          url += '/' + query.pageSize   
-                         }else{
-                           url =  url+'/api/Channels/ByCompany/'+companyID 
-                           let sera = query.search !== '' ? query.search : ' ';
-                           let skp =  query.pageSize*query.page;
-                           let take =  query.pageSize*query.page + query.pageSize;
-                           url += '/'+sera+'/' +skp;                        
-                           url += '/' + query.pageSize  
-                         }                      
-                        fetch(url)
-                          .then(response => response.json())
-                          .then(result => {
-                            resolve({
-                              data: result.data,
-                              page: result.page - 1,
-                              totalCount: result.totalRecords,
-                              per_page:query.pageSize,
-                              "page":result.pageNumber-1,
-                            })
-                          })
-                      })
-                    }
-                    title="Channels"
-                    detailPanel={[
-
-                      {
-                        icon: 'play_circle_outline',
-                        tooltip: 'Show Surname',
-                        render: rowData => {
-                          return (
-                            <div
-                              style={{
-                                fontSize: 50,
-                                textAlign: 'center',
-                                color: 'white',
-                                backgroundColor: '#6c757d',
-                              }}
-                            >
-                              {rowData.name}
-                            </div>
-                          )
-                        },
-                      }
-                    ]}
-                    actions={[
-                      {
-                        icon: 'add_circle',
-                        tooltip: 'Add User',
-                        isFreeAction: true,
-                        onClick: (event) => this.toggleChannelModal()
-                      },
-                      {
-                        icon: 'edit',
-                        tooltip: 'Edit Channel',
-                        onClick: (event, rowData) => this.toggleEditChannelModal(rowData)
-                      },
-                      rowData => ({
-                        icon: 'delete',
-                        tooltip: 'Delete Channel',
-                        onClick: (event, rowData) => this.deleteChannel(rowData),
-                        disabled: rowData.birthYear < 2000
-                      })
-                    ]}
-                    options={{
-                      actionsColumnIndex: -1
-                    }}
-                  />
-
-                </CardBody>
-              </Card>
-            </Col> */}
+         
           </Row>
         </div>
 

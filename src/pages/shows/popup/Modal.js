@@ -2,27 +2,7 @@ import React, { useRef , useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import {   Row, Col } from 'reactstrap';
 import { getBese64Image } from '../../../helpers/applicationUtils';             
-/* // Import React FilePond
-import { FilePond, registerPlugin } from "react-filepond";
-import { getBese64Image } from '../../../helpers/applicationUtils';
-// Import FilePond styles
-import "filepond/dist/filepond.min.css";
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
-// Import the plugin code
-import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
-// Import the plugin styles
-import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
-registerPlugin(FilePondPluginFilePoster,
-  FilePondPluginFileEncode,
-  FilePondPluginImageExifOrientation,
-  FilePondPluginImagePreview, FilePondPluginFileValidateType); */
-
-  import Files from 'react-files'
-
+import Files from 'react-files'
 
 function UserFormModal(props) {
   const [validated, setValidated] = useState(false);

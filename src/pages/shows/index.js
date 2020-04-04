@@ -99,6 +99,7 @@ class ShowPage extends Component {
  handleSubmit =() => {   
   const {user:{id=''},showModal:{mode= "edit"}} = this.props;
   const { newShowModalData:{formData={}}} = this.state; 
+   console.log("handleSubmit----",formData);
   if(mode === 'edit'){
     const updateShowData = Object.assign({ ...formData }, { UserId: id });
     this.props.actions.updateShow(updateShowData);
@@ -349,7 +350,7 @@ class ShowPage extends Component {
 
                             </li></ul></div>
                             <div style={{"textAlign": "center"}}>
-                        <img src={col.imageFullURL} class="img-fluid img-w" alt="work-thumbnail" />
+                        <img src={`${col.imageFullURL}?${Date.now()}`} class="img-fluid img-w" alt="work-thumbnail" />
                         </div>
                         <div class="gall-info">
                           <p>{col.description}</p>
