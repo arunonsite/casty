@@ -308,7 +308,9 @@ class DepartmentPage extends Component {
                       </li></ul>
 
                   </div>
-                  <img class="card-img-top img-fluid img-w-dept" src={col.imageFullURL} alt="Card image cap" />
+                  <div style={{"textAlign": "center"}}>
+                  <img class="card-img-top img-fluid img-w-dept" src={`${col.imageFullURL}?${Date.now()}`} alt="Card image cap" />
+                  </div>
                   <div class="card-body" style={{ padding: "1rem"}}>
 
                     <p class="card-text">{col.description}</p>

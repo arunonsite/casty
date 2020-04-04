@@ -182,48 +182,14 @@ class EpisodePage extends Component {
   }
 
   navigatePage = (page) => {
-
     return <Redirect to={page} />
   }
 
   handleEpisodeSearch = (event, field) => {
     const { user: { id = '' } } = this.props;
     const showId = this.props.match.params.id;
-
     let episodeFilter = event.target.value;
-
-
-
-
     this.props.actions.searchEpisode({ showId, episodeFilter });
-
-
-    /* 
-        const { episodeModal: { show = false } } = this.props;
-        const { newEpisodeModalData: { formData = {} } } = this.state;
-    
-        const togg = {
-          episodeModal: {
-            show: !show,
-            title: 'New Episode',
-            mode: 'add',
-            buttonText: 'Add Episode',
-            formData: {
-              name: '',
-              description: '',
-            }
-          }
-        };
-        this.setState({
-          newEpisodeModalData: {
-            formData: {
-              name: '',
-              description: '',
-            },
-          }
-        });
-        this.props.actions.onclickModal(togg); */
-
   }
 
   togglePlayerModal = () => {
@@ -344,8 +310,12 @@ class EpisodePage extends Component {
               <div class="row align-items-center">
                 <div class="col-sm-6">
                   <div class="media">
-                      <span onClick={this.togglePlayerModal}> <img class="d-flex align-self-center mr-3" src="https://casty.azurewebsites.net/images/Channels/383fdfa7-a91e-4ce9-888d-962446738786.jpg" alt="Generic placeholder image" height="94"></img> </span>
-                      <div class="media-body">
+                      <span class="video" style= {{cursor: "pointer"}} onClick={this.togglePlayerModal}> 
+                      <img id="play" class="play d-flex align-self-center mr-3"
+                       src="https://casty.azurewebsites.net/images/Channels/383fdfa7-a91e-4ce9-888d-962446738786.jpg" 
+                       alt="Generic placeholder image" height="94" />  
+                     </span>
+                      <div class="media-body" >
                       <p class="mb-1">Episodes #34</p>
             <h4 class="mt-0 mb-2 font-16">{cols.name}</h4>
             <p class="mb-0">{cols.description}</p>
@@ -376,49 +346,12 @@ class EpisodePage extends Component {
           </div>
         </div>
         <div class="wrapper">
-
-
-
-
           <div class="container-fluid">
-
-            {/* 
-              <div class="row">
-                  <div class="col-12">
-                      <div class="card-box">
-                          <div class="row">
-                              <div class="col-lg-8">
-                                  <form class="form-inline">
-                                      <div class="form-group">
-                                          <label for="inputPassword2" class="sr-only">Search</label>
-                                          <input type="search" onChange={this.handleEpisodeSearch} class="form-control" id="inputPassword2" placeholder="Search..." />
-                                      </div>
-                                  </form>
-                              </div>
-                              <div class="col-lg-4">
-                                  <div class="text-lg-right mt-3 mt-lg-0">
-                                      <button onClick={this.toggleEpisodeModal} type="button" class="btn btn-warning waves-effect waves-light mr-1"><i class="mdi mdi-plus-circle mr-1"></i> Add New</button>
-                                  </div>
-                              </div>
-                          </div> 
-                      </div> 
-                  </div>
-              </div> */}
-
-
             {allProcessedEpisods.map((cols) => (
               <Row>
                 {cols.map((col, indepos) => (
                   <Col lg={4} md={4}>
-                    <div class="card-box bg-pattern  ribbon-box">{/* 
-                        <div class="ribbon-two ribbon-two-secondary"><span>Secondary</span></div> */}
-                      {/*  <div class="card-widgets">
-                                    <a href="javascript:;" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
-                                    <a data-toggle="collapse" href="#cardCollpase2" role="button" 
-                                    aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
-                                    <a href="#" data-toggle="remove"><i class="mdi mdi-close"></i></a>
-                                </div> */}
-
+                    <div class="card-box bg-pattern  ribbon-box">
                       <div class="ribbon  ribbon-secondary  float-right" /* style={{ "background": '#DBDBDB'}} */>
                         <span onClick={() => this.toggleEditEpisodeModal(col.id)} class="ribbon-warning"
                           style={{ "padding": '4px 3px 3px 10px', "margin": "0px 7px 0px 0px" }}> 
@@ -486,58 +419,6 @@ const mapStateToProps = (state) => {
 
   const { EpisodePageReducer: { loading = false, episodeModal = {}, episodes = [], episodeNotification = {} }, Auth: { user = {} } } = state;
 
-  let episodeList = [{
-    name: '	How to Sell -1',
-    number: '1',
-    desc: "A Channel Description (also known as a “YouTube About Page”) is a brief outline of what type of content you publish on your channel. It appears on your Channel Page and in YouTube's search results. ... And a well-written Channel Description can also convert visitors into subscribers.",
-    show: "Demo",
-    image: 'https://m.media-amazon.com/images/M/MV5BMjA5NzA5NjMwNl5BMl5BanBnXkFtZTgwNjg2OTk2NzM@._V1_QL50_SY1000_CR0,0,674,1000_AL_.jpg'
-  }, {
-    name: '	How to Sell -2',
-    number: '2',
-    desc: "A Channel Description (also known as a “YouTube About Page”) is a brief outline of what type of content you publish on your channel. It appears on your Channel Page and in YouTube's search results. ... And a well-written Channel Description can also convert visitors into subscribers.",
-    show: "Demo",
-    image: 'https://www.golegal.co.za/wp-content/uploads/2019/04/Game-of-Thrones.png'
-  }, {
-    name: '	How to Sell -3',
-    number: '3',
-    desc: "A Channel Description (also known as a “YouTube About Page”) is a brief outline of what type of content you publish on your channel. It appears on your Channel Page and in YouTube's search results. ... And a well-written Channel Description can also convert visitors into subscribers.",
-    show: "Demo",
-    image: 'https://cdn.siasat.com/wp-content/uploads/2019/04/Got_ANI.jpg'
-  }, {
-    name: '	How to Sell -4',
-    number: '4',
-    desc: "Episode 1. How To Sell Description",
-    show: "Demo",
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz6NE0xXnU0IRosgBdEYzK7IMiAOquBVZtfRaiPbMDNmlQb0Ux&s'
-  }, {
-    name: '	How to Sell -5',
-    number: '5',
-    desc: "Episode 1. How To Sell Description",
-    show: "Demo",
-    image: 'https://i.ytimg.com/vi/rlR4PJn8b8I/maxresdefault.jpg'
-  }
-  ];
-  //http://localhost:3000/episodes/02edf7a0-3c61-4b4c-a63c-c10abc88dae9
-  //episodeList = [...episodes].concat(episodeList);
-
-  /*  
-  while (allProcessEpisods.length > 0)
-  episodesDemo.push(allProcessEpisods.splice(0, size)); */
-  /* 
-  let allProcessedEpisods=[];
-  while (allProcessEpisods.length > 0)
-  allProcessedEpisods.push(allProcessEpisods.splice(0, 3)); */
-
-  /* let groupEpisode = [];
-  episodes.map((epi, index) => {
-    groupEpisode.push(epi);
-    if ((index + 1) % 3 === 0 || episodes.length === index + 1) {
-      episodesDemo.push(groupEpisode);
-      groupEpisode = [];
-    }
-
-  }); */
 
   return { episodes,  user, episodeModal, episodeNotification, loading };
 };

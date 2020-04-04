@@ -28,8 +28,8 @@ function PlayerFormModal(props) {
       </Modal.Header>
       <Modal.Body>
   <ReactPlayer width="100%"
+     light={true} controls= {true}
             height="100%" url='https://www.youtube.com/watch?v=ysz5S6PUM-U'  playing />
-
       </Modal.Body>
 
     </Modal>
