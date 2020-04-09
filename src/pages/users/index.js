@@ -225,7 +225,7 @@ class UserPage extends Component {
             <div class="row">
               <div class="col-sm-8" >
                 <div class="page-title-box">
-                  <h4 class="page-title">User Managements</h4>
+                  <h4 class="page-title">Users</h4>
                 </div>
               </div>
               <div class="col-sm-3 text-sm-right custom-top">

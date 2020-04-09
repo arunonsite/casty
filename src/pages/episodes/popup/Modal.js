@@ -62,7 +62,7 @@ function UserFormModal(props) {
                 errorMessages={['this field is required']}
               /></Col>
             <Col xl={12}>
-            <label for="name">Episode Description</label>
+            <label for="name" class="col-space">Episode Description</label>
                   <input type="text" required class="form-control"
                 id="outlined-multiline-static"
                 label="Description"

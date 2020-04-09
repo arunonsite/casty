@@ -176,7 +176,7 @@ function UserFormModal(props) {
 
 
               <Col>
-                <label for="name">Channel Photo/Video</label>
+                <label for="name">Channel Photo</label>
                 {
                   channelfile.length > 0 ?
                     <button type="button"  style={{ float: 'right' }} class="dropify-clear btn btn-primary btn-sm waves-effect waves-light" onClick={filesRemoveAll} >X</button>
@@ -199,7 +199,7 @@ function UserFormModal(props) {
                   >
                     <div class="dz-message needsclick">
 
-                      <h3>Upload Channel File Here.</h3>
+                      <h3>Upload Channel Photo Here.</h3>
                     </div>
                   </Files>
 

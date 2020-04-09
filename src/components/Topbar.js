@@ -245,10 +245,10 @@ class Topbar extends Component {
                 </Link>
             </li>
 
-
+{/* 
               <li>
                 <NotificationDropdown notifications={Notifications} />
-              </li>
+              </li> */}
 
               <li>
                 <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={firstName+', '+lastName} firstName={firstName} />

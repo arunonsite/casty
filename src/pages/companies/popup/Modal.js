@@ -98,7 +98,7 @@ function UserFormModal(props) {
         <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
           <Row class="row">
             <Col sm={12}>
-              <label for="name">Company Name</label>
+              <label for="name" >Company Name</label>
               <input type="text" class="form-control"
                 label="Name" required
                 label="Company Name"
@@ -111,7 +111,7 @@ function UserFormModal(props) {
               /></Col>
 
               <Col sm={6} className="form-group">
-                <label for="name">Country</label>
+                <label for="name" class="col-space">Country</label>
                 <select id="inputState" class="form-control"
                   label="Company"
                   required
@@ -129,7 +129,7 @@ function UserFormModal(props) {
                 </select>
               </Col>
               <Col sm={6} className="form-group">
-                <label for="name">State</label>
+                <label for="name" class="col-space">State</label>
                 <select id="inputState" class="form-control"
                   label="State"
                   required
@@ -185,7 +185,9 @@ function UserFormModal(props) {
                 variant="outlined"
               />
             </Col> */}
+            
             <Col sm={12}>
+            <br></br>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
               </div>

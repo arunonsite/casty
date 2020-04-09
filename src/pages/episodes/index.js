@@ -267,7 +267,7 @@ class EpisodePage extends Component {
                       </div>
                     </form>
                   </div>
-                  <div class="col-sm-2">
+                  {/* <div class="col-sm-2">
                     <div class="form-group">
                       <select id="inputState" class="form-control">
                         <option>Date Added</option>
@@ -287,8 +287,8 @@ class EpisodePage extends Component {
                         <option>Option 3</option>
                       </select>
                     </div>
-                  </div>
-                  <div class="col-sm-6">
+                  </div> */}
+                  <div class="col-sm-10">
                     <div class="text-sm-right">
                       <button onClick={this.toggleEpisodeModal} type="button" class="btn btn-primary waves-effect waves-light mr-1"><i class="mdi mdi-plus-circle mr-1"></i>Upload Episodes</button>
 

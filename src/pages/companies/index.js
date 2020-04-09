@@ -245,7 +245,7 @@ class CompanyPage extends Component {
           <Row>
           <div class="col-sm-8" >
               <div class="page-title-box">
-                <h4 class="page-title">Companies</h4>
+                <h4 class="page-title">Company</h4>
               </div>
             </div>
             <div class="col-sm-3 text-sm-right custom-top">
@@ -367,12 +367,13 @@ class CompanyPage extends Component {
                               <a href="#" style={{ color: "#000" }}>
                                 <i class="mdi mdi-transit-connection"></i></a>
                               <ul class="submenu">
-                                <li onClick={(event) => props.action.onClick(event, props.data)}>
-                                  Edit
-                                    </li>
-                                <li onClick={(event) => this.deleteCompany(event, props.data)}>
-                                  Delete
-                                    </li>
+                              <span style={{ cursor: "pointer" }} onClick={(event) => props.action.onClick(event, props.data)}>
+                                <i class="mdi mdi-square-edit-outline"></i> Edit
+                                    </span>
+                                    <br />
+                                    <span style={{ cursor: "pointer" }} onClick={(event) => this.deleteCompany(event, props.data)}>
+                                <i class="mdi mdi-delete"></i> Delete
+                                    </span>
                               </ul>
                             </li>
                           </ul>

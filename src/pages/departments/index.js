@@ -284,12 +284,13 @@ class DepartmentPage extends Component {
 
 
           {allProcessedDepartment.map((cols) => (
-            <div class="row card-deck custom-break">
+              <Row className="row filterable-content">
               {cols.map((col, indepos) => (
 
-                <div class="card  col-md-4">
+              <Col className="col-sm-6 col-xl-3 filter-item all  ">
+                  <div class="gal-box" style={{ height: "350px" }}>
                   <div class="gall-info" style={{ padding: " 15px 15px 0 15px" }}> <h4 class="font-14 mt-0">{col.name} </h4></div>
-                  <div>
+                  <div id="navigation">
                     <ul class="navigation-menu">
                       <li class="has-submenu" style={{ float: "right", marginTop: "-50px" }}>
                         <a href="#" style={{ color: "#000" }}>
@@ -309,14 +310,15 @@ class DepartmentPage extends Component {
 
                   </div>
                   <div style={{"textAlign": "center"}}>
-                  <img class="card-img-top img-fluid img-w-dept" src={`${col.imageFullURL}?${Date.now()}`} alt="Card image cap" />
+                  <img class="card-img-top img-fluid img-w" src={`${col.imageFullURL}?${Date.now()}`} alt="Card image cap" />
                   </div>
                   <div class="card-body" style={{ padding: "1rem"}}>
 
                     <p class="card-text">{col.description}</p>
 
                   </div>
-                </div>
+                  </div>
+                </Col>
 
 
 
@@ -324,7 +326,7 @@ class DepartmentPage extends Component {
 
 
               ))}
-            </div>
+             </Row>
           ))}
 
 
@@ -357,7 +359,7 @@ const mapStateToProps = (state) => {
   let groupDepartment = [];
   departments.map((epi, index) => {
     groupDepartment.push(epi);
-    if ((index + 1) % 3 === 0 || departments.length === index + 1) {
+    if ((index + 1) % 4 === 0 || departments.length === index + 1) {
       departmentDemo.push(groupDepartment);
       groupDepartment = [];
     }

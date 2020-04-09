@@ -124,7 +124,7 @@ function DepartmentFormModal(props) {
                 </div>
               </div>
               <Col>
-                <label for="name">Department Photo/Video</label>
+                <label for="name">Department Thumbnail</label>
                 {
                   departmentfile.length > 0 ?
                     <button type="button"  style={{ float: 'right' }} class="dropify-clear btn btn-primary btn-sm waves-effect waves-light" onClick={filesRemoveAll} >X</button>
@@ -145,7 +145,7 @@ function DepartmentFormModal(props) {
                     clickable
                   >
                     <div class="dz-message needsclick">
-                      <h3>Upload Department File Here.</h3>
+                      <h3>Upload Department Thumbnail Here.</h3>
                     </div>
                   </Files>
                   <div class="dropify-preview" style={{ display: departmentfile.length > 0 ? "block" : "none " }}  >

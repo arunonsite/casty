@@ -126,7 +126,7 @@ function UserFormModal(props) {
                 errorMessages={['this field is required']}
               /></Col>
   <Col xl={12}>
-  <label for="name">Comapny</label>
+  <label for="name" class="col-space">Comapny</label>
 
   <select required
     class="form-control"
@@ -146,7 +146,7 @@ function UserFormModal(props) {
               </select>
             </Col>
             <Col xl={12}>
-            <label for="name">Channel</label>
+            <label for="name" class="col-space">Channel</label>
 
             <select
             required
@@ -167,7 +167,7 @@ function UserFormModal(props) {
               </select>
             </Col>
             <Col xl={12}>
-            <label for="name">Description</label>
+            <label for="name" class="col-space">Description</label>
 
          <input type="text"
          required
@@ -208,7 +208,7 @@ function UserFormModal(props) {
             </Col> */}
            
             <Col>
-                <label for="name">Show Image</label>
+                <label for="name" class="col-space">Show Image</label>
                 {
                   channelfile.length > 0 ?
                     <button type="button"  style={{ float: 'right' }} class="dropify-clear btn btn-primary btn-sm waves-effect waves-light" onClick={filesRemoveAll} >X</button>
