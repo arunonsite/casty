@@ -153,7 +153,6 @@ class UserPage extends Component {
     this.props.actions.onclickModal(togg);   
   }
   toggleEditUserModal = (user) => {
-     console.log("user-->>", user);
     const {userModal : {show = false}, pageDropDown:{roleSource=[]}} = this.props;   
     const {roles, firstName= '',lastName= '',password= '',cpassword= '',email= '',cemail= '',
     phone= '',companyID='', id='', role='',blocked=null, departmentId=''} = user   

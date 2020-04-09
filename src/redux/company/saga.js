@@ -9,7 +9,9 @@ import {
     SAVE_COMPANY,
     UPDATE_COMPANY,
     DELETE_COMPANY,
-    HANDLE_COMPANY_SEARCH_TEXT
+    HANDLE_COMPANY_SEARCH_TEXT,
+    LOAD_COMPANY_COUNTRY_SUCCESS,LOAD_COMPANY_COUNTRY ,
+    LOAD_COMPANY_STATE, LOAD_COMPANY_STATE_SUCCESS
 
 } from '../../constants/actionTypes';
 import appSettings from '../../App.Settings';
@@ -19,7 +21,9 @@ import {
     saveCompanySuccess,
     updateCompanySuccess,
     deleteCompanySuccess,
-    updateSearchText
+    updateSearchText,
+    loadCountryListSuccess,
+    loadStateListForCompanySuccess
 } from './actions';
 
  const onCompanySaveSuccess = {
@@ -89,16 +93,25 @@ function* onclickModal({payload={}}) {
  */
 function* saveNewCompany({payload={}}) {
     
-      const {companyName='',address='', contact1='', contact2='', details='', UserId='', } = payload;
+      const {companyName='',address='', contact1='', contact2='',  UserId='',
+      details='',
+      countryId='',
+      stateId='',
+      zipCode='',
+      city='', Id,
+    } = payload;
+
+
       const newCompanyData= {
-        ...payload ,
-        "Name": companyName,
-       
-        "createdById" : UserId,
-        "Address": address,
-        "Contact1": contact1,
-        "Contact2": contact2,
-        "Details": details
+        Id ,
+        "Name": companyName,       
+         
+        "Details": details,
+        "City": city,
+        "StateId": stateId,
+        "CountryId":countryId,
+        "ZipCode": zipCode,
+        "TimeZone": 0
       }
     const options = {
         body: JSON.stringify(newCompanyData),
@@ -257,6 +270,58 @@ function* companySearchTextUpdate({payload={}}) {
     }
 }
 
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* loadCompanyCountryList({payload={}}) {
+    
+    const options = {
+        body: JSON.stringify(),
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    try {
+        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
+        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+            .API_PATH.GET_COUNTRY_LIST, options);
+        yield put(loadCountryListSuccess(processSuccessResponse(response)));
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
+
+/**
+ * Load the CHannnel lsit
+ * @param {*} payload - username and password 
+ */
+function* loadCompanyStateList({payload={}}) {
+
+    
+    const options = {
+        body: JSON.stringify(),
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    try {
+        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
+        const response = yield call(fetchJSON, appSettings.API_ROUTE.MAIN_SITE+appSettings
+            .API_PATH.GET_STATE_LIST+'/'+payload.companyID, options);
+        yield put(loadStateListForCompanySuccess(processSuccessResponse(response)));
+    } catch (error) {
+        let message;
+        switch (error.status) {
+            case 500: message = 'Internal Server Error'; break;
+            case 401: message = 'Invalid credentials'; break;
+            default: message = error;
+        }
+    }
+}
 export function* watchLoadCompany():any {
     yield takeEvery(LOAD_COMPANY, loadCompanyList);
 }
@@ -281,6 +346,12 @@ export function* watchCompanySearchTextUpdate():any {
     yield takeEvery(HANDLE_COMPANY_SEARCH_TEXT, companySearchTextUpdate);
 }
 
+export function* watchLoadCountryList():any {
+    yield takeEvery(LOAD_COMPANY_COUNTRY, loadCompanyCountryList);
+}
+export function* watchLoadStateList():any {
+    yield takeEvery(LOAD_COMPANY_STATE, loadCompanyStateList);
+}
 function* companySaga():any {
     yield all([
         fork(watchLoadCompany),
@@ -289,6 +360,8 @@ function* companySaga():any {
         fork(watchUpdateCompany),
         fork(watchDeleteCompany),
         fork(watchCompanySearchTextUpdate),
+        fork(watchLoadCountryList),
+        fork(watchLoadStateList),
     ]);
 }
 

@@ -9,7 +9,9 @@ import {
     UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
     DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY,
     RESET_COMPANY_NOTIFICATION, SEARCH_COMPANY,
-    HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT
+    HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT,
+    LOAD_COMPANY_COUNTRY_SUCCESS,LOAD_COMPANY_COUNTRY ,
+    LOAD_COMPANY_STATE, LOAD_COMPANY_STATE_SUCCESS
 
     
 } from '../../constants/actionTypes';
@@ -73,6 +75,19 @@ const Comapny = (state:State = INIT_STATE, action: AuthAction) => {
 
                             case UPDATE_COMPANY_SEARCH_TEXT:
                                 return { ...state, filterText: action.payload.filterText, loading: false };
+
+                                case LOAD_COMPANY_COUNTRY:
+                                    return { ...state,companyNotification :INIT_STATE.companyNotification, loading: true};
+                          
+                                case LOAD_COMPANY_COUNTRY_SUCCESS:
+                                        return { ...state, company_country: action.payload.response,companyNotification :INIT_STATE.companyNotification, loading: false, error: null };
+                                
+                                        case LOAD_COMPANY_STATE:
+                                            return { ...state,companyNotification :INIT_STATE.companyNotification, loading: true};
+                                  
+                                        case LOAD_COMPANY_STATE_SUCCESS:
+                                                return { ...state, company_state: action.payload.response,companyNotification :INIT_STATE.companyNotification, loading: false, error: null };
+                                        
         default: return { ...state };
     }
 }

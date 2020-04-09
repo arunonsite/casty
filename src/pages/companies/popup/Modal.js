@@ -32,11 +32,13 @@ registerPlugin(FilePondPluginFilePoster,
 
 
 function UserFormModal(props) {
-  console
-    .log("props---", props);
+ 
   const {
-    formData: { companyName = '',
+    pageDropDown :{ company_country= [],company_state=[]},
+    formData: { companyName = '',    countryId='', stateId ='',
+    zipCode='', city='',
       address = '', contact1 = '', contact2 = '', details = '',
+     
       imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
 
@@ -95,10 +97,10 @@ function UserFormModal(props) {
       <Modal.Body style={{ backgroundColor: "#f5f6fa" }}>
         <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
           <Row class="row">
-            <Col sm={6}>
+            <Col sm={12}>
               <label for="name">Company Name</label>
               <input type="text" class="form-control"
-                label="Name"
+                label="Name" required
                 label="Company Name"
                 variant="outlined"
                 onChange={handleChange}
@@ -107,56 +109,82 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col sm={6}>
-              <label for="name">Address</label>
+
+              <Col sm={6} className="form-group">
+                <label for="name">Country</label>
+                <select id="inputState" class="form-control"
+                  label="Company"
+                  required
+                  onChange={handleChange}
+                  name='countryId'
+                  value={countryId}
+                  validators={['required']}
+                  errorMessages={['this field is required']}>
+                  <option value="" >Select Country</option>
+                  {company_country.map((item) =>
+                    <option value={item.id}>{item.name}</option>)
+                  }
+
+                  
+                </select>
+              </Col>
+              <Col sm={6} className="form-group">
+                <label for="name">State</label>
+                <select id="inputState" class="form-control"
+                  label="State"
+                  required
+                  onChange={handleChange}
+                  name='stateId'
+                  value={stateId}
+                  validators={['required']}
+                  errorMessages={['this field is required']}>
+                  <option value="" >Select State</option>
+                  {company_state.map((item) =>
+                    <option value={item.id}>{item.name}</option>)
+                  }
+                </select>
+              </Col>
+
+              <Col sm={6}>
+              <label for="name">City</label>
               <input type="text" class="form-control"
-                id="outlined-multiline-static"
-                label="Address"
-                placeholder="Address"
-                name="address"
-                value={address}
-                onChange={handleChange}
+                placeholder="City"
+                label="Contact 1" required
                 variant="outlined"
+                onChange={handleChange}
+                name="city"
+                value={city}
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col sm={6}>
-              <label for="name">Contact 1</label>
+              
+              <Col sm={6}>
+              <label for="name">ZipCode</label>
               <input type="text" class="form-control"
-                placeholder="Contact 1"
-                label="Contact 1"
+                placeholder="City"
+                label="Contact 1" required
                 variant="outlined"
                 onChange={handleChange}
-                name="contact1"
-                value={contact1}
+                name="zipCode"
+                value={zipCode}
                 validators={['required']}
                 errorMessages={['this field is required']}
               /></Col>
-            <Col sm={6}>
-              <label for="name">Contact 2</label>
-              <input type="text" class="form-control"
-                id="outlined-multiline-static"
-                label="Contact 2"
-                placeholder="Contact 2"
-                name="contact2"
-                value={contact2}
-                onChange={handleChange}
-                variant="outlined"
-              /></Col>
-            <Col sm={12}>
+           
+         {/*    <Col sm={12}>
               <label for="name">Details</label>
               <input type="text" class="form-control"
                 id="outlined-multiline-static"
                 label="Details"
                 placeholder="Details"
-                multiline
+                multiline required
                 rows="4"
                 name="details"
                 value={details}
                 onChange={handleChange}
                 variant="outlined"
               />
-            </Col>
+            </Col> */}
             <Col sm={12}>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>

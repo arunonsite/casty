@@ -36,9 +36,8 @@ class CompanyPage extends Component {
     this.tableRef = React.createRef();
   }
   componentDidMount() {
-    console.log("DOICIC");
     //this.tableRef.current.onQueryChange('show');
-    // this.loadPageData();
+     this.loadPageData();
   }
   componentDidUpdate() {
 
@@ -60,12 +59,20 @@ class CompanyPage extends Component {
 
   loadPageData = () => {  //this.state.departments.push()
     const { user: { id = '' } } = this.props;
-    this.props.actions.loadCompany(id);
+   // this.props.actions.loadCompany(id);
+   this.props.actions.loadCountryList(id);
   }
   handleChange = (event, field) => {
     const { newCompanyModalData: { formData = {} } } = this.state;
     let proceddesData = {};
-    proceddesData[event.target.name] = event.target.value;
+    
+
+    if (event.target.name === 'countryId') {
+      this.props.actions.loadStateListForCompany({ companyID: event.target.value, currentUsrAccess: false });
+      proceddesData[event.target.name] = event.target.value;
+    } else{
+      proceddesData[event.target.name] = event.target.value;
+    }
     this.setState({ newCompanyModalData: { formData: { ...formData, ...proceddesData } } });
   }
   handleFileChange = ({ id = "9dxverkvh", name = "postoffice (1).png", type = "image/png", data = '' }) => {
@@ -102,6 +109,8 @@ class CompanyPage extends Component {
         formData: {
           companyName: '',
           address: '', contact1: '', contact2: '', details: '',
+          countryId:'', stateId :'',
+          zipCode:'', city:'',
         }
       }
     };
@@ -110,15 +119,18 @@ class CompanyPage extends Component {
         formData: {
           companyName: '',
           address: '', contact1: '', contact2: '', details: '',
+          countryId:'', stateId :'',
+          zipCode:'', city:'',
         },
       }
     });
     this.props.actions.onclickModal(togg);
   }
-  toggleEditCompanyModal = (company) => {
+  toggleEditCompanyModal = (company) => { 
     const { companyModal: { show = false } } = this.props;
     const { id = '',
-      companyName = '', address = '', contact1 = '', contact2 = '', details = '' } = company;
+      companyName = '', address = '', contact1 = '', contact2 = '', details = '', countryId='', stateId ='', zipCode='', city='',  } = company;
+      this.props.actions.loadStateListForCompany({ companyID: countryId, currentUsrAccess: false }); 
     const togg = {
       companyModal: {
         show: !show,
@@ -127,9 +139,10 @@ class CompanyPage extends Component {
         buttonText: 'Update Company',
         formData: {
 
-
           id,
           address, contact1, contact2, details,
+            countryId , stateId,
+            zipCode, city
         },
       }
     };
@@ -138,6 +151,8 @@ class CompanyPage extends Component {
       newCompanyModalData: {
         formData: {
           id, companyName, address, contact1, contact2, details,
+           countryId , stateId,
+           zipCode, city
         },
       }
     });
@@ -186,11 +201,26 @@ class CompanyPage extends Component {
     this.props.actions.handleSearchText({ filterText });
     this.tableRef.current.onQueryChange('show');
   }
+  countryName = (field) => {
+    const {  pageDropDown:{company_country=[], company_state}} = this.props;
+     const {countryId = false } = field;
+      if(countryId && company_country.length > 0){
+         console.log("company_country--",  company_country, countryId);
+      const slectedCountrty =  company_country.filter(ct => ct.id === countryId) ; // company_country[countryId].name !== undefined ? company_country[countryId-1].name : "No Country";
+   
+      return slectedCountrty[0].name;
+     }          
+     return "No Country Selected";
+  }
+  stateName = (field) => {
+    const {  pageDropDown:{company_country=[], company_state}} = this.props;
+     return "-";
+  }
   render() {
     //const {newCompany:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newCompanyModalData = {} } = this.state;
 
-    const { companies = [], companyModal = {}, currentUsrAccess, filterText } = this.props;
+    const { companies = [], companyModal = {}, currentUsrAccess, filterText , pageDropDown={}} = this.props;
 
     console
       .log("Props filterText---", filterText);
@@ -202,6 +232,7 @@ class CompanyPage extends Component {
           handlehide={this.toggleCompanyModal}
           handleFileChange={this.handleFileChange}
           size="lg"
+          pageDropDown = {pageDropDown}
           aria-labelledby="contained-modal-title-vcenter"
           centered
           {...companyModal}
@@ -264,15 +295,14 @@ class CompanyPage extends Component {
 
                     columns={[
                       { title: "Company Name", field: "companyName" },
-                      { title: "Address", field: "address" },
-                      { title: "City", field: "contact1" },
-                      { title: "State", field: "contact1" },
-                      { title: "Zip", field: "contact1" },
-                      { title: "Country", field: "contact1" },
-                      { title: "Time Zone", field: "contact1" }
-
-
-
+               
+                      { title: "City", field: "city" }, 
+                      { title: "Zip", field: "zipCode" },
+                      {
+                        field: 'countryId',
+                        title: 'Country',
+                        render: rowData => this.countryName(rowData) 
+                      } 
                     ]}
                     data={query =>
                       new Promise((resolve, reject) => {
@@ -326,7 +356,7 @@ class CompanyPage extends Component {
                       {
                         icon: 'edit',
                         tooltip: 'edit Show',
-                        onClick: (event, rowData) => this.toggleEditUserModal(rowData)
+                        onClick: (event, rowData) => this.toggleEditCompanyModal(rowData)
                       }
                     ]}
                     components={{
@@ -395,15 +425,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-
-  console.log("state---", state);
-
-
-  const { CompanyPageReducer: { filterText = '', loading = false, companies = [], companyModal = {},
+  const { CompanyPageReducer: { company_country= [],company_state=[], filterText = '', loading = false, companies = [], companyModal = {},
     companyNotification = {} },
     Auth: { user = {}, user: { roles = [] } } } = state;
   const currentUsrAccess = findTheAccess(roles);
-  return { filterText, companies, user, companyModal, companyNotification, loading, currentUsrAccess };
+  return { company_country, 
+    pageDropDown: { company_country, company_state }, 
+    filterText, companies, user, companyModal, companyNotification, loading, currentUsrAccess };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyPage);

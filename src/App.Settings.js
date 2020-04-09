@@ -49,6 +49,9 @@ export default{
          "DEPARTMENT_UPDATE" : '/api/Departments/Update',
          "DEPARTMENT_DELETE" : '/api/Departments/Delete',
          "DEPARTMENT_LIST" : '/api/Departments/',
+
+         "GET_COUNTRY_LIST" : '/api/Regions/Countries',
+         "GET_STATE_LIST" : '/api/Regions/States'
          
 
          

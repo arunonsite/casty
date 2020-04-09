@@ -223,8 +223,7 @@ class ChannelPage extends Component {
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
     const { allProcessedChannels, channels = [], channelModal = {}, currentUsrAccess, user: { id = '', companyID = '' }, pageDropDown = {} } = this.props;
-
-     console.log("THIS.props---", this.props);
+    
     return (
       <React.Fragment>
         <Modal

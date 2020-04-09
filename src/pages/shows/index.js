@@ -99,7 +99,6 @@ class ShowPage extends Component {
  handleSubmit =() => {   
   const {user:{id=''},showModal:{mode= "edit"}} = this.props;
   const { newShowModalData:{formData={}}} = this.state; 
-   console.log("handleSubmit----",formData);
   if(mode === 'edit'){
     const updateShowData = Object.assign({ ...formData }, { UserId: id });
     this.props.actions.updateShow(updateShowData);
@@ -145,7 +144,6 @@ class ShowPage extends Component {
    this.props.actions.onclickModal(togg);
   }
   toggleEditShowModal = (event , channel) => { 
-    console.log("channel---", channel);
 
     const {showModal : {show = false},user:{companyID='' }, pageDropDown:{availableChannel=[], channelsByUser=[]}} = this.props; 
      const {name = "Demo1",    description= "Demo 2", id='', channelId='',  imageFullURL = '', imageURL = '' } = channel;
@@ -176,10 +174,6 @@ class ShowPage extends Component {
       return channel.id === channelId;
   }); 
   const showCompanyId = (filteredchannel[0] !== undefined) ? filteredchannel[0].companyId : '';
-   console.log("showCompanyId", channelsByUser);
-   console.log("channelId--", channelId);
-
-
      const togg = { showModal: {
        show: !show,
        title: 'Edit Show',
@@ -214,7 +208,6 @@ class ShowPage extends Component {
   }
   deleteShow = (event , show) => {
 
-    console.log("show---", event);
     const {user:{id=''}} = this.props;
     swal({
       title: "Are you sure?",
@@ -236,8 +229,7 @@ class ShowPage extends Component {
    }
 
    handleFilterTextChange = (event, field) => {
-  
-    console.log("Demo---", event.target.value);
+
     this.setState({filterText :event.target.value });
     if(event.target.value === ''){
       const { user: { id = '', companyID = '' }, currentUsrAccess } = this.props;

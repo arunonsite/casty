@@ -217,7 +217,6 @@ function* resetDepartmentNotifications({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* loadDepartmentList({payload={}}) {
-     console.log("payload---", payload);
 
      const {currentUsrAccess, CompanyID} = payload;
    

@@ -413,11 +413,6 @@ function* loadCompanyListForShow({ payload = {} }) {
  * @param {*} payload - username and password 
  */
 function* searchShow({ payload = {} }) {
-
-    console.log("searchChannel -- payload---", payload);
-
-
-
     const { userId = '', currentUsrAccess = 0, companyID = "", filterText = " ", channelId = false } = payload;
     const options = {
         body: JSON.stringify(),
@@ -450,14 +445,11 @@ function* searchShow({ payload = {} }) {
                 let poetFilter = filterText.toLowerCase();
                 const {response:{data=[], ...others}} =processSuccessResponse(response);
                 let episodefilterd = data.filter(show => {
-                     console
-                     .log("episode-->>", show);
+
                    let poetName = show.name.toLowerCase();
                    return poetName.indexOf(
                      poetFilter.toLowerCase()) !== -1 && show.channelId === channelId
                  });
-                  console.log("----", processSuccessResponse(response));
-                   console.log({data : episodefilterd,  ...others});
                  yield put(loadShowSuccess({response : {data : episodefilterd,  ...others}}));
             }else{
                 yield put(loadShowSuccess(processSuccessResponse(response)));
