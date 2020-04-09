@@ -370,10 +370,6 @@ function* loadDepartmentForChannel({payload={}}) {
  */
 function* searchChannel({payload={}}) {
 
-     console.log("searchChannel -- payload---", payload);
-    
-
-
      const { userId='',currentUsrAccess=0,companyID= "", filterText=" "} = payload;
     const options = {
         body: JSON.stringify(),

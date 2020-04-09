@@ -10,7 +10,9 @@ UPDATE_COMPANY_SUCCESS,UPDATE_COMPANY_FAILED,UPDATE_COMPANY,
 DELETE_COMPANY_SUCCESS, DELETE_COMPANY_FAILED, DELETE_COMPANY,
 RESET_COMPANY_NOTIFICATION,
 SEARCH_COMPANY,
-HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT
+HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT,
+LOAD_COMPANY_COUNTRY_SUCCESS,LOAD_COMPANY_COUNTRY ,
+LOAD_COMPANY_STATE, LOAD_COMPANY_STATE_SUCCESS
 
 
 
@@ -20,6 +22,28 @@ HANDLE_COMPANY_SEARCH_TEXT, UPDATE_COMPANY_SEARCH_TEXT
 } from '../../constants/actionTypes';
 
 type CompanyAction = { type: string, payload: {} | string };
+
+
+
+export const loadCountryList = (chek : {}) => ({
+    type: LOAD_COMPANY_COUNTRY,
+    payload: chek
+});
+export const loadCountryListSuccess = (companies: {}) => ({
+    type: LOAD_COMPANY_COUNTRY_SUCCESS,
+    payload: companies
+});
+
+
+
+export const loadStateListForCompany = (chek : {}) => ({
+    type: LOAD_COMPANY_STATE,
+    payload: chek
+});
+export const loadStateListForCompanySuccess = (companies: {}) => ({
+    type: LOAD_COMPANY_STATE_SUCCESS,
+    payload: companies
+});
 
 
 

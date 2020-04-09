@@ -37,7 +37,6 @@ function PlayerFormModal(props) {
 }
 
 function PlayerForm(props) {
-   console.log("props---", props);
   const { handlehide} = props;
   return (
     <>
