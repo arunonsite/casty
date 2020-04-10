@@ -41,8 +41,6 @@ class AuthLayout extends Component {
             onSearchContent : ''
 
         }
-         console
-         .log("props--><><>>-", this.props);
     }
 
     signOut(e) {

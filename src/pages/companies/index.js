@@ -194,7 +194,11 @@ class CompanyPage extends Component {
     if (event.target.value === '') {
       this.props.actions.handleSearchText({ filterText: " " });
       this.tableRef.current.onQueryChange();
+    }else{
+      this.props.actions.handleSearchText({ filterText: event.target.value });
+      this.tableRef.current.onQueryChange('show');
     }
+   
   }
   handleSearch = (event, field) => {
     const { filterText } = this.state;
