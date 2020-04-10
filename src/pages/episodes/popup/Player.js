@@ -1,6 +1,7 @@
 import React, { Component, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
-import ReactPlayer from 'react-player'
+//import ReactPlayer from 'react-player'
+import { AzureMP } from 'react-azure-mp'
 
 
 
@@ -27,9 +28,12 @@ function PlayerFormModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-  <ReactPlayer width="100%"
-     light={true} controls= {true}
-            height="100%" url='https://www.youtube.com/watch?v=ysz5S6PUM-U'  playing />
+      <AzureMP
+             skin="amp-flush"
+             src={[{src: "http://castymediaservice001-usct.streaming.media.azure.net/049f1ebe-04fa-41aa-8498-77dfc4d2a067/06947D73-3C9B-4624-8876-A6A18EFF.ism/manifest", type: "application/vnd.ms-sstr+xml" }]}
+           />
+
+
       </Modal.Body>
 
     </Modal>
