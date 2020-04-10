@@ -30,7 +30,7 @@ function PlayerFormModal(props) {
       <Modal.Body>
       <AzureMP
              skin="amp-flush"
-             src={[{src: "http://castymediaservice001-usct.streaming.media.azure.net/049f1ebe-04fa-41aa-8498-77dfc4d2a067/06947D73-3C9B-4624-8876-A6A18EFF.ism/manifest", type: "application/vnd.ms-sstr+xml" }]}
+             src={[{src: "http://castymediaservice001-usct.streaming.media.azure.net/50ba1e43-adc0-4199-ba46-dd07f7adbfd6/Elvis_Presley_Patch_It_Up_1970.ism/manifest", type: "application/vnd.ms-sstr+xml" }]}
            />
 
 
