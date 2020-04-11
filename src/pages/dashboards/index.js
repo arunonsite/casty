@@ -4,15 +4,20 @@ import { Row, Col, Card, CardBody } from 'reactstrap';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
 import Loader from '../../components/Loader';
-
-
+import DateRangePicker from '@wojtekmaj/react-daterange-picker'
+import { addDays } from 'date-fns';
 class DefaultDashboard extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            user: getLoggedInUser()
+            user: getLoggedInUser(),
+            date: [new Date(), addDays(new Date(), 7)],
         };
+    }
+
+    changeFileterDate = (date) =>{
+        this.setState({ date })
     }
 
     render() {
@@ -22,18 +27,19 @@ class DefaultDashboard extends Component {
                 <div className="">
                     { /* preloader */}
                     {this.props.loading && <Loader />}
-
-                    
-
                     <Row>
                         <Col>
                             <div className="page-title-box">
                                 <Row>
-                                    <Col lg={7}>
+                                    <Col lg={9}>
                                         <h4 className="page-title">Welcome, {this.state.user.firstName}</h4>
                                     </Col>
-                                    <Col lg={5} className="mt-lg-3 mt-md-0">
-                                        
+                                    <Col lg={3} className="mt-lg-3 mt-md-0">
+                                    <DateRangePicker
+                                    onChange={this.changeFileterDate}
+          value={this.state.date}
+          
+        />
                                     </Col>
                                 </Row>
                             </div>

@@ -192,6 +192,9 @@ class UserPage extends Component {
     if (event.target.value === '') {
       this.props.actions.handleSearchText({ filterText: " " });
       this.tableRef.current.onQueryChange();
+    }else{
+      this.props.actions.handleSearchText({ filterText: event.target.value });
+    this.tableRef.current.onQueryChange('show');
     }
   }
   handleSearch = (event, field) => {
@@ -233,7 +236,7 @@ class UserPage extends Component {
                 <div className="app-search-box">
                   <div className="input-group">
                     <input type="search" className="form-control"
-                      onChange={(event) => this.handleFilterTextChange(event)}
+                      onKeyUp={(event) => this.handleFilterTextChange(event)}
                       placeholder="Search..." />
                     <div className="input-group-append custom-search">
                       <button className="btn" onClick={(event) => this.handleSearch(event)} >
