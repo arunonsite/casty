@@ -101,11 +101,11 @@ function* saveNewCompany({payload={}}) {
       city='', Id,
     } = payload;
 
-
+console.log(address);
       const newCompanyData= {
         Id ,
         "Name": companyName,       
-         
+        "Address": address,
         "Details": details,
         "City": city,
         "StateId": stateId,
@@ -165,6 +165,7 @@ function* updateCompany({payload={}}) {
       "Details": details,    
       "Id" : id
     }
+    console.log(address);
   const options = {
       body: JSON.stringify(updateCompanyData),
       method: 'POST',

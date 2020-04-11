@@ -28,7 +28,7 @@ class CompanyPage extends Component {
           name: '',
           description: '',
           cphoto: '',
-          address: '', contact1: '', contact2: '', details: '',
+          address: '', contact1: '', contact2: '', details: '',TimeZone: '',
         }
       },
 
@@ -110,7 +110,7 @@ class CompanyPage extends Component {
           companyName: '',
           address: '', contact1: '', contact2: '', details: '',
           countryId:'', stateId :'',
-          zipCode:'', city:'',
+          zipCode:'', city:'',TimeZone:'',
         }
       }
     };
@@ -120,7 +120,7 @@ class CompanyPage extends Component {
           companyName: '',
           address: '', contact1: '', contact2: '', details: '',
           countryId:'', stateId :'',
-          zipCode:'', city:'',
+          zipCode:'', city:'',TimeZone:'',
         },
       }
     });
@@ -129,7 +129,7 @@ class CompanyPage extends Component {
   toggleEditCompanyModal = (company) => { 
     const { companyModal: { show = false } } = this.props;
     const { id = '',
-      companyName = '', address = '', contact1 = '', contact2 = '', details = '', countryId='', stateId ='', zipCode='', city='',  } = company;
+      companyName = '', address = '', contact1 = '', contact2 = '', details = '', countryId='', stateId ='', zipCode='', city='',TimeZone='',  } = company;
       this.props.actions.loadStateListForCompany({ companyID: countryId, currentUsrAccess: false }); 
     const togg = {
       companyModal: {
@@ -142,7 +142,7 @@ class CompanyPage extends Component {
           id,
           address, contact1, contact2, details,
             countryId , stateId,
-            zipCode, city
+            zipCode, city,TimeZone
         },
       }
     };
@@ -152,7 +152,7 @@ class CompanyPage extends Component {
         formData: {
           id, companyName, address, contact1, contact2, details,
            countryId , stateId,
-           zipCode, city
+           zipCode, city,TimeZone
         },
       }
     });
@@ -299,14 +299,16 @@ class CompanyPage extends Component {
 
                     columns={[
                       { title: "Company Name", field: "companyName" },
-               
+                      { title: "Address", field: "address" },
                       { title: "City", field: "city" }, 
                       { title: "Zip", field: "zipCode" },
+                    
                       {
                         field: 'countryId',
                         title: 'Country',
                         render: rowData => this.countryName(rowData) 
-                      } 
+                      },
+                      { title: "Time zone", field: "TimeZone" }
                     ]}
                     data={query =>
                       new Promise((resolve, reject) => {

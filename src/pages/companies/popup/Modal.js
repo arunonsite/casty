@@ -119,7 +119,7 @@ function UserFormModal(props) {
             <Col sm={6}>
               <label for="name">ZipCode</label>
               <input type="text" class="form-control"
-                placeholder="City"
+                placeholder="ZipCode"
                 label="Contact 1" required
                 variant="outlined"
                 onChange={handleChange}
@@ -129,20 +129,20 @@ function UserFormModal(props) {
                 errorMessages={['this field is required']}
               /></Col>
 
-            {/*    <Col sm={12}>
-              <label for="name">Details</label>
+           <Col sm={12}>
+              <label for="name">Address</label>
               <input type="text" class="form-control"
                 id="outlined-multiline-static"
-                label="Details"
-                placeholder="Details"
+                label="Address"
+                placeholder="Address"
                 multiline required
                 rows="4"
-                name="details"
-                value={details}
+                name="address"
+                value={address}
                 onChange={handleChange}
                 variant="outlined"
               />
-            </Col> */}
+            </Col>
 
             <Col sm={12}>
               <br></br>
