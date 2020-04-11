@@ -13,7 +13,7 @@ function PlayerFormModal(props) {
 
   const inputRef = useRef(null);
 
-  const { show =  false, title='', handlehide} = props;
+  const { show =  false, title='', handlehide, streamManifestURL=''} = props;
    console
    .log("props-0-0-0-0", props);
 
@@ -30,7 +30,7 @@ function PlayerFormModal(props) {
       <Modal.Body>
       <AzureMP
              skin="amp-flush"
-             src={[{src: "http://castymediaservice001-usct.streaming.media.azure.net/50ba1e43-adc0-4199-ba46-dd07f7adbfd6/Elvis_Presley_Patch_It_Up_1970.ism/manifest", type: "application/vnd.ms-sstr+xml" }]}
+             src={[{src: streamManifestURL, type: "application/vnd.ms-sstr+xml" }]}
            />
 
 
