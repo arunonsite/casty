@@ -154,18 +154,26 @@ console.log(address);
  * @param {*} payload - username and password 
  */
 function* updateCompany({payload={}}) {
-    const {id, companyName='',address='', contact1='', contact2='', details='', UserId='', } = payload;
+    const {
+        companyName='',address='', contact1='', contact2='',  UserId='',
+      details='',
+      countryId=0,
+      stateId=0,
+      zipCode='',
+      city='', id,
+    } = payload;
     const updateCompanyData= {
-      ...payload ,
-      "Name": companyName,     
-      "createdById" : UserId,
+        Id :id,
+      "Name": companyName,       
       "Address": address,
-      "Contact1": contact1,
-      "Contact2": contact2,
-      "Details": details,    
-      "Id" : id
+      "Details": details,
+      "City": city,
+      "StateId": stateId,
+      "CountryId":countryId,
+      "ZipCode": zipCode,
+      "TimeZone": 0
     }
-    console.log(address);
+  
   const options = {
       body: JSON.stringify(updateCompanyData),
       method: 'POST',

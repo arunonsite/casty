@@ -19,6 +19,7 @@ function UserFormModal(props) {
 
       imageFullURL = '', imageURL = '', previewFile = undefined },
     handleSubmit, handleChange, handleFileChange, title, buttonText, mode = 'new', ...others } = props;
+     
 
 
   const [validated, setValidated] = useState(false);
@@ -97,7 +98,7 @@ function UserFormModal(props) {
                 validators={['required']}
                 errorMessages={['this field is required']}>
                 <option value="" >Select State</option>
-                {company_state.map((item) =>
+                {  company_state.map((item) =>
                   <option value={item.id}>{item.name}</option>)
                 }
               </select>

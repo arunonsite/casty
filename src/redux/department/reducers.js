@@ -82,7 +82,6 @@ const Department = (state:State = INIT_STATE, action: UserAction) => {
                 return { ...state, loading: true };
 
                 case SEARCH_DEPARTMENT_SUCCESS:
-                     console.log("---", action.payload);
                     const {response:{data = []}}  =action.payload; 
                    return { ...state, departments: data,departmentNotification :INIT_STATE.departmentNotification, loading: false, error: null };
                
