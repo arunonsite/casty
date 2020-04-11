@@ -209,7 +209,6 @@ class CompanyPage extends Component {
     const {  pageDropDown:{company_country=[], company_state}} = this.props;
      const {countryId = false } = field;
       if(countryId && company_country.length > 0){
-         console.log("company_country--",  company_country, countryId);
       const slectedCountrty =  company_country.filter(ct => ct.id === countryId) ; // company_country[countryId].name !== undefined ? company_country[countryId-1].name : "No Country";
    
       return slectedCountrty[0].name;
