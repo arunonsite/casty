@@ -6,6 +6,7 @@ import ShowPageReducer from './show/reducers';
 import CompanyPageReducer from './company/reducers';
 import EpisodePageReducer from './episode/reducers';
 import DepartmentPageReducer from './department/reducers';
+import DashboardReducer from './dashboard/reducers';
 
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
     ShowPageReducer,
     CompanyPageReducer,
     EpisodePageReducer,
-    DepartmentPageReducer
+    DepartmentPageReducer,
+    DashboardReducer
 });

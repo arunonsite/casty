@@ -192,15 +192,14 @@ class EpisodePage extends Component {
     this.props.actions.searchEpisode({ showId, episodeFilter });
   }
 
-  togglePlayerModal = () => {
+  togglePlayerModal = (event , episode) => {
+
     const { playerModal: { show = false } } = this.state;
     this.setState({
       playerModal: {
-        show: !show,
-        title: 'New Episode',
-        mode: 'add',
-        buttonText: 'Add Episode',
-        
+        ...episode,
+        show: !show
+       
       }
     });
     //this.props.actions.onclickModal(togg);
@@ -310,7 +309,7 @@ class EpisodePage extends Component {
               <div class="row align-items-center">
                 <div class="col-sm-6">
                   <div class="media">
-                      <span class="video" style= {{cursor: "pointer"}} onClick={this.togglePlayerModal}> 
+                      <span class="video" style= {{cursor: "pointer"}} onClick={(colo) => this.togglePlayerModal(colo, cols)}  > 
                       <img id="play" class="play d-flex align-self-center mr-3"
                        src="https://casty.azurewebsites.net/images/Channels/383fdfa7-a91e-4ce9-888d-962446738786.jpg" 
                        alt="Generic placeholder image" height="94" />  
