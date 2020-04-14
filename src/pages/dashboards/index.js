@@ -34,12 +34,16 @@ class DefaultDashboard extends Component {
               //  colors: colors,
                 plotOptions: {
                   bar: {
-                    columnWidth: '45%',
+                    columnWidth: '25%',
                     distributed: true
                   }
+                  
                 },
                 dataLabels: {
                   enabled: false
+                },
+                fill: {
+                  colors: ['#0000FF', '#0000FF', '#0000FF']
                 },
                 legend: {
                   show: false
@@ -59,6 +63,7 @@ class DefaultDashboard extends Component {
                     style: {
                    //   colors: colors,
                       fontSize: '12px'
+                      
                     }
                   }
                 }
@@ -116,14 +121,14 @@ class DefaultDashboard extends Component {
                         name: {
                           offsetY: -10,
                           show: true,
-                          color: '#888',
+                          color: '#FF784E',
                           fontSize: '17px'
                         },
                         value: {
                           formatter: function(val) {
                             return parseInt(val);
                           },
-                          color: '#111',
+                          color: '#FF784E',
                           fontSize: '36px',
                           show: true,
                         }
@@ -131,12 +136,13 @@ class DefaultDashboard extends Component {
                     }
                   },
                   fill: {
-                    type: 'gradient',
+                    type: "gradient",
                     gradient: {
                       shade: 'dark',
                       type: 'horizontal',
                       shadeIntensity: 0.5,
-                      gradientToColors: ['#ABE5A1'],
+                      gradientToColors: ['#FF784E'],
+                  
                       inverseColors: true,
                       opacityFrom: 1,
                       opacityTo: 1,
@@ -215,7 +221,7 @@ PercentagePlayed ={}
                         <Col>
                             <div className="page-title-box">
                                 <Row>
-                                    <Col lg={9}>
+                                    <Col lg={8}>
                                         <h4 className="page-title">Welcome, {this.state.user.firstName}</h4>
                                     </Col>
                                     <Col lg={3} className="mt-lg-3 mt-md-0">
@@ -224,6 +230,15 @@ PercentagePlayed ={}
           value={this.state.date}
           
         />
+                                    </Col>
+                                    <Col lg={1}>
+                                    <div class="filter_dy"><select name="filter_dy" class="select-custom">
+                                    <option>Today</option>
+                                    <option>Yesterday</option>
+                                    <option>Last 7 days</option>
+                                    <option>Last 28 days</option>
+                                    <option>Last 90 days</option>
+                                    </select></div>
                                     </Col>
                                 </Row>
                             </div>
@@ -260,7 +275,7 @@ PercentagePlayed ={}
                                 </div>
                                 <div class="col-8">
                                    <div class="text-left">
-									 <p class="text-muted mb-1 text-truncate">Total Episodes</p>
+									 <p class="text-muted mb-1 text-truncate"># of Episodes</p>
                                         <h5 class="text-dark mt-1">{Episodes.Count !== undefined  ? Episodes.Count : 0 }<span /></h5>
                                        
                                     </div>
@@ -279,8 +294,8 @@ PercentagePlayed ={}
                                 </div>
                                 <div class="col-8">
                                    <div class="text-left">
-									 <p class="text-muted mb-1 text-truncate">Total Shows</p>
-                                        <h5 class="text-dark mt-1">58,947<span /></h5>
+									 <p class="text-muted mb-1 text-truncate">Total # of minutes consumed</p>
+                                        <h5 class="text-dark mt-1">{TotalMinutesConsumed.Minutes !== undefined ? TotalMinutesConsumed.Minutes : 0.00}<span /></h5>
                                        
                                     </div>
                                 </div>
@@ -292,14 +307,14 @@ PercentagePlayed ={}
                         <div class="widget-rounded-circle card-box">
                             <div class="row">
                                 <div class="col-4">
-                                    <div class="avatar-lg bg-soft-warning border-warning border" style={{"height": "3.5rem","width":" 3.5rem","borderRadius": "10px"}}>
-                                        <i class="mdi mdi-timer font-22 avatar-title text-warning"></i>
+                                    <div class="avatar-lg" style={{"height": "3.5rem","width":" 3.5rem","borderRadius": "10px"}}>
+                                       
                                     </div>
                                 </div>
                                 <div class="col-8">
                                    <div class="text-left">
-									 <p class="text-muted mb-1 text-truncate">Total Minutes Consumed</p>
-                                        <h5 class="text-dark mt-1">{TotalMinutesConsumed.Minutes !== undefined ? TotalMinutesConsumed.Minutes : 0.00}<span /></h5>
+									 <p class="text-muted mb-1 text-truncate"></p>
+                                        <h5 class="text-dark mt-1"><span /></h5>
                                        
                                     </div>
                                 </div>
@@ -356,7 +371,7 @@ PercentagePlayed ={}
                     </div>  
 
                     <div class="col-xl-6">
-                        <div class="card-box">
+                        <div class="card-box" style={{"height": "380px"}}>
                             <h4 class="header-title mb-3">Popular Episodes</h4>
                             <div class="table-responsive">
                                 <table class="table table-borderless table-hover table-centered m-0">
@@ -366,7 +381,7 @@ PercentagePlayed ={}
                                                 <tr>
                                                 <td>{index+1}</td>
                                                    <td style={{"width": "36px"}}>
-                                                       <img src="assets/images/users/user-2.jpg" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                                       <img src="https://casty.azurewebsites.net/images/Channels/383fdfa7-a91e-4ce9-888d-962446738786.jpg" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
                                                    </td>
                                                    <td>
                                     <h5 class="m-0 font-weight-normal">{cols.ShowName}</h5>

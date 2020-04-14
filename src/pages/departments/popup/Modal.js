@@ -66,7 +66,7 @@ function DepartmentFormModal(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {title}
+         New Department
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#f5f6fa" }}>
