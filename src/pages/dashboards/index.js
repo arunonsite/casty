@@ -44,7 +44,7 @@ class DefaultDashboard extends Component {
                   enabled: false
                 },
                 fill: {
-                  colors: ['#0000FF', '#0000FF', '#0000FF']
+                  colors: ['#002366', '#002366', '#002366']
                 },
                 legend: {
                   show: false
@@ -260,7 +260,7 @@ PercentagePlayed ={},
                                     <Col lg={8}>
                                         <h4 className="page-title">Welcome, {this.state.user.firstName}</h4>
                                     </Col>
-                                    <Col lg={3} className="mt-lg-3 mt-md-0">
+                                    <Col lg={3} className="mt-lg-3 mt-md-0 custom-cal">
                                     <DateRangePicker
                                     onChange={this.changeFileterDate}
           value={dashboardDate}

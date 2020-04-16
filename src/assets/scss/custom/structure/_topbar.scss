@@ -297,8 +297,35 @@
 .filter_dy{
     float: right;
     margin-top: 24px;
+    border-radius: 4px;
 }
 .select-custom{
-    padding: 3px;
-    background-color: #F5F6F8;
+    padding: 5px;
+    background-color: #FFF;
+    border: none;
+    //border: thin solid #98a6ad;
+ 
+    font-size: 12px;
+    color:#adb5bd !important;
+}
+
+.react-daterange-picker__wrapper{
+ 
+    background-color: #fff;
+    font-size: 12px;
+    color:#adb5bd;
+    border: none !important;
+}
+.react-daterange-picker__calendar .react-calendar{
+    font-size: 12px;
+}
+.custom-cal{
+    padding-left:55px;
+}
+.react-daterange-picker__inputGroup__input{
+    color:#adb5bd;
+}
+.react-daterange-picker__range-divider{
+    padding-top: 5px;
+    padding-right: 5px;
 }
