@@ -280,8 +280,7 @@ function* loadCompanyForChannel({payload={}}) {
     try {
         //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
         let response = {};
-         console
-         .log("currentUsrAccess", currentUsrAccess);
+        
         
         if(currentUsrAccess <= 0){// Super Admin
             ///api/Companies/Names

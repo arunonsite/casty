@@ -67,7 +67,6 @@ function UserFormModal(props) {
       }
 
     }).catch((error) => {
-      console.log("error----", error);
     })
 
 

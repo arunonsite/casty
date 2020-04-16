@@ -12,9 +12,9 @@ import { getBese64Image } from '../../../helpers/applicationUtils';
 function UserFormModal(props) {
 
   const {
-    pageDropDown: { company_country = [], company_state = [] },
+    pageDropDown: { company_country = [], company_state = [], timezoneconst=[] },
     formData: { companyName = '', countryId = '', stateId = '',
-      zipCode = '', city = '',
+      zipCode = '', city = '',timeZone=0,
       address = '', contact1 = '', contact2 = '', details = '',
 
       imageFullURL = '', imageURL = '', previewFile = undefined },
@@ -130,7 +130,7 @@ function UserFormModal(props) {
                 errorMessages={['this field is required']}
               /></Col>
 
-           <Col sm={12}>
+           <Col sm={6}>
               <label for="name">Address</label>
               <input type="text" class="form-control"
                 id="outlined-multiline-static"
@@ -145,6 +145,24 @@ function UserFormModal(props) {
               />
             </Col>
 
+            <Col sm={6} className="form-group">
+              <label for="name" class="col-space">TimeZone</label>
+              <select id="inputState" class="form-control"
+                label="Timezone"
+                required
+                onChange={handleChange}
+                name='timeZone'
+                value={timeZone}
+                validators={['required']}
+                errorMessages={['this field is required']}>
+                <option value="" >Select TimeZone</option>
+                {timezoneconst.map((item) =>
+                  <option value={item.timeZoneId}>{item.name}</option>)
+                }
+
+
+              </select>
+            </Col>
             <Col sm={12}>
               <br></br>
               <div class="text-right">

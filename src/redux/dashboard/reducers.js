@@ -6,12 +6,17 @@ import {
 } from '../../constants/actionTypes';
 
 
-
+import {
+    applicationConst,
+} from '../../constants/applicationConst';
 const INIT_STATE = {
     dashboardData: [],
     loading: false,
+    pageConstants : applicationConst
   
 };
+
+
 
 
 

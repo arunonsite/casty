@@ -80,8 +80,6 @@ const User = (state: State = INIT_STATE, action: UserAction) => {
             case LOAD_DEPARTMENT_BY_USER_FOR_USER:
                 return { ...state, loading: true };
             case LOAD_DEPARTMENT_BY_USER_SUCCESS_FOR_USER:
-                 console
-                 .log("action--", action);
                 return {
                     ...state, availableDepartment: action.payload.response !== undefined ? action.payload.response : [],
                     userNotification: INIT_STATE.userNotification, loading: false, error: null

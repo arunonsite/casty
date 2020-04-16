@@ -82,9 +82,7 @@ function* loadUserListByCompany({payload={}}) {
  * @param {*} payload - username and password 
  */
 function* saveNewUser({payload={}}) { 
-    
-     console
-     .log("payload====", payload);
+
     const {firstName ='',roles,
     lastName='',password='',email='',cemail='',phone='',role='',companyID='',UserId='',Id, departmentId=''} = payload;
     const newUserData= {
@@ -151,8 +149,6 @@ function* loadCompanyForUser({payload={}}) {
    try {
        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
        let response = {};
-        console
-        .log("currentUsrAccess SAGA---", currentUsrAccess);
        if(currentUsrAccess <= 0){// Super Admin
            ///api/Companies/Names
          

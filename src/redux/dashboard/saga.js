@@ -43,7 +43,7 @@ const fetchJSON = (url, options = {}) => {
  */
 function* loadDashboardData({ payload = {} }) {
     const { id, companyID, currentUsrAccess, channelId = undefined, } = payload;
-     console.log("payload---", payload);
+     
     const options = {
         body: JSON.stringify(payload),
         method: 'POST',
@@ -54,7 +54,7 @@ function* loadDashboardData({ payload = {} }) {
         let url = appSettings.API_ROUTE.MAIN_SITE;
         url += "api/Statistics/GetStatistics/AllCompanies/Day"
 
-         console.log("response----", response);
+    
 
         
         const response = yield call(fetchJSON, url, options);

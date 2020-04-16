@@ -16,7 +16,8 @@ class DefaultDashboard extends Component {
         super(props);
         this.state = {
             user: getLoggedInUser(),
-            date: [new Date(), addDays(new Date(), 7)],
+            dashboardDate: [addDays(new Date(), -7) ,new Date()],
+            dashboardReportDate :{filter:3, filterDate:[addDays(new Date(), -7) ,new Date()]},
             lineBar : { 
                 series: [{
                 data: [21, 22, 10, 28, 16, 21, 13, 30]
@@ -160,12 +161,43 @@ class DefaultDashboard extends Component {
       
     
 }
+changeReportDate = (e, vl) =>{
+   if(e.target.value !== ''){
+
+   
+  var index = e.target.selectedIndex;
+  var optionElement = e.target.childNodes[index]
+  var option =  optionElement.getAttribute('data');
+  option = option.split(",");
+  let repoDate = {filter:e.target.value, filterDate:[new Date(option[0]),new Date(option[1]), ]}
+  this.setState({ 
+    dashboardDate:[new Date(option[0]), new Date(option[1])],
+    dashboardReportDate :repoDate,
+
+   })
+
+  let da = {"DateStart":new Date(option[0]),"DateEnd":new Date(option[1]) };
+  this.props.actions.loadDashbaord(da);
+   }else{
+    this.setState({  
+      dashboardReportDate :{filter:e.target.value},
+  
+     })
+   }
+}
     
 
-    changeFileterDate = (date) =>{
-        this.setState({ date })
-         let da = {"DateStart":date[0],"DateEnd":date[1]};
-        this.props.actions.loadDashbaord(da);
+      changeFileterDate= (dashboardDate) =>{
+       
+       this.setState({ dashboardDate,  dashboardReportDate :{filter:''} })
+      if(dashboardDate !== null)
+      {
+       
+        let da = {"DateStart":dashboardDate[0],"DateEnd":dashboardDate[1]};
+       this.props.actions.loadDashbaord(da);
+      }
+      
+        //[new Date(), addDays(new Date(), 7)],
     }
     componentDidMount(){        
         this.loadPageData();    
@@ -185,11 +217,16 @@ TotalMinutesConsumed= {},
 Audience_PlayedXDay=[],
 TopFavorites=[],
 TopSubscriptions=[],
-PercentagePlayed ={}
-        }
-    } = this.props;
+PercentagePlayed ={},
 
-         console.log("this.props----", this.props);
+
+        },
+        pageConstants = {}
+    } = this.props;
+     const {dashboardReportDate : {filterDate=[], filter=3}, dashboardDate=[]} = this.state;
+    const {reportDate = []} = pageConstants;
+
+ 
         
         let xazixs= [];
         let barData= [];
@@ -209,7 +246,6 @@ PercentagePlayed ={}
                });
 
 
-         console.log("barOtions---", barOtions);
          
 
         return (
@@ -227,18 +263,20 @@ PercentagePlayed ={}
                                     <Col lg={3} className="mt-lg-3 mt-md-0">
                                     <DateRangePicker
                                     onChange={this.changeFileterDate}
-          value={this.state.date}
+          value={dashboardDate}
           
         />
                                     </Col>
                                     <Col lg={1}>
-                                    <div class="filter_dy"><select name="filter_dy" class="select-custom">
-                                    <option>Today</option>
-                                    <option>Yesterday</option>
-                                    <option>Last 7 days</option>
-                                    <option>Last 28 days</option>
-                                    <option>Last 90 days</option>
-                                    </select></div>
+                                    <div class="filter_dy">
+                                      <select name="filter_dy"  value={filter} onChange={this.changeReportDate} class="select-custom">
+                                      <option value=''  >Select Report</option>
+                                    {reportDate.map((item) =>
+                  <option value={item.id} data={item.value}>{item.name}</option>)
+                }
+                                 
+                                    </select>
+                                    </div>
                                     </Col>
                                 </Row>
                             </div>
@@ -365,7 +403,31 @@ PercentagePlayed ={}
                     <div class="col-xl-6">
                         <div class="card-box" style={{"height":"385px"}}>
                             <h4 class="header-title mb-3">Subscriptions</h4>
-							
+                            <div class="table-responsive">
+                                <table class="table table-borderless table-hover table-centered m-0">
+                                    <tbody>
+                                    {TopSubscriptions.map((cols, index) => (
+                                       
+                                                <tr>
+                                                <td>{index+1}</td>
+                                                   <td style={{"width": "36px"}}>
+                                                       <img src={cols.ChannelImageURL} alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                                   </td>
+                                                   <td>
+                                    <h5 class="m-0 font-weight-normal">{cols.ChannelName}</h5>
+                                                        <p class="mb-0 text-muted"><small>{cols.ChannelId}</small></p> 
+                                                   </td>
+                                                   
+                                                   <td>
+                                                   {cols.Subscribed}
+                                                   </td>
+                                               </tr>
+                                             ))}
+                                      
+
+                                    </tbody>
+                                </table>
+                            </div>
                             
                         </div>
                     </div>  
@@ -415,12 +477,10 @@ function mapDispatchToProps(dispatch) {
     };
   }
   const mapStateToProps = (state) => {
-
-    console.log("state----", state);
-     const {DashboardReducer : {dashboardData ={}}} = state;
+     const {DashboardReducer : {dashboardData ={}, pageConstants={}}} = state;
   
     
-    return { dashboardData };
+    return { dashboardData, pageConstants  };
   };
   
   export default connect(mapStateToProps, mapDispatchToProps)(DefaultDashboard);

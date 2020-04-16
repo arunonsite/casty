@@ -15,7 +15,9 @@ import {
 
     
 } from '../../constants/actionTypes';
-
+import {
+    applicationConst,
+} from '../../constants/applicationConst';
 import { getLoggedInUser } from '../../helpers/authUtils';
 
 const INIT_STATE = {   
@@ -25,7 +27,8 @@ const INIT_STATE = {
     newComapny : {   name: '',    description : '',    cphoto : '',address:'', contact1:'', contact2:'', details:'',},
     companies :[],
     companyModal :{show: false,title: 'New Comapny',mode : 'Add',data:   {name: '',description: '',cphoto : '', address:'', contact1:'', contact2:'', details:'',}},
-    companyNotification : {notify:false, message:''}
+    companyNotification : {notify:false, message:''},
+    pageConstants : applicationConst
 };
 
 type ComapnyAction = { type: string, payload: {} | string };
@@ -50,8 +53,6 @@ const Comapny = (state:State = INIT_STATE, action: AuthAction) => {
             case SAVE_COMPANY:
                 return { ...state, loading: true};
         case SAVE_COMPANY_SUCCESS:
-             console
-             .log("PAYLOAD---", action);
             return { ...state, ...action.payload, loading: false, error: null };
 
             case UPDATE_COMPANY:
