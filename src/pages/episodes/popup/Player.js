@@ -14,8 +14,7 @@ function PlayerFormModal(props) {
   const inputRef = useRef(null);
 
   const { show =  false, title='', handlehide, streamManifestURL=''} = props;
-   console
-   .log("props-0-0-0-0", props);
+
 
   return (
     <Modal

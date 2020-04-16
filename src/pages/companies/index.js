@@ -110,7 +110,7 @@ class CompanyPage extends Component {
           companyName: '',
           address: '', contact1: '', contact2: '', details: '',
           countryId:'', stateId :'',
-          zipCode:'', city:'',TimeZone:'',
+          zipCode:'', city:'',timeZone:'',
         }
       }
     };
@@ -120,7 +120,7 @@ class CompanyPage extends Component {
           companyName: '',
           address: '', contact1: '', contact2: '', details: '',
           countryId:'', stateId :'',
-          zipCode:'', city:'',TimeZone:'',
+          zipCode:'', city:'',timeZone:'',
         },
       }
     });
@@ -129,7 +129,7 @@ class CompanyPage extends Component {
   toggleEditCompanyModal = (company) => { 
     const { companyModal: { show = false } } = this.props;
     const { id = '',
-      companyName = '', address = '', contact1 = '', contact2 = '', details = '', countryId='', stateId ='', zipCode='', city='',TimeZone='',  } = company;
+      companyName = '', address = '', contact1 = '', contact2 = '', details = '', countryId='', stateId ='', zipCode='', city='',timeZone='',  } = company;
       this.props.actions.loadStateListForCompany({ companyID: countryId, currentUsrAccess: false }); 
     const togg = {
       companyModal: {
@@ -142,7 +142,7 @@ class CompanyPage extends Component {
           id,
           address, contact1, contact2, details,
             countryId , stateId,
-            zipCode, city,TimeZone
+            zipCode, city,timeZone
         },
       }
     };
@@ -152,7 +152,7 @@ class CompanyPage extends Component {
         formData: {
           id, companyName, address, contact1, contact2, details,
            countryId , stateId,
-           zipCode, city,TimeZone
+           zipCode, city,timeZone
         },
       }
     });
@@ -215,6 +215,18 @@ class CompanyPage extends Component {
      }          
      return "No Country Selected";
   }
+  zoneName = (field) => {
+    const {  pageDropDown:{company_country=[], timezoneconst=[]}} = this.props;
+     const {timeZone = 0 } = field;
+    
+      if(timeZone && timezoneconst.length > 0){
+      const slectedCountrty =  timezoneconst.filter(ct => ct.timeZoneId == timeZone) ; // company_country[countryId].name !== undefined ? company_country[countryId-1].name : "No Country";
+      return slectedCountrty[0].name;
+     }          
+     return "No Country Selected";
+  }
+
+  
   stateName = (field) => {
     const {  pageDropDown:{company_country=[], company_state}} = this.props;
      return "-";
@@ -225,8 +237,6 @@ class CompanyPage extends Component {
 
     const { companies = [], companyModal = {}, currentUsrAccess, filterText , pageDropDown={}} = this.props;
 
-    console
-      .log("Props filterText---", filterText);
     return (
       <React.Fragment>
         <Modal
@@ -307,7 +317,11 @@ class CompanyPage extends Component {
                         title: 'Country',
                         render: rowData => this.countryName(rowData) 
                       },
-                      { title: "Time zone", field: "TimeZone" }
+                      {
+                        field: 'timeZone',
+                        title: 'Time zone',
+                        render: rowData => this.zoneName(rowData) 
+                      }
                     ]}
                     data={query =>
                       new Promise((resolve, reject) => {
@@ -431,12 +445,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 const mapStateToProps = (state) => {
-  const { CompanyPageReducer: { company_country= [],company_state=[], filterText = '', loading = false, companies = [], companyModal = {},
+  const { CompanyPageReducer: { pageConstants={}, company_country= [],company_state=[], filterText = '', loading = false, companies = [], companyModal = {},
     companyNotification = {} },
     Auth: { user = {}, user: { roles = [] } } } = state;
   const currentUsrAccess = findTheAccess(roles);
   return { company_country, 
-    pageDropDown: { company_country, company_state }, 
+    pageDropDown: { company_country, company_state , timezoneconst : pageConstants.timezone }, 
     filterText, companies, user, companyModal, companyNotification, loading, currentUsrAccess };
 };
 

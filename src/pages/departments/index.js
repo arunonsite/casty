@@ -83,8 +83,7 @@ class DepartmentPage extends Component {
       }
 
     } else {
-      console
-        .log("event.target.name=", event.target.name, event.target.value);
+
       formData[event.target.name] = event.target.value;
     }
     this.setState({ newDepartmentModalData: { formData: formData } });
@@ -218,8 +217,7 @@ class DepartmentPage extends Component {
     const { filterText } = this.state;
     const channelId = this.props.match.params.id;
 
-    console
-      .log("filterText---", channelId);
+    
 
     this.props.actions.searchDepartment({ userId: id, currentUsrAccess, companyID, filterText, channelId });
   }

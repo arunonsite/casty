@@ -98,7 +98,7 @@ function* saveNewCompany({payload={}}) {
       countryId='',
       stateId='',
       zipCode='',
-      city='', Id,
+      city='', Id,timeZone
     } = payload;
 
 console.log(address);
@@ -111,7 +111,7 @@ console.log(address);
         "StateId": stateId,
         "CountryId":countryId,
         "ZipCode": zipCode,
-        "TimeZone": 0
+        "TimeZone": timeZone
       }
     const options = {
         body: JSON.stringify(newCompanyData),
@@ -160,7 +160,7 @@ function* updateCompany({payload={}}) {
       countryId=0,
       stateId=0,
       zipCode='',
-      city='', id,
+      city='', id,timeZone
     } = payload;
     const updateCompanyData= {
         Id :id,
@@ -171,7 +171,7 @@ function* updateCompany({payload={}}) {
       "StateId": stateId,
       "CountryId":countryId,
       "ZipCode": zipCode,
-      "TimeZone": 0
+      "TimeZone": timeZone
     }
   
   const options = {

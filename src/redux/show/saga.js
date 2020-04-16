@@ -243,8 +243,6 @@ function* updateShow({ payload = {} }) {
 
     }
 
-     console
-     .log("nuptShowData----", nuptShowData);
     const options = {
         body: JSON.stringify(nuptShowData),
         method: 'POST',
@@ -293,8 +291,6 @@ function* updateShow({ payload = {} }) {
  * @param {*} payload - username and password 
  */
 function* deleteShow({ payload = {} }) {
-    console
-        .log("payload--", payload);
 
     const { name = '', description = '', UserID = '', ShowId = '', id = '' } = payload;
     const nuptShowData = {

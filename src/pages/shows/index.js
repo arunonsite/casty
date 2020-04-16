@@ -412,8 +412,7 @@ class ShowPage extends Component {
               } 
               
              
-                console
-                .log("url==", url);                    
+                                   
               fetch(url)
                 .then(response => response.json())
                 .then(result => {

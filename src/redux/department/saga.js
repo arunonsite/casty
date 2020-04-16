@@ -65,8 +65,7 @@ function* saveNewDepartment({payload={}}) {
           appSettings.API_ROUTE.MAIN_SITE+appSettings.API_PATH.DEPARTMENT_SAVE,
            options);
             const {status = false, message=''} = processPutSuccessResponse(response, 'id');
-             console
-             .log("status", '----', status);
+           
       if(status){
           let  newUser = Object.assign (
               {...onDepartmentSaveSuccess},
@@ -109,8 +108,7 @@ function* loadCompanyListForDepartment({payload={}}) {
    try {
        //const response = yield call(fetchJSON, 'http://casty.azurewebsites.net/Identity/Account/Login', options);
        let response = {};
-        console
-        .log("currentUsrAccess SAGA---", currentUsrAccess);
+      
        if(currentUsrAccess <= 0){// Super Admin
            ///api/Companies/Names
          
@@ -172,8 +170,7 @@ function* updateDepartment({payload={}}) {
 
 
            const {status = false, message=''} = processPutSuccessResponse(response, 'id');
-            console
-            .log("response---", response);
+          
            if(status){
                let  newUser = Object.assign (
                    {...onDepartmentSaveSuccess},
@@ -227,8 +224,7 @@ function* loadDepartmentList({payload={}}) {
    };
    try {
        let url = appSettings.API_ROUTE.MAIN_SITE; 
-        console
-        .log("currentUsrAccess--", currentUsrAccess);
+
        if(currentUsrAccess === 0){
            url = url+'/api/Departments/ByCompany/'  
           let sera =  ' ';
@@ -361,8 +357,7 @@ function* searchDepartment({ payload = {} }) {
                 let poetFilter = filterText.toLowerCase();
                 const {response:{data=[], ...others}} =processSuccessResponse(response);
                 let episodefilterd = data.filter(show => {
-                     console
-                     .log("episode-->>", show);
+
                    let poetName = show.name.toLowerCase();
                    return poetName.indexOf(
                      poetFilter.toLowerCase()) !== -1 && show.channelId === channelId
