@@ -219,6 +219,7 @@ class ChannelPage extends Component {
     const { filterText } = this.state;
     this.props.actions.searchChannel({ userId : id,currentUsrAccess,  companyID, filterText  });
   }
+  
   render() {
     //const {newChannel:{name='', description='', cphoto=''}} = this.state;
     const { addNewUser = false, modalTitle, newChannelModalData = {} } = this.state;
